@@ -3,6 +3,7 @@
 
 if [ "$TRAVIS_PULL_REQUEST" == "false" ]; then
   #we should be in ivmartel/dwv-jqmobile
+  pwd
   echo -e "Starting to update gh-pages\n"
   #clean up node_modules
   rm -Rf node_modules
