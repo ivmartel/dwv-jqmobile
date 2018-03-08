@@ -2,8 +2,7 @@
 #Script to push build results on the repository gh-pages branch.
 
 if [ "$TRAVIS_PULL_REQUEST" == "false" ]; then
-  #we should be in ivmartel/dwv-jqmobile
-  pwd
+  #we should be in /home/travis/build/ivmartel/dwv-jqmobile
   echo -e "Starting to update gh-pages\n"
   #clean up node_modules
   rm -Rf node_modules
@@ -17,7 +16,7 @@ if [ "$TRAVIS_PULL_REQUEST" == "false" ]; then
   #go into directory and copy data we're interested in to that directory
   cd gh-pages
   #copy new build
-  cp -Rf ../ivmartel/dwv-jqmobile/* demo/trunk
+  cp -Rf $HOME/build/ivmartel/dwv-jqmobile/* demo/trunk
   # remove gitignore
   rm -f demo/trunk/.gitignore
   #add, commit and push files
