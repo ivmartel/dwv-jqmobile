@@ -1,16 +1,10 @@
-# not using sudo
 sudo: false
-
 language: node_js
 node_js:
 - '4'
-
-# setup the travis token
 env:
   global:
-    - secure: IVQXln6SiiMPWZRh+Q7nB4FPrniGMYU7jtwT+tN5WxYvL0lpy0BKvSuN6kZ+j6ka7QkVwZFkttrYHGglwu7VL//rMR9MulXnX8ZqQNlyuXWeaCHUx2kxXQel/33fAh0mT5xlmwdWBHyHhHV6bYGY7iMSgLghBke76F6qh49+MMej9ozP3T/xAuI4Nuih3GHxUvZxnb817JSHwh9xhCPHBdD54XNkUcInAZ1ILSx6dWdyMlBp+MGUGUgLNSP3VKj2/uw5Xy/g+f21JdyfSAiMY2AFv7rzzwK8Dnlhpp7wo6ggX18wa8G/LzftQvAIrNJQ8jeq/dcO186SNujENrOtdZwTqr3bGfwlmOUx0+xAiKE9o+YJo+A8ndjYWFeZs4snm6d3NWscV9QHRdGmNsjjUXnQSMLqMvr4/hMoSp2B+9O5bMLCaiiV7GDJQfSLpFW1+nvTkKpff+JXlmB4dA6+UrZSzJClDqE2/QDLHFqZX2BJX8fhzZ35+/Dp44cxqxvcrTIVGMnEUamIeYmskX/AwYX0UFXCHsG4hq0Jy36h4VPwyd9yUGrmNijuWfaNwfN7jJDKVmbuQOUONo+8LqgoKW2V2wJByAdx/JFvTbUWrlchqGnfny2O5h3gbjGpa9IzLsIDw7MitLrJ9hzCcePDAeiHAGL9GLp/wPkkwUTazDU=
-
-# update gh-pages if all good
+  - secure: L8B2bdVyjwNCMZbxlYs8Dw7W3yB6D9vgy+iRbCMCfzUvXMu/XydMc2OO4S+uXVL2CpV4n1LUplU6ab4Yz7Mcudh5zIvBPeycXCXlgoPg+tCszG+8UNTqyjYJMJnUr+OAzw8g2Kd2ri/stT1Qmhtyw57BF4pH2MT6i2KJc3xgUMbjYef3BTgdRG4pJcdiG3YLbzX+VLPSRBxNXVL9dkXJVFRhZ/pYAOXDegTUzYMrOjyiX9nU8rRCFRNFtEKregYZ3Jmy9eJEM2JxzY/vBbbADw84wf3XIilpCPw+7DHc05iMkKhOEuwBxWbjX0i5IwqbzN4Dgj2fOoCvFVkimvI79co+rFYdR4Tstmg1h582fodEUOHafWzDQ1SRyl1LH5uL0rj8eyXDbHFbnLqJmm5x/M51gTU2aTW/BJo73IkK255M24R+LO1OtXLR9dz+VQF5yaHQGsN0He3ggfI++1WvphkMAq/AJUso8+DAWjpkxYxqcLhpM0rL+fK5QSTPyhgl0rNafQuZHJDmu88ssKtsTa5mDLQYxM2xTTgTQRjDYIwhtYxs/KR666x6SH0uHDH5hWHHGfjfeqkDkbWyoUCVKKEAM6vYRT3eWQ8DFlz79361kfSVJ3xIq/szIjND7JS5O3eF4ju7xgm1q1oZrTLf5817jqs5nwkc147sRApJQ60=
 after_success:
-  - chmod +x ./resources/scripts/update-gh-pages.sh
-  - ./resources/scripts/update-gh-pages.sh
+- chmod +x ./resources/scripts/update-gh-pages.sh
+- "./resources/scripts/update-gh-pages.sh"

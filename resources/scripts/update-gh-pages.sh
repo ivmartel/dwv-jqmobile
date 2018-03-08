@@ -19,7 +19,6 @@ if [ "$TRAVIS_PULL_REQUEST" == "false" ]; then
   cp -Rf $HOME/build/ivmartel/dwv-jqmobile/* demo/trunk
   # remove gitignore
   rm -f demo/trunk/.gitignore
-  ls demo/trunk
   #add, commit and push files
   git add -Af .
   git commit -m "Travis build $TRAVIS_BUILD_NUMBER pushed to gh-pages"
