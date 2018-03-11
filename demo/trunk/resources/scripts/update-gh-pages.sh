@@ -6,7 +6,7 @@ if [ "$TRAVIS_PULL_REQUEST" == "false" ]; then
   echo -e "Starting to update gh-pages\n"
   #clean up node_modules
   rm -Rf node_modules
-  #yarn install --prod
+  yarn install --prod
   #go to home and setup git
   cd $HOME
   git config --global user.email "travis@travis-ci.org"
