@@ -18,6 +18,8 @@ if [ "$TRAVIS_PULL_REQUEST" == "false" ]; then
   rm -f .gitignore
   # clean up node_modules
   rm -Rf node_modules/*
+  # clean yarn to force update
+  rm -f yarn.lock
   # download production dependencies
   yarn install --prod
   # move back to root of repo
