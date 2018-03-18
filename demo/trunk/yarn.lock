@@ -146,9 +146,9 @@ domutils@1.5:
     dom-serializer "0"
     domelementtype "1"
 
-dwv@~0.23.0:
-  version "0.23.0"
-  resolved "https://registry.yarnpkg.com/dwv/-/dwv-0.23.0.tgz#b68bd9ac3e89803e4728efeee790fa53434a8cfe"
+dwv@~0.23.1:
+  version "0.23.1"
+  resolved "https://registry.yarnpkg.com/dwv/-/dwv-0.23.1.tgz#74176150f06f80065a5263c650b3533f46f215dc"
   dependencies:
     i18next "~10.5.0"
     i18next-browser-languagedetector "~2.1.0"
@@ -356,8 +356,8 @@ i18next-xhr-backend@~1.5.1:
   resolved "https://registry.yarnpkg.com/i18next-xhr-backend/-/i18next-xhr-backend-1.5.1.tgz#50282610780c6a696d880dfa7f4ac1d01e8c3ad5"
 
 i18next@~10.5.0:
-  version "10.5.0"
-  resolved "https://registry.yarnpkg.com/i18next/-/i18next-10.5.0.tgz#a2a90e67774fa85b8ff9cd0063e697e482440de7"
+  version "10.5.1"
+  resolved "https://registry.yarnpkg.com/i18next/-/i18next-10.5.1.tgz#f8e1ca4e15c440ebc3a9a5c3d015c3a6d2887890"
 
 iconv-lite@~0.4.13:
   version "0.4.19"
