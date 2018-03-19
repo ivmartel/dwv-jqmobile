@@ -59,7 +59,6 @@ var urlsToCache = [
     './ext/jquery-mobile/images/icons-png/grid-black.png',
     // js: dwv
     './node_modules/dwv/dist/dwv.min.js',
-    './node_modules/dwv/ext/modernizr/modernizr.js',
     './node_modules/i18next/i18next.min.js',
     './node_modules/i18next-xhr-backend/i18nextXHRBackend.min.js',
     './node_modules/i18next-browser-languagedetector/i18nextBrowserLanguageDetector.min.js',
