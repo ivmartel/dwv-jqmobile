@@ -1,5 +1,4 @@
-dwv-jqmobile
-============
+# dwv-jqmobile
 
 Medical viewer using [DWV](https://github.com/ivmartel/dwv) (DICOM Web Viewer) and [jQuery mobile](https://jquerymobile.com/).
 
@@ -9,10 +8,15 @@ dwv-jqmobile is not certified for diagnostic use. Released under GNU GPL-3.0 lic
 
 [![Build Status](https://travis-ci.org/ivmartel/dwv-jqmobile.svg?branch=master)](https://travis-ci.org/ivmartel/dwv-jqmobile)
 
-Getting Started
----------------
-1. clone or download the repository,
-1. `npm install` or `yarn --prod` to download dependencies,
-1. start a web server at the root of the repository (to allow to get translations resources),
-1. open the IP of the server in your favorite browser,
-1. enjoy!
+## Available Scripts
+
+``` bash
+# install dependencies
+yarn install
+
+# serve at localhost:8080
+yarn run dev
+
+# run unit tests
+yarn run test
+```

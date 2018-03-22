@@ -12,6 +12,8 @@ git config --global user.name "Travis"
 git clone --quiet --branch=gh-pages https://${GH_TOKEN}@github.com/ivmartel/dwv-jqmobile.git gh-pages
 # change dir to demo
 cd $HOME/gh-pages/demo/trunk
+# clean up
+rm -Rf *
 # copy new build here
 cp -Rf $HOME/build/ivmartel/dwv-jqmobile/* .
 # remove gitignore
