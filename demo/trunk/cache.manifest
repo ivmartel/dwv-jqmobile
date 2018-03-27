@@ -68,6 +68,9 @@ CACHE:
 /dwv-jqmobile/ext/jquery-mobile/jquery.mobile-1.4.5.min.map
 /dwv-jqmobile/node_modules/nprogress/nprogress.js
 /dwv-jqmobile/ext/flot/jquery.flot.min.js
+/dwv-jqmobile/ext/dropbox-dropins/dropins.js
+/dwv-jqmobile/ext/google-api-javascript-client/client.js
+/dwv-jqmobile/ext/google-api-javascript-client/api.js
 # js: decoders
 /dwv-jqmobile/node_modules/dwv/decoders/pdfjs/jpx.js
 /dwv-jqmobile/node_modules/dwv/decoders/pdfjs/arithmetic_decoder.js

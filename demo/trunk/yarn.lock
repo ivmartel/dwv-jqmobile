@@ -399,8 +399,8 @@ http-server@^0.11.1:
     union "~0.4.3"
 
 i18next-browser-languagedetector@~2.1.0:
-  version "2.1.0"
-  resolved "https://registry.yarnpkg.com/i18next-browser-languagedetector/-/i18next-browser-languagedetector-2.1.0.tgz#1b0e17b09507f84e7a1fa761539a07544f92a0df"
+  version "2.1.1"
+  resolved "https://registry.yarnpkg.com/i18next-browser-languagedetector/-/i18next-browser-languagedetector-2.1.1.tgz#01115827dd51fc35bc661f2baf1b0a4965bf38ca"
 
 i18next-xhr-backend@~1.5.1:
   version "1.5.1"
