@@ -85,7 +85,7 @@ print([[
 ]])
 
 print([[
-<link type="text/css" rel="stylesheet" href="/dwv/css/style.css">
+<link type="text/css" rel="stylesheet" href="/dwv-jqmobile/css/style.css">
 <link type="text/css" rel="stylesheet" href="/dwv-jqmobile/ext/jquery-mobile/jquery.mobile-1.4.5.min.css" />
 <link type="text/css" rel="stylesheet" href="/dwv-jqmobile/node_modules/nprogress/nprogress.css" />
 <style type="text/css" >
@@ -157,9 +157,9 @@ function startApp() {
         "filters": ["Threshold", "Sharpen", "Sobel"],
         "shapes": ["Arrow", "Ruler", "Protractor", "Rectangle", "Roi", "Ellipse", "FreeHand"],
         "isMobile": true,
-        "helpResourcesPath": "resources/help",
+        "helpResourcesPath": "/dwv-jqmobile/resources/help",
         "skipLoadUrl": true
-    });
+    };
     if ( dwv.browser.hasInputDirectory() ) {
         options.loaders.splice(1, 0, "Folder");
     }
@@ -220,7 +220,7 @@ print([[
 // check browser support
 dwv.browser.check();
 // initialise i18n
-dwv.i18nInitialise("auto", "node_modules/dwv");
+dwv.i18nInitialise("auto", "/dwv-jqmobile/node_modules/dwv");
 // DOM ready?
 $(document).ready( function() {
     domContentLoaded = true;
