@@ -71,6 +71,9 @@ var urlsToCache = [
     './ext/jquery-mobile/jquery.mobile-1.4.5.min.map',
     './node_modules/nprogress/nprogress.js',
     './ext/flot/jquery.flot.min.js',
+    './ext/dropbox-dropins/dropins.js',
+    './ext/google-api-javascript-client/client.js',
+    './ext/google-api-javascript-client/api.js',
     // js: decoders
     './node_modules/dwv/decoders/pdfjs/jpx.js',
     './node_modules/dwv/decoders/pdfjs/arithmetic_decoder.js',
