@@ -3,9 +3,10 @@
 // https://developers.google.com/web/fundamentals/primers/service-workers/
 // chrome: chrome://inspect/#service-workers
 
-var CACHE_NAME = 'dwv-jqmobile-cache-v1';
+var CACHE_NAME = 'dwv-jqmobile-cache-v2';
 var urlsToCache = [
     './',
+    './index.html',
     // css
     './css/style.css',
     // js
