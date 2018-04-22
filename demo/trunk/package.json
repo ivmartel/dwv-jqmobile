@@ -22,11 +22,12 @@
   "devDependencies": {
     "grunt": "~1.0.1",
     "grunt-cli": "~1.2",
+    "grunt-contrib-connect": "~1.0.2",
     "grunt-contrib-jshint": "~1.1.0",
-    "http-server": "^0.11.1"
+    "grunt-contrib-watch": "~1.0.0"
   },
   "scripts": {
-    "start": "http-server",
+    "start": "grunt start",
     "test": "grunt test --verbose"
   }
 }
