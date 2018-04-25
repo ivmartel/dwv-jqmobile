@@ -14,7 +14,7 @@ module.exports = function(grunt) {
                 src: 'index.html',
                 dest: 'index-dev.html',
                 options: {
-                    process: function (content, srcpath) {
+                    process: function (content, /*srcpath*/) {
                         // do not register service worker
                         return content.replace(/<script type="text\/javascript" src="src\/register-sw\.js"><\/script>/g, 
                             '<!-- <script type="text/javascript" src="src/register-sw.js"></script> -->');
