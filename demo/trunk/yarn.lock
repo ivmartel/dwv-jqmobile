@@ -290,6 +290,10 @@ faye-websocket@~0.10.0:
   dependencies:
     websocket-driver ">=0.5.1"
 
+file-sync-cmp@^0.1.0:
+  version "0.1.1"
+  resolved "https://registry.yarnpkg.com/file-sync-cmp/-/file-sync-cmp-0.1.1.tgz#a5e7a8ffbfa493b43b923bbd4ca89a53b63b612b"
+
 finalhandler@1.1.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/finalhandler/-/finalhandler-1.1.0.tgz#ce0b6855b45853e791b2fcc680046d88253dd7f5"
@@ -404,6 +408,13 @@ grunt-contrib-connect@~1.0.2:
     serve-index "^1.7.1"
     serve-static "^1.10.0"
 
+grunt-contrib-copy@~1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/grunt-contrib-copy/-/grunt-contrib-copy-1.0.0.tgz#7060c6581e904b8ab0d00f076e0a8f6e3e7c3573"
+  dependencies:
+    chalk "^1.1.1"
+    file-sync-cmp "^0.1.0"
+
 grunt-contrib-jshint@~1.1.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/grunt-contrib-jshint/-/grunt-contrib-jshint-1.1.0.tgz#369d909b2593c40e8be79940b21340850c7939ac"
@@ -516,8 +527,8 @@ http-errors@~1.6.2:
     statuses ">= 1.4.0 < 2"
 
 http-parser-js@>=0.4.0:
-  version "0.4.11"
-  resolved "https://registry.yarnpkg.com/http-parser-js/-/http-parser-js-0.4.11.tgz#5b720849c650903c27e521633d94696ee95f3529"
+  version "0.4.12"
+  resolved "https://registry.yarnpkg.com/http-parser-js/-/http-parser-js-0.4.12.tgz#b9cfbf4a2cf26f0fc34b10ca1489a27771e3474f"
 
 http2@^3.3.4:
   version "3.3.7"
@@ -661,8 +672,8 @@ lodash@3.7.x:
   resolved "https://registry.yarnpkg.com/lodash/-/lodash-3.7.0.tgz#3678bd8ab995057c07ade836ed2ef087da811d45"
 
 lodash@^4.0.0, lodash@~4.17.4, lodash@~4.17.5:
-  version "4.17.5"
-  resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.5.tgz#99a92d65c0272debe8c96b6057bc8fbfa3bed511"
+  version "4.17.10"
+  resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.10.tgz#1b7793cf7259ea38fb3661d4d38b3260af8ae4e7"
 
 lodash@~4.3.0:
   version "4.3.0"
