@@ -23,11 +23,13 @@
     "grunt": "~1.0.1",
     "grunt-cli": "~1.2",
     "grunt-contrib-connect": "~1.0.2",
+    "grunt-contrib-copy": "~1.0.0",
     "grunt-contrib-jshint": "~1.1.0",
     "grunt-contrib-watch": "~1.0.0"
   },
   "scripts": {
     "start": "grunt start",
+    "dev": "grunt dev",
     "test": "grunt test --verbose"
   }
 }

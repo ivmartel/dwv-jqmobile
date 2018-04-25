@@ -9,16 +9,44 @@ module.exports = function(grunt) {
                 jshintrc: '.jshintrc'
             }
         },
-        connect: {
-            server: {
+        copy: {
+            dev: {
+                src: 'index.html',
+                dest: 'index-dev.html',
                 options: {
-                    port: 8080
+                    process: function (content, srcpath) {
+                        // do not register service worker
+                        return content.replace(/<script type="text\/javascript" src="src\/register-sw\.js"><\/script>/g, 
+                            '<!-- <script type="text/javascript" src="src/register-sw.js"></script> -->');
+                    },
+                },
+            },
+        },
+        connect: {
+            prod: {
+                options: {
+                    port: 8080,
+                    hostname: 'localhost',
+                    livereload: true
+                }
+            },
+            dev: {
+                options: {
+                    port: 8080,
+                    hostname: 'localhost',
+                    livereload: true,
+                    base: {
+                        path: './',
+                        options: {
+                            index: 'index-dev.html'
+                        }
+                    }
                 }
             }
         },
         watch: {
             scripts: {
-                files: ['**/*.js', '!**/node_modules/**', '**/node_modules/dwv/**'],
+                files: ['**/*.js', '!**/node_modules/**', '**/node_modules/dwv/**', '*.html'],
                 options: {
                     spawn: false,
                     livereload: true
@@ -27,11 +55,13 @@ module.exports = function(grunt) {
         }
     });
 
+    grunt.loadNpmTasks('grunt-contrib-copy');
     grunt.loadNpmTasks('grunt-contrib-connect');
     grunt.loadNpmTasks('grunt-contrib-jshint');
     grunt.loadNpmTasks('grunt-contrib-watch');
 
     // Task to run tests
     grunt.registerTask('test', ['jshint']);
-    grunt.registerTask('start', ['connect', 'watch']);
+    grunt.registerTask('start', ['connect:prod', 'watch']);
+    grunt.registerTask('dev', ['copy:dev', 'connect:dev', 'watch']);
 };
