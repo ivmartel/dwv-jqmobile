@@ -12,6 +12,9 @@ var urlsToCache = [
     // js
     './src/applauncher.js',
     './src/appgui.js',
+    './src/dropbox.js',
+    './src/google.js',
+    './src/register-sw.js',
     // images
     './resources/icons/dwv-16.png',
     './resources/icons/dwv-32.png',
