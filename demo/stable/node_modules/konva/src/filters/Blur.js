@@ -817,16 +817,16 @@
   }
 
   /**
-     * Blur Filter
-     * @function
-     * @name Blur
-     * @memberof Konva.Filters
-     * @param {Object} imageData
-     * @example
-     * node.cache();
-     * node.filters([Konva.Filters.Blur]);
-     * node.blurRadius(10);
-     */
+   * Blur Filter
+   * @function
+   * @name Blur
+   * @memberof Konva.Filters
+   * @param {Object} imageData
+   * @example
+   * node.cache();
+   * node.filters([Konva.Filters.Blur]);
+   * node.blurRadius(10);
+   */
   Konva.Filters.Blur = function Blur(imageData) {
     var radius = Math.round(this.blurRadius());
 
@@ -839,16 +839,16 @@
     Konva.Node,
     'blurRadius',
     0,
-    null,
+    Konva.Validators.getNumberValidator(),
     Konva.Factory.afterSetFilter
   );
 
   /**
-    * get/set blur radius. Use with {@link Konva.Filters.Blur} filter
-    * @name blurRadius
-    * @method
-    * @memberof Konva.Node.prototype
-    * @param {Integer} radius
-    * @returns {Integer}
-    */
+   * get/set blur radius. Use with {@link Konva.Filters.Blur} filter
+   * @name blurRadius
+   * @method
+   * @memberof Konva.Node.prototype
+   * @param {Integer} radius
+   * @returns {Integer}
+   */
 })(Konva);

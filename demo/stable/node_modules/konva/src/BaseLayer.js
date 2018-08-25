@@ -1,16 +1,16 @@
 (function(Konva) {
   'use strict';
   /**
-     * BaseLayer constructor.
-     * @constructor
-     * @memberof Konva
-     * @augments Konva.Container
-     * @param {Object} config
-     * @param {Boolean} [config.clearBeforeDraw] set this property to false if you don't want
-     * to clear the canvas before each layer draw.  The default value is true.
-     * @@nodeParams
-     * @@containerParams
-     */
+   * BaseLayer constructor.
+   * @constructor
+   * @memberof Konva
+   * @augments Konva.Container
+   * @param {Object} config
+   * @param {Boolean} [config.clearBeforeDraw] set this property to false if you don't want
+   * to clear the canvas before each layer draw.  The default value is true.
+   * @@nodeParams
+   * @@containerParams
+   */
   Konva.BaseLayer = function(config) {
     this.___init(config);
   };
@@ -171,6 +171,15 @@
     setSize: function(width, height) {
       this.canvas.setSize(width, height);
       return this;
+    },
+    _toKonvaCanvas: function(config) {
+      config = config || {};
+      config.width = config.width || this.getWidth();
+      config.height = config.height || this.getHeight();
+      config.x = config.x !== undefined ? config.x : this.getX();
+      config.y = config.y !== undefined ? config.y : this.getY();
+
+      return Konva.Node.prototype._toKonvaCanvas.call(this, config);
     },
     /**
      * get/set width of layer.getter return width of stage. setter doing nothing.

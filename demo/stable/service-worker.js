@@ -3,14 +3,18 @@
 // https://developers.google.com/web/fundamentals/primers/service-workers/
 // chrome: chrome://inspect/#service-workers
 
-var CACHE_NAME = 'dwv-jqmobile-cache-v1';
+var CACHE_NAME = 'dwv-jqmobile-cache_v0.2.0';
 var urlsToCache = [
     './',
+    './index.html',
     // css
     './css/style.css',
     // js
     './src/applauncher.js',
     './src/appgui.js',
+    './src/dropbox.js',
+    './src/google.js',
+    './src/register-sw.js',
     // images
     './resources/icons/dwv-16.png',
     './resources/icons/dwv-32.png',
@@ -87,7 +91,6 @@ var urlsToCache = [
 
 // install
 self.addEventListener('install', function (event) {
-    // Perform install steps
     event.waitUntil(
         caches.open(CACHE_NAME).then( function (cache) {
             return cache.addAll(urlsToCache);
@@ -98,12 +101,12 @@ self.addEventListener('install', function (event) {
 // fetch
 self.addEventListener('fetch', function (event) {
     event.respondWith(
-        caches.match(event.request).then( function (response) {
-            // Cache hit - return response
+        caches.match( event.request, {'ignoreSearch': true} ).then( function (response) {
+            // cache hit: return response
             if (response) {
-                //console.log('Return form cache', event.request.url);
                 return response;
             }
+            // fetch on network
             return fetch(event.request);
         })
     );
@@ -112,14 +115,19 @@ self.addEventListener('fetch', function (event) {
 // activate
 self.addEventListener('activate', function (event) {
 
-    var cacheWhitelist = [CACHE_NAME];
+    // delete caches which name starts with the same root as this one
+    var cacheRootName = CACHE_NAME;
+    var uPos = cacheRootName.lastIndexOf('_');
+    if ( uPos !== -1 ) {
+        cacheRootName = cacheRootName.substr(0, uPos);
+    }
 
     event.waitUntil(
         caches.keys().then(function (cacheNames) {
             return Promise.all(
-                cacheNames.map(function (cacheName) {
-                    if (cacheWhitelist.indexOf(cacheName) === -1) {
-                        console.log('Delete cache: '+cacheName);
+                cacheNames.map( function (cacheName) {
+                    if ( cacheName !== CACHE_NAME && cacheName.startsWith( cacheRootName ) ) {
+                        console.log('Deleting cache: '+cacheName);
                         return caches.delete(cacheName);
                     }
                 })
