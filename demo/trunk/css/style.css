@@ -1,16 +1,22 @@
+html, body {
+    height: 100%;
+}
+
 body {
     font-family: Arial, Helvetica, sans-serif;
     margin: 10px; padding: 0; }
 
+#pageMain { height: 82vh; }
+
 /* Layers */
-.layerContainer { 
+.layerContainer {
     position: relative; padding: 0;
     margin: auto; text-align: center; }
-.imageLayer { 
+.imageLayer {
     position: absolute;
     left: 0px; }
 .drawDiv { position: absolute; pointer-events: none; }
-.dropBox { 
+.dropBox {
     border: 5px dashed #ccc;
     margin: 20px auto; }
 .dropBox.hover { border: 5px dashed #cc0; }

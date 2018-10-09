@@ -44,7 +44,6 @@ function startApp() {
     // initialise the application
     var options = {
         "containerDivId": "dwv",
-        "fitToWindow": true,
         "gui": ["tool", "load", "help", "undo", "version", "tags", "drawList"],
         "loaders": ["File", "Url", "GoogleDrive", "Dropbox"],
         "tools": ["Scroll", "WindowLevel", "ZoomAndPan", "Draw", "Livewire", "Filter", "Floodfill"],
@@ -58,9 +57,6 @@ function startApp() {
         options.loaders.splice(1, 0, "Folder");
     }
     myapp.init(options);
-
-    var size = dwv.gui.getWindowSize();
-    $(".layerContainer").height(size.height);
 }
 
 // Image decoders (for web workers)
