@@ -52,10 +52,6 @@ dwv.utils.decodeQuery = function (query, callback)
     }
 };
 
-// Window
-dwv.gui.getWindowSize = function () {
-    return { 'width': ($(window).width()), 'height': ($(window).height() - 147) };
-};
 // Prompt
 dwv.gui.prompt = dwv.gui.base.prompt;
 // Progress
