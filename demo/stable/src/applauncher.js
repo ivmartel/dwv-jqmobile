@@ -44,7 +44,6 @@ function startApp() {
     // initialise the application
     var options = {
         "containerDivId": "dwv",
-        "fitToWindow": true,
         "gui": ["tool", "load", "help", "undo", "version", "tags", "drawList"],
         "loaders": ["File", "Url", "GoogleDrive", "Dropbox"],
         "tools": ["Scroll", "WindowLevel", "ZoomAndPan", "Draw", "Livewire", "Filter", "Floodfill"],
@@ -58,16 +57,14 @@ function startApp() {
         options.loaders.splice(1, 0, "Folder");
     }
     myapp.init(options);
-
-    var size = dwv.gui.getWindowSize();
-    $(".layerContainer").height(size.height);
 }
 
 // Image decoders (for web workers)
 dwv.image.decoderScripts = {
     "jpeg2000": "node_modules/dwv/decoders/pdfjs/decode-jpeg2000.js",
     "jpeg-lossless": "node_modules/dwv/decoders/rii-mango/decode-jpegloss.js",
-    "jpeg-baseline": "node_modules/dwv/decoders/pdfjs/decode-jpegbaseline.js"
+    "jpeg-baseline": "node_modules/dwv/decoders/pdfjs/decode-jpegbaseline.js",
+    "rle": "node_modules/dwv/decoders/dwv/decode-rle.js"
 };
 
 // status flags

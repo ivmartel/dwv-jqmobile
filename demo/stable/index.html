@@ -55,6 +55,7 @@
 <script type="text/javascript" src="node_modules/nprogress/nprogress.js"></script>
 <script type="text/javascript" src="ext/flot/jquery.flot.min.js"></script>
 <!-- decoders -->
+<script type="text/javascript" src="node_modules/dwv/decoders/dwv/rle.js"></script>
 <script type="text/javascript" src="node_modules/dwv/decoders/pdfjs/jpx.js"></script>
 <script type="text/javascript" src="node_modules/dwv/decoders/pdfjs/util.js"></script>
 <script type="text/javascript" src="node_modules/dwv/decoders/pdfjs/arithmetic_decoder.js"></script>
@@ -85,7 +86,7 @@
 <div data-role="page" data-theme="b" id="main">
 
 <!-- pageHeader #dwvversion -->
-<div id="pageHeader" data-role="header">
+<div id="pageHeader" data-role="header" data-position="fixed">
 <h1>DWV <span class="dwv-version"></span></h1>
 <a href="#help_page" data-icon="carat-r" class="ui-btn-right"
   data-transition="slide" data-i18n="basics.help">Help</a>
@@ -143,7 +144,7 @@
 
 </div><!-- /content -->
 
-<div data-role="footer">
+<div data-role="footer" data-position="fixed">
 <div data-role="navbar" class="toolList">
 </div><!-- /navbar -->
 </div><!-- /footer -->
