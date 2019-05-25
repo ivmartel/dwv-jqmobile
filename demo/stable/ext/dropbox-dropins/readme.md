@@ -3,7 +3,7 @@ Third Party: dropbox-dropins
 
 * Web: https://www.dropbox.com/developers/chooser
 * Version: Dropbox API v2
-* Date: ??
+* Date: ?? (downloaded on 2019/05/24)
 * Download: [dropins.js](https://www.dropbox.com/static/api/2/dropins.js)
 * License: ??
 * Description: Dropbox APIs client library for javaScript .
