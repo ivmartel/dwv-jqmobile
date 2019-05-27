@@ -5,8 +5,8 @@
   "display": "standalone",
   "background_color": "#3E4EB8",
   "theme_color": "#2F3BA2",
-  "start_url": "/",
-  "scope": "/",
+  "start_url": "/demo/trunk",
+  "scope": "/demo/trunk",
   "icons": [{
       "src": "resources/icons/dwv-16.png",
       "sizes": "16x16",
