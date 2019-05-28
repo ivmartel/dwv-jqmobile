@@ -13,11 +13,11 @@
     }
   },
   "icons": {
-    "16": "resources/icons/dwv-16.png",
-    "32": "resources/icons/dwv-32.png",
-    "64": "resources/icons/dwv-64.png",
-    "128": "resources/icons/dwv-128.png",
-    "256": "resources/icons/dwv-256.png"
+    "16": "resources/icons/icon-16.png",
+    "32": "resources/icons/icon-32.png",
+    "64": "resources/icons/icon-64.png",
+    "128": "resources/icons/icon-128.png",
+    "256": "resources/icons/icon-256.png"
   },
   "offline_enabled": true,
   "container": "GOOGLE_DRIVE",
