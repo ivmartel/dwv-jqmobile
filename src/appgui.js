@@ -1,3 +1,6 @@
+// namespaces
+var dwvjq = dwvjq || {};
+
 /**
  * Application GUI.
  */
@@ -53,38 +56,16 @@ dwv.utils.decodeQuery = function (query, callback)
 };
 
 // Prompt
-dwv.gui.prompt = dwv.gui.base.prompt;
-// Progress
-/* global NProgress */
-dwv.gui.displayProgress = function (percent) {
-    NProgress.configure({ showSpinner: false });
-    if( percent < 100 ) {
-        //$.mobile.loading("show", {text: percent+"%", textVisible: true, theme: "b"} );
-        NProgress.set(percent/100);
-    }
-    else if( percent >= 100 ) {
-        //$.mobile.loading("hide");
-        NProgress.done();
-    }
-};
-// Focus
-dwv.gui.focusImage = function ()
-{
-    $.mobile.changePage("#main");
-};
+dwv.gui.prompt = dwvjq.gui.prompt;
 // get element
-dwv.gui.getElement = dwv.gui.base.getElement;
+dwv.gui.getElement = dwvjq.gui.getElement;
+
+// Progress
+dwv.gui.displayProgress = dwvjq.gui.displayProgress;
+// Focus
+dwv.gui.focusImage = dwvjq.gui.focusImage;
 // refresh
-dwv.gui.refreshElement = function (element) {
-    if( $(element)[0].nodeName.toLowerCase() === 'select' ) {
-        $(element).selectmenu('refresh');
-    }
-    else {
-        $(element).enhanceWithin();
-    }
-};
-// Slider
-dwv.gui.Slider = dwv.gui.base.Slider;
+dwv.gui.refreshElement = dwvjq.gui.refreshElement;
 // plot
 dwv.gui.plot = function (div, data, options)
 {
@@ -101,69 +82,34 @@ dwv.gui.plot = function (div, data, options)
     $.plot(div, [ data ], plotOptions);
 };
 // Post process table
-dwv.gui.postProcessTable = function (table)
-{
-    var tableClass = table.className;
-    // css
-    table.className += " table-stripe ui-responsive";
-    // add columntoggle
-    table.setAttribute("data-role", "table");
-    table.setAttribute("data-mode", "columntoggle");
-    table.setAttribute("data-column-btn-text", dwv.i18n("basics.columns") + "...");
-    // add priority columns for columntoggle
-    var addDataPriority = function (cell) {
-        var text = cell.firstChild.data;
-        if ( tableClass === "tagsTable" ) {
-            if ( text !== "value" && text !== "name" ) {
-                cell.setAttribute("data-priority", "5");
-            }
-        }
-        else if ( tableClass === "drawsTable" ) {
-            if ( text === "description" ) {
-                cell.setAttribute("data-priority", "1");
-            }
-            else if ( text === "frame" || text === "slice" ) {
-                cell.setAttribute("data-priority", "5");
-            }
-
-        }
-    };
-    if (table.rows.length !== 0) {
-        var hCells = table.rows.item(0).cells;
-        for (var c = 0; c < hCells.length; ++c) {
-            addDataPriority(hCells[c]);
-        }
-    }
-    // return
-    return table;
-};
+dwv.gui.postProcessTable = dwvjq.gui.postProcessTable;
 // Tags table
-dwv.gui.DicomTags = dwv.gui.base.DicomTags;
+dwv.gui.DicomTags = dwvjq.gui.DicomTags;
 // DrawList table
-dwv.gui.DrawList = dwv.gui.base.DrawList;
+dwv.gui.DrawList = dwvjq.gui.DrawList;
 
 // Loaders
-dwv.gui.Loadbox = dwv.gui.base.Loadbox;
+dwv.gui.Loadbox = dwvjq.gui.Loadbox;
 // File loader
-dwv.gui.FileLoad = dwv.gui.base.FileLoad;
-dwv.gui.FileLoad.prototype.onchange = function (/*event*/) {
+dwv.gui.FileLoad = dwvjq.gui.FileLoad;
+dwvjq.gui.FileLoad.prototype.onchange = function (/*event*/) {
     $("#popupOpen").popup("close");
 };
 // Folder loader
-dwv.gui.FolderLoad = dwv.gui.base.FolderLoad;
-dwv.gui.FolderLoad.prototype.onchange = function (/*event*/) {
+dwv.gui.FolderLoad = dwvjq.gui.FolderLoad;
+dwvjq.gui.FolderLoad.prototype.onchange = function (/*event*/) {
     $("#popupOpen").popup("close");
 };
 // Url loader
-dwv.gui.UrlLoad = dwv.gui.base.UrlLoad;
-dwv.gui.UrlLoad.prototype.onchange = function (/*event*/) {
+dwv.gui.UrlLoad = dwvjq.gui.UrlLoad;
+dwvjq.gui.UrlLoad.prototype.onchange = function (/*event*/) {
     $("#popupOpen").popup("close");
 };
 
 // Toolbox
 dwv.gui.Toolbox = function (app)
 {
-    var base = new dwv.gui.base.Toolbox(app);
+    var base = new dwvjq.gui.Toolbox(app);
 
     this.setup = function (list)
     {
@@ -211,7 +157,7 @@ dwv.gui.Toolbox = function (app)
         node.appendChild(toggleSaveState);
         node.appendChild(tags);
         node.appendChild(drawList);
-        dwv.gui.refreshElement(node);
+        dwvjq.gui.refreshElement(node);
     };
     this.display = function (flag)
     {
@@ -224,28 +170,28 @@ dwv.gui.Toolbox = function (app)
 };
 
 // Window/level
-dwv.gui.WindowLevel = dwv.gui.base.WindowLevel;
+dwv.gui.WindowLevel = dwvjq.gui.WindowLevel;
 // Draw
-dwv.gui.Draw = dwv.gui.base.Draw;
+dwv.gui.Draw = dwvjq.gui.Draw;
 // ColourTool
-dwv.gui.ColourTool = dwv.gui.base.ColourTool;
+dwv.gui.ColourTool = dwvjq.gui.ColourTool;
 // ZoomAndPan
-dwv.gui.ZoomAndPan = dwv.gui.base.ZoomAndPan;
+dwv.gui.ZoomAndPan = dwvjq.gui.ZoomAndPan;
 // Scroll
-dwv.gui.Scroll = dwv.gui.base.Scroll;
+dwv.gui.Scroll = dwvjq.gui.Scroll;
 // Filter
-dwv.gui.Filter = dwv.gui.base.Filter;
+dwv.gui.Filter = dwvjq.gui.Filter;
 
 // Filter: threshold
-dwv.gui.Threshold = dwv.gui.base.Threshold;
+dwv.gui.Threshold = dwvjq.gui.Threshold;
 // Filter: sharpen
-dwv.gui.Sharpen = dwv.gui.base.Sharpen;
+dwv.gui.Sharpen = dwvjq.gui.Sharpen;
 // Filter: sobel
-dwv.gui.Sobel = dwv.gui.base.Sobel;
+dwv.gui.Sobel = dwvjq.gui.Sobel;
 
 // Undo/redo
-dwv.gui.Undo = dwv.gui.base.Undo;
+dwv.gui.Undo = dwvjq.gui.Undo;
 // Help
-dwv.gui.appendHelpHtml = dwv.gui.base.appendHelpHtml;
+dwv.gui.appendHelpHtml = dwvjq.gui.appendHelpHtml;
 // Version
-dwv.gui.appendVersionHtml = dwv.gui.base.appendVersionHtml;
+dwv.gui.appendVersionHtml = dwvjq.gui.appendVersionHtml;

@@ -1,0 +1,255 @@
+// namespaces
+var dwvjq = dwvjq || {};
+dwvjq.gui = dwvjq.gui || {};
+
+/**
+ * Loadbox base gui.
+ * @constructor
+ */
+dwvjq.gui.Loadbox = function (app, loaders)
+{
+    /**
+     * Loader HTML select.
+     * @private
+     */
+    var loaderSelector = null;
+
+    /**
+     * Setup the loadbox HTML.
+     */
+    this.setup = function ()
+    {
+        // loader select
+        loaderSelector = dwvjq.html.createHtmlSelect("loaderSelect", loaders, "io");
+        loaderSelector.onchange = app.onChangeLoader;
+
+        // node
+        var node = app.getElement("loaderlist");
+        // clear it
+        while(node.hasChildNodes()) {
+            node.removeChild(node.firstChild);
+        }
+        // append
+        node.appendChild(loaderSelector);
+        // refresh
+        dwvjq.gui.refreshElement(node);
+    };
+
+    /**
+     * Display a loader.
+     * @param {String} name The name of the loader to show.
+     */
+    this.displayLoader = function (name)
+    {
+        var keys = Object.keys(loaders);
+        for ( var i = 0; i < keys.length; ++i ) {
+            if ( keys[i] === name ) {
+                loaders[keys[i]].display(true);
+            }
+            else {
+                loaders[keys[i]].display(false);
+            }
+        }
+    };
+
+    /**
+     * Reset to its original state.
+     */
+    this.reset = function ()
+    {
+        // display first loader
+        var keys = Object.keys(loaders);
+        this.displayLoader(keys[0]);
+        // reset HTML select
+        if (loaderSelector) {
+            loaderSelector.selectedIndex = 0;
+        }
+    };
+
+}; // class dwvjq.gui.Loadbox
+
+/**
+ * FileLoad base gui.
+ * @constructor
+ */
+dwvjq.gui.FileLoad = function (app)
+{
+    // closure to self
+    var self = this;
+
+    /**
+     * Internal file input change handler.
+     * @param {Object} event The change event.
+     */
+    function onchangeinternal(event) {
+        if (typeof self.onchange === "function") {
+            self.onchange(event);
+        }
+        app.onChangeFiles(event);
+    }
+
+    /**
+     * Setup the file load HTML to the page.
+     */
+    this.setup = function()
+    {
+        // input
+        var fileLoadInput = document.createElement("input");
+        fileLoadInput.onchange = onchangeinternal;
+        fileLoadInput.type = "file";
+        fileLoadInput.multiple = true;
+        fileLoadInput.className = "imagefiles";
+        fileLoadInput.setAttribute("data-clear-btn","true");
+        fileLoadInput.setAttribute("data-mini","true");
+
+        // associated div
+        var fileLoadDiv = document.createElement("div");
+        fileLoadDiv.className = "imagefilesdiv";
+        fileLoadDiv.style.display = "none";
+        fileLoadDiv.appendChild(fileLoadInput);
+
+        // node
+        var node = app.getElement("loaderlist");
+        // append
+        node.appendChild(fileLoadDiv);
+        // refresh
+        dwvjq.gui.refreshElement(node);
+    };
+
+    /**
+     * Display the file load HTML.
+     * @param {Boolean} bool True to display, false to hide.
+     */
+    this.display = function (bool)
+    {
+        // file div element
+        var node = app.getElement("loaderlist");
+        var filediv = node.getElementsByClassName("imagefilesdiv")[0];
+        filediv.style.display = bool ? "" : "none";
+    };
+
+}; // class dwvjq.gui.FileLoad
+
+/**
+ * FolderLoad base gui.
+ * @constructor
+ */
+dwvjq.gui.FolderLoad = function (app)
+{
+    // closure to self
+    var self = this;
+
+    /**
+     * Internal file input change handler.
+     * @param {Object} event The change event.
+     */
+    function onchangeinternal(event) {
+        if (typeof self.onchange === "function") {
+            self.onchange(event);
+        }
+        app.onChangeFiles(event);
+    }
+
+    /**
+     * Setup the file load HTML to the page.
+     */
+    this.setup = function()
+    {
+        // input
+        var fileLoadInput = document.createElement("input");
+        fileLoadInput.onchange = onchangeinternal;
+        fileLoadInput.type = "file";
+        fileLoadInput.multiple = true;
+        fileLoadInput.webkitdirectory  = true;
+        fileLoadInput.className = "imagefolder";
+        fileLoadInput.setAttribute("data-clear-btn","true");
+        fileLoadInput.setAttribute("data-mini","true");
+
+        // associated div
+        var folderLoadDiv = document.createElement("div");
+        folderLoadDiv.className = "imagefolderdiv";
+        folderLoadDiv.style.display = "none";
+        folderLoadDiv.appendChild(fileLoadInput);
+
+        // node
+        var node = app.getElement("loaderlist");
+        // append
+        node.appendChild(folderLoadDiv);
+        // refresh
+        dwvjq.gui.refreshElement(node);
+    };
+
+    /**
+     * Display the folder load HTML.
+     * @param {Boolean} bool True to display, false to hide.
+     */
+    this.display = function (bool)
+    {
+        // file div element
+        var node = app.getElement("loaderlist");
+        var folderdiv = node.getElementsByClassName("imagefolderdiv")[0];
+        folderdiv.style.display = bool ? "" : "none";
+    };
+
+}; // class dwvjq.gui.FileLoad
+
+/**
+ * UrlLoad base gui.
+ * @constructor
+ */
+dwvjq.gui.UrlLoad = function (app)
+{
+    // closure to self
+    var self = this;
+
+    /**
+     * Internal url input change handler.
+     * @param {Object} event The change event.
+     */
+    function onchangeinternal(event) {
+        if (typeof self.onchange === "function") {
+            self.onchange(event);
+        }
+        app.onChangeURL(event);
+    }
+
+    /**
+     * Setup the url load HTML to the page.
+     */
+    this.setup = function ()
+    {
+        // input
+        var urlLoadInput = document.createElement("input");
+        urlLoadInput.onchange = onchangeinternal;
+        urlLoadInput.type = "url";
+        urlLoadInput.className = "imageurl";
+        urlLoadInput.setAttribute("data-clear-btn","true");
+        urlLoadInput.setAttribute("data-mini","true");
+
+        // associated div
+        var urlLoadDiv = document.createElement("div");
+        urlLoadDiv.className = "imageurldiv";
+        urlLoadDiv.style.display = "none";
+        urlLoadDiv.appendChild(urlLoadInput);
+
+        // node
+        var node = app.getElement("loaderlist");
+        // append
+        node.appendChild(urlLoadDiv);
+        // refresh
+        dwvjq.gui.refreshElement(node);
+    };
+
+    /**
+     * Display the url load HTML.
+     * @param {Boolean} bool True to display, false to hide.
+     */
+    this.display = function (bool)
+    {
+        // url div element
+        var node = app.getElement("loaderlist");
+        var urldiv = node.getElementsByClassName("imageurldiv")[0];
+        urldiv.style.display = bool ? "" : "none";
+    };
+
+}; // class dwvjq.gui.UrlLoad
