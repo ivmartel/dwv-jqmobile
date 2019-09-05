@@ -13,6 +13,8 @@ dwvjq.gui.filter.base = dwvjq.gui.filter.base || {};
  */
 dwvjq.gui.Filter = function (app)
 {
+    var filterGuis = {};
+
     /**
      * Setup the filter tool HTML.
      */
@@ -20,7 +22,15 @@ dwvjq.gui.Filter = function (app)
     {
         // filter select
         var filterSelector = dwvjq.html.createHtmlSelect("filterSelect", list, "filter");
-        filterSelector.onchange = app.onChangeFilter;
+        filterSelector.onchange = function (event) {
+            // show filter gui
+            for ( var filterGui in filterGuis ) {
+                filterGuis[filterGui].display(false);
+            }
+            filterGuis[event.currentTarget.value].display(true);
+            // tell the app
+            app.onChangeFilter(event);
+        };
 
         // filter list element
         var filterLi = dwvjq.html.createHiddenElement("li", "filterLi");
@@ -30,6 +40,15 @@ dwvjq.gui.Filter = function (app)
         // append element
         var node = app.getElement("toolList").getElementsByTagName("ul")[0];
         dwvjq.html.appendElement(node, filterLi);
+
+        // create tool gui and call setup
+        for ( var key in list ) {
+            var filterClass = list[key];
+            var filterGui = new dwvjq.gui[filterClass](app);
+            filterGui.setup(this.filterList);
+            filterGuis[filterClass] = filterGui;
+        }
+
     };
 
     /**
@@ -40,18 +59,40 @@ dwvjq.gui.Filter = function (app)
     {
         var node = app.getElement("filterLi");
         dwvjq.html.displayElement(node, flag);
+
+        // set selected filter
+        var filterSelector = app.getElement("filterSelect");
+        if (flag) {
+            var firstFilter = filterSelector.options[0].text;
+            filterGuis[firstFilter].display(true);
+            app.onChangeFilter({currentTarget: {value: firstFilter}});
+        } else {
+            for (var option of filterSelector.options) {
+                filterGuis[option.text].display(false);
+            }
+        }
     };
 
     /**
      * Initialise the tool HTML.
+     * @returns Boolean True if the tool can be shown.
      */
     this.initialise = function ()
     {
         // filter select: reset selected options
         var filterSelector = app.getElement("filterSelect");
         filterSelector.selectedIndex = 0;
+
+        // propagate
+        for ( var filterGui in filterGuis ) {
+            filterGuis[filterGui].initialise();
+            filterGuis[filterGui].display(false);
+        }
+
         // refresh
         dwvjq.gui.refreshElement(filterSelector);
+
+        return true;
     };
 
 }; // class dwvjq.gui.Filter
@@ -158,6 +199,10 @@ dwvjq.gui.Sharpen = function (app)
         dwvjq.html.displayElement(node, flag);
     };
 
+    this.initialise = function () {
+        // nothing to do
+    };
+
 }; // class dwvjq.gui.Sharpen
 
 /**
@@ -188,6 +233,10 @@ dwvjq.gui.Sobel = function (app)
     {
         var node = app.getElement("sobelLi");
         dwvjq.html.displayElement(node, flag);
+    };
+
+    this.initialise = function () {
+        // nothing to do
     };
 
 }; // class dwvjq.gui.Sobel

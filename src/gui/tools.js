@@ -8,6 +8,18 @@ dwvjq.gui = dwvjq.gui || {};
  */
 dwvjq.gui.Toolbox = function (app)
 {
+    var toolGuis = {};
+
+    var filterList = [];
+    this.setFilterList = function (list) {
+        this.filterList = list;
+    }
+
+    var shapeList = [];
+    this.setShapeList = function (list) {
+        this.shapeList = list;
+    }
+
     /**
      * Setup the toolbox HTML.
      */
@@ -15,7 +27,15 @@ dwvjq.gui.Toolbox = function (app)
     {
         // tool select
         var toolSelector = dwvjq.html.createHtmlSelect("toolSelect", list, "tool");
-        toolSelector.onchange = app.onChangeTool;
+        toolSelector.onchange = function (event) {
+            // tell the app
+            app.onChangeTool(event);
+            // show tool gui
+            for ( var toolGui in toolGuis ) {
+                toolGuis[toolGui].display(false);
+            }
+            toolGuis[event.currentTarget.value].display(true);
+        };
 
         // tool list element
         var toolLi = document.createElement("li");
@@ -34,6 +54,31 @@ dwvjq.gui.Toolbox = function (app)
         node.appendChild(toolUl);
         // refresh
         dwvjq.gui.refreshElement(node);
+
+        // create tool gui and call setup
+        toolGuis = [];
+        for ( var key in list ) {
+            var toolClass = list[key];
+            var toolGui = null;
+            if (toolClass === "Livewire") {
+                toolGui = new dwvjq.gui.ColourTool(app, "lw");
+            } else if (toolClass === "Floodfill") {
+                toolGui = new dwvjq.gui.ColourTool(app, "ff");
+            } else {
+                toolGui = new dwvjq.gui[toolClass](app);
+            }
+
+            if (toolClass === "Filter") {
+                toolGui.setup(this.filterList);
+            } else if (toolClass === "Draw") {
+                toolGui.setup(this.shapeList);
+            } else {
+                toolGui.setup();
+            }
+
+            toolGuis[toolClass] = toolGui;
+
+        }
     };
 
     /**
@@ -50,10 +95,24 @@ dwvjq.gui.Toolbox = function (app)
     /**
      * Initialise the toolbox HTML.
      */
-    this.initialise = function (displays)
+    this.initialise = function ()
     {
         // tool select: reset selected option
         var toolSelector = app.getElement("toolSelect");
+
+        // propagate and check if tool can be displayed
+        var displays = [];
+        var first = true;
+        for ( var toolGui in toolGuis ) {
+            toolGuis[toolGui].display(false);
+            var canInit = toolGuis[toolGui].initialise();
+            if (canInit && first) {
+                app.onChangeTool({currentTarget: {value: toolGui}});
+                toolGuis[toolGui].display(true);
+                first = false;
+            }
+            displays.push(canInit);
+        }
 
         // update list
         var options = toolSelector.options;
@@ -130,13 +189,34 @@ dwvjq.gui.WindowLevel = function (app)
         // colour map list element
         node = app.getElement("cmLi");
         dwvjq.html.displayElement(node, bool);
+
+        var onAddPreset = function (event) {
+            var wlSelector = app.getElement("presetSelect");
+            // add preset
+            wlSelector.add(new Option(capitalizeFirstLetter(event.name), event.name));
+            // set as selected
+            wlSelector.selectedIndex = wlSelector.options.length - 1;
+            // refresh
+            dwvjq.gui.refreshElement(wlSelector);
+        };
+
+        if (bool) {
+            app.addEventListener('wl-preset-add', onAddPreset);
+        } else {
+            app.removeEventListener('wl-preset-add', onAddPreset);
+        }
     };
 
     /**
      * Initialise the tool HTML.
+     * @returns Boolean True if the tool can be shown.
      */
     this.initialise = function ()
     {
+        if (!app.canWindowLevel()) {
+            return false;
+        }
+
         // create new preset select
         var wlSelector = dwvjq.html.createHtmlSelect("presetSelect",
             app.getViewController().getWindowLevelPresetsNames(), "wl.presets", true);
@@ -162,6 +242,8 @@ dwvjq.gui.WindowLevel = function (app)
         }
         // refresh
         dwvjq.gui.refreshElement(cmSelector);
+
+        return true;
     };
 
 }; // class dwvjq.gui.WindowLevel
@@ -244,10 +326,17 @@ dwvjq.gui.Draw = function (app)
         // shape list element
         node = app.getElement("shapeLi");
         dwvjq.html.displayElement(node, bool);
+
+        // set selected shape
+        if (bool) {
+            var shapeSelector = app.getElement("shapeSelect");
+            app.onChangeShape({currentTarget: {value: shapeSelector.options[0].text}});
+        }
     };
 
     /**
      * Initialise the tool HTML.
+     * @returns Boolean True if the tool can be shown.
      */
     this.initialise = function ()
     {
@@ -264,6 +353,8 @@ dwvjq.gui.Draw = function (app)
         }
         // refresh
         dwvjq.gui.refreshElement(colourSelector);
+
+        return true;
     };
 
 }; // class dwvjq.gui.Draw
@@ -341,6 +432,7 @@ dwvjq.gui.ColourTool = function (app, prefix)
 
     /**
      * Initialise the tool HTML.
+     * @returns Boolean True if the tool can be shown.
      */
     this.initialise = function ()
     {
@@ -349,6 +441,8 @@ dwvjq.gui.ColourTool = function (app, prefix)
             colourSelector.selectedIndex = 0;
         }
         dwvjq.gui.refreshElement(colourSelector);
+
+        return true;
     };
 
 }; // class dwvjq.gui.ColourTool
@@ -400,6 +494,14 @@ dwvjq.gui.ZoomAndPan = function (app)
         dwvjq.html.displayElement(node, bool);
     };
 
+    /**
+     * Initialise the tool HTML.
+     * @returns Boolean True if the tool can be shown.
+     */
+    this.initialise = function () {
+        return true;
+    };
+
 }; // class dwvjq.gui.ZoomAndPan
 
 /**
@@ -437,4 +539,16 @@ dwvjq.gui.Scroll = function (app)
         dwvjq.html.displayElement(node, bool);
     };
 
+    /**
+     * Initialise the tool HTML.
+     * @returns Boolean True if the tool can be shown.
+     */
+    this.initialise = function () {
+        return app.canScroll();
+    };
+
 }; // class dwvjq.gui.Scroll
+
+function capitalizeFirstLetter(str) {
+    return str.charAt(0).toUpperCase() + str.slice(1);
+}

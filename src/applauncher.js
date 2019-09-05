@@ -41,14 +41,40 @@ function startApp() {
     //myapp.addEventListener("filter-run", listener);
     //myapp.addEventListener("filter-undo", listener);
 
+    var toolList = [
+        "Scroll",
+        "WindowLevel",
+        "ZoomAndPan",
+        "Draw",
+        "Livewire",
+        "Filter",
+        "Floodfill"
+    ];
+
+    var filterList = [
+        "Threshold",
+        "Sharpen",
+        "Sobel"
+    ];
+
+    var shapeList = [
+        "Arrow",
+        "Ruler",
+        "Protractor",
+        "Rectangle",
+        "Roi",
+        "Ellipse",
+        "FreeHand"
+    ];
+
     // initialise the application
     var options = {
         "containerDivId": "dwv",
-        "gui": ["tool", "load", "help", "undo", "version", "tags", "drawList"],
+        "gui": ["load", "help", "undo", "version", "tags", "drawList"],
         "loaders": ["File", "Url", "GoogleDrive", "Dropbox"],
-        "tools": ["Scroll", "WindowLevel", "ZoomAndPan", "Draw", "Livewire", "Filter", "Floodfill"],
-        "filters": ["Threshold", "Sharpen", "Sobel"],
-        "shapes": ["Arrow", "Ruler", "Protractor", "Rectangle", "Roi", "Ellipse", "FreeHand"],
+        "tools": toolList,
+        "filters": filterList,
+        "shapes": shapeList,
         "isMobile": true,
         "helpResourcesPath": "resources/help"
         //"defaultCharacterSet": "chinese"
@@ -57,6 +83,18 @@ function startApp() {
         options.loaders.splice(1, 0, "Folder");
     }
     myapp.init(options);
+
+    var toolboxGui = new dwv.gui.Toolbox(myapp);
+    toolboxGui.setFilterList(filterList);
+    toolboxGui.setShapeList(shapeList);
+    toolboxGui.setup(toolList);
+
+    // listen to 'load-end'
+    myapp.addEventListener('load-end', function (/*event*/) {
+        toolboxGui.initialise();
+        toolboxGui.display(true);
+    });
+
 }
 
 // Image decoders (for web workers)

@@ -59,13 +59,15 @@ dwv.utils.decodeQuery = function (query, callback)
 dwv.gui.prompt = dwvjq.gui.prompt;
 // get element
 dwv.gui.getElement = dwvjq.gui.getElement;
-
 // Progress
 dwv.gui.displayProgress = dwvjq.gui.displayProgress;
 // Focus
 dwv.gui.focusImage = dwvjq.gui.focusImage;
 // refresh
 dwv.gui.refreshElement = dwvjq.gui.refreshElement;
+// set selected
+dwv.gui.setSelected = dwvjq.gui.setSelected;
+
 // plot
 dwv.gui.plot = function (div, data, options)
 {
@@ -159,14 +161,20 @@ dwv.gui.Toolbox = function (app)
         node.appendChild(drawList);
         dwvjq.gui.refreshElement(node);
     };
-    this.display = function (flag)
-    {
+
+    this.display = function (flag) {
         base.display(flag);
     };
-    this.initialise = function (list)
-    {
-        base.initialise(list);
+    this.initialise = function () {
+        base.initialise();
     };
+    this.setFilterList = function (list) {
+        base.setFilterList(list);
+    }
+    this.setShapeList = function (list) {
+        base.setShapeList(list);
+    }
+
 };
 
 // Window/level
