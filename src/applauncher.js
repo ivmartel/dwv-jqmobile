@@ -7,25 +7,38 @@ function startApp() {
     // translate page
     dwv.i18nPage();
 
+    // show dwv version
+    dwvjq.gui.appendVersionHtml(dwv.getVersion());
+
     // main application
     var myapp = new dwv.App();
 
     // display loading time
-    var listener = function (event) {
+    var loadListener = function (event) {
         if (event.type === "load-start") {
             console.time("load-data");
-        }
-        else {
+        } else {
             console.timeEnd("load-data");
         }
     };
-
-    // before myapp.init since it does the url load
-    myapp.addEventListener("load-start", listener);
-    myapp.addEventListener("load-end", listener);
+    myapp.addEventListener("load-start", loadListener);
+    myapp.addEventListener("load-end", loadListener);
+    myapp.addEventListener("load-progress", function (event) {
+        var percent = Math.ceil((event.loaded / event.total) * 100);
+        dwvjq.gui.displayProgress(percent);
+    });
+    myapp.addEventListener("load-error", function (event) {
+        // hide the progress bar
+        dwvjq.gui.displayProgress(100);
+        // basic alert window
+        alert(event.message);
+    });
+    myapp.addEventListener("load-abort", function (event) {
+        // hide the progress bar
+        dwvjq.gui.displayProgress(100);
+    });
 
     // also available:
-    //myapp.addEventListener("load-progress", listener);
     //myapp.addEventListener("draw-create", listener);
     //myapp.addEventListener("draw-move", listener);
     //myapp.addEventListener("draw-change", listener);
@@ -70,13 +83,11 @@ function startApp() {
     // initialise the application
     var options = {
         "containerDivId": "dwv",
-        "gui": ["load", "help", "undo", "version", "tags", "drawList"],
+        "gui": ["load", "help", "undo"],
         "loaders": ["File", "Url", "GoogleDrive", "Dropbox"],
         "tools": toolList,
         "filters": filterList,
-        "shapes": shapeList,
-        "isMobile": true,
-        "helpResourcesPath": "resources/help"
+        "shapes": shapeList
         //"defaultCharacterSet": "chinese"
     };
     if ( dwv.browser.hasInputDirectory() ) {
@@ -84,17 +95,41 @@ function startApp() {
     }
     myapp.init(options);
 
+    // show help
+    var isMobile = true;
+    dwvjq.gui.appendHelpHtml(
+        myapp.getToolboxController().getToolList(),
+        isMobile,
+        myapp,
+        "resources/help");
+
+    // setup the dropbox loader
+    var dropBoxLoader = new dwv.gui.DropboxLoader(myapp);
+    dropBoxLoader.init();
+
+    // setup the tool gui
     var toolboxGui = new dwv.gui.Toolbox(myapp);
     toolboxGui.setFilterList(filterList);
     toolboxGui.setShapeList(shapeList);
     toolboxGui.setup(toolList);
 
+    // setup the DICOM tags gui
+    var tagsGui = new dwvjq.gui.DicomTags(myapp);
+
+    // setup the draw list gui
+    var drawListGui = new dwvjq.gui.DrawList(myapp);
+    drawListGui.init();
+
     // listen to 'load-end'
     myapp.addEventListener('load-end', function (/*event*/) {
+        // allow loadgin via drag and drop on layer contanier
+        dropBoxLoader.switchToLayerContainer();
+        // initialise and display the toolbox
         toolboxGui.initialise();
         toolboxGui.display(true);
+        // update DICOM tags
+        tagsGui.update(myapp.getTags());
     });
-
 }
 
 // Image decoders (for web workers)

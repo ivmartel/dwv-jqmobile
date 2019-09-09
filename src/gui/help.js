@@ -17,9 +17,12 @@ dwvjq.gui.appendVersionHtml = function (version)
 
 /**
  * Build the help HTML.
+ * @param {Object} toolList The list of tool objects.
  * @param {Boolean} mobile Flag for mobile or not environement.
+ * @param {Object} app The associated app.
+ * @param {String} resourcesPath The path to help resources.
  */
-dwvjq.gui.appendHelpHtml = function(toolList, mobile, app)
+dwvjq.gui.appendHelpHtml = function (toolList, mobile, app, resourcesPath)
 {
     var actionType = "mouse";
     if( mobile ) {
@@ -50,7 +53,7 @@ dwvjq.gui.appendHelpHtml = function(toolList, mobile, app)
                 var action = tool.getHelp()[actionType][keys[i]];
 
                 var img = document.createElement("img");
-                img.src = app.getHelpResourcesPath() + "/" + keys[i] + ".png";
+                img.src = resourcesPath + "/" + keys[i] + ".png";
                 img.style.float = "left";
                 img.style.margin = "0px 15px 15px 0px";
 

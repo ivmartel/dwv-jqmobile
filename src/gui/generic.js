@@ -168,10 +168,19 @@ dwvjq.gui.DrawList = function (app)
     var self = this;
 
     /**
+     * Initialise.
+     */
+    this.init = function () {
+        app.addEventListener("draw-create", update);
+        app.addEventListener("draw-change", update);
+        app.addEventListener("draw-delete", update);
+    };
+
+    /**
      * Update the draw list html element
      * @param {Object} event A change event, decides if the table is editable or not.
      */
-    this.update = function (event)
+    function update(event)
     {
         var isEditable = false;
         if (typeof event.editable !== "undefined") {
@@ -318,7 +327,7 @@ dwvjq.gui.DrawList = function (app)
         tickBox.setAttribute("type", "checkbox");
         tickBox.id = "checkbox-editable";
         tickBox.checked = isEditable;
-        tickBox.onclick = function () { self.update({"editable": this.checked}); };
+        tickBox.onclick = function () { update({"editable": this.checked}); };
         // checkbox label
         var tickLabel = document.createElement("label");
         tickLabel.setAttribute( "for", tickBox.id );
