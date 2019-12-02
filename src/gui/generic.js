@@ -111,6 +111,8 @@ dwvjq.gui.DicomTags = function (app)
      */
     this.update = function (dataInfo)
     {
+        var dataInfoArray = dwv.utils.objectToArray(dataInfo);
+
         // HTML node
         var node = app.getElement("tags");
         if( node === null ) {
@@ -123,13 +125,13 @@ dwvjq.gui.DicomTags = function (app)
         }
 
         // exit if no tags
-        if (dataInfo.length === 0) {
+        if (dataInfoArray.length === 0) {
             console.warn("No DICOM tags to show.");
             return;
         }
 
         // tags HTML table
-        var table = dwvjq.html.toTable(dataInfo);
+        var table = dwvjq.html.toTable(dataInfoArray);
         table.className = "tagsTable";
 
         // optional gui specific table post process
