@@ -67,7 +67,9 @@ dwvjq.gui.Filter = function (app)
             filterGuis[firstFilter].display(true);
             app.onChangeFilter({currentTarget: {value: firstFilter}});
         } else {
-            for (var option of filterSelector.options) {
+            var optionKeys = Object.keys(filterSelector.options);
+            for (var i = 0; i < optionKeys.length; ++i) {
+                var option = filterSelector.options[optionKeys[i]];
                 filterGuis[option.text].display(false);
             }
         }

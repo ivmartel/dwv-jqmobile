@@ -12,13 +12,13 @@ dwvjq.gui.Toolbox = function (app)
 
     var filterList = [];
     this.setFilterList = function (list) {
-        this.filterList = list;
-    }
+        filterList = list;
+    };
 
     var shapeList = [];
     this.setShapeList = function (list) {
-        this.shapeList = list;
-    }
+        shapeList = list;
+    };
 
     /**
      * Setup the toolbox HTML.

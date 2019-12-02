@@ -167,7 +167,7 @@ dwvjq.gui.DrawList = function (app)
     /**
      * Closure to self.
      */
-    var self = this;
+    //var self = this;
 
     /**
      * Initialise.
@@ -360,6 +360,6 @@ dwvjq.gui.DrawList = function (app)
 
         // refresh
         dwvjq.gui.refreshElement(node);
-    };
+    }
 
 }; // class dwvjq.gui.DrawList

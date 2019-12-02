@@ -1,3 +1,6 @@
+// namespaces
+var dwvjq = dwvjq || {};
+
 /**
  * Application launcher.
  */
@@ -33,7 +36,7 @@ function startApp() {
         // basic alert window
         alert(event.message);
     });
-    myapp.addEventListener("load-abort", function (event) {
+    myapp.addEventListener("load-abort", function (/*event*/) {
         // hide the progress bar
         dwvjq.gui.displayProgress(100);
     });
