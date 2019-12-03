@@ -69,9 +69,9 @@ dwvjq.gui.Toolbox = function (app)
             }
 
             if (toolClass === "Filter") {
-                toolGui.setup(this.filterList);
+                toolGui.setup(filterList);
             } else if (toolClass === "Draw") {
-                toolGui.setup(this.shapeList);
+                toolGui.setup(shapeList);
             } else {
                 toolGui.setup();
             }
