@@ -57,6 +57,13 @@ function startApp() {
     //myapp.addEventListener("filter-run", listener);
     //myapp.addEventListener("filter-undo", listener);
 
+    var loaderList = [
+        "File",
+        "Url",
+        "GoogleDrive",
+        "Dropbox"
+    ];
+
     var toolList = [
         "Scroll",
         "WindowLevel",
@@ -86,8 +93,8 @@ function startApp() {
     // initialise the application
     var options = {
         "containerDivId": "dwv",
-        "gui": ["load", "help", "undo"],
-        "loaders": ["File", "Url", "GoogleDrive", "Dropbox"],
+        "gui": ["help", "undo"],
+        "loaders": loaderList,
         "tools": toolList,
         "filters": filterList,
         "shapes": shapeList
@@ -109,6 +116,10 @@ function startApp() {
     // setup the dropbox loader
     var dropBoxLoader = new dwv.gui.DropboxLoader(myapp);
     dropBoxLoader.init();
+
+    // setup the loadbox gui
+    var loadboxGui = new dwv.gui.Loadbox(myapp);
+    loadboxGui.setup(loaderList);
 
     // setup the tool gui
     var toolboxGui = new dwv.gui.Toolbox(myapp);

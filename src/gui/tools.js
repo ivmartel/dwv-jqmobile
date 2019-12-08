@@ -31,8 +31,8 @@ dwvjq.gui.Toolbox = function (app)
             // tell the app
             app.onChangeTool(event);
             // show tool gui
-            for ( var toolGui in toolGuis ) {
-                toolGuis[toolGui].display(false);
+            for ( var gui in toolGuis ) {
+                toolGuis[gui].display(false);
             }
             toolGuis[event.currentTarget.value].display(true);
         };
@@ -58,26 +58,30 @@ dwvjq.gui.Toolbox = function (app)
         // create tool gui and call setup
         toolGuis = [];
         for ( var key in list ) {
-            var toolClass = list[key];
-            var toolGui = null;
-            if (toolClass === "Livewire") {
-                toolGui = new dwvjq.gui.ColourTool(app, "lw");
-            } else if (toolClass === "Floodfill") {
-                toolGui = new dwvjq.gui.ColourTool(app, "ff");
+            var guiClass = list[key];
+            var gui = null;
+            if (guiClass === "Livewire") {
+                gui = new dwvjq.gui.ColourTool(app, "lw");
+            } else if (guiClass === "Floodfill") {
+                gui = new dwvjq.gui.ColourTool(app, "ff");
             } else {
-                toolGui = new dwvjq.gui[toolClass](app);
+                if (typeof dwvjq.gui[guiClass] === "undefined") {
+                    console.warn("Could not create unknown loader gui: "+guiClass);
+                    continue;
+                }
+                gui = new dwvjq.gui[guiClass](app);
             }
 
-            if (toolClass === "Filter") {
-                toolGui.setup(filterList);
-            } else if (toolClass === "Draw") {
-                toolGui.setup(shapeList);
+            if (guiClass === "Filter") {
+                gui.setup(filterList);
+            } else if (guiClass === "Draw") {
+                gui.setup(shapeList);
             } else {
-                toolGui.setup();
+                gui.setup();
             }
 
-            toolGuis[toolClass] = toolGui;
-
+            // store
+            toolGuis[guiClass] = gui;
         }
     };
 
@@ -98,24 +102,26 @@ dwvjq.gui.Toolbox = function (app)
     this.initialise = function ()
     {
         // tool select: reset selected option
-        var toolSelector = app.getElement("toolSelect");
+        var selector = app.getElement("toolSelect");
 
         // propagate and check if tool can be displayed
         var displays = [];
         var first = true;
-        for ( var toolGui in toolGuis ) {
-            toolGuis[toolGui].display(false);
-            var canInit = toolGuis[toolGui].initialise();
+        for ( var gui in toolGuis ) {
+            toolGuis[gui].display(false);
+            var canInit = toolGuis[gui].initialise();
+            // activate first tool
             if (canInit && first) {
-                app.onChangeTool({currentTarget: {value: toolGui}});
-                toolGuis[toolGui].display(true);
+                app.onChangeTool({currentTarget: {value: gui}});
+                toolGuis[gui].display(true);
                 first = false;
             }
+            // store state
             displays.push(canInit);
         }
 
-        // update list
-        var options = toolSelector.options;
+        // update list display according to gui states
+        var options = selector.options;
         var selectedIndex = -1;
         for ( var i = 0; i < options.length; ++i ) {
             if ( !displays[i] ) {
@@ -128,10 +134,10 @@ dwvjq.gui.Toolbox = function (app)
                 options[i].style.display = "";
             }
         }
-        toolSelector.selectedIndex = selectedIndex;
+        selector.selectedIndex = selectedIndex;
 
         // refresh
-        dwvjq.gui.refreshElement(toolSelector);
+        dwvjq.gui.refreshElement(selector);
     };
 
 }; // dwvjq.gui.Toolbox

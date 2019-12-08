@@ -8,20 +8,22 @@ dwvjq.gui = dwvjq.gui || {};
  */
 dwvjq.gui.Loadbox = function (app, loaders)
 {
-    /**
-     * Loader HTML select.
-     * @private
-     */
-    var loaderSelector = null;
+    loaderGuis = {};
 
     /**
      * Setup the loadbox HTML.
      */
-    this.setup = function ()
+    this.setup = function (list)
     {
         // loader select
-        loaderSelector = dwvjq.html.createHtmlSelect("loaderSelect", loaders, "io");
-        loaderSelector.onchange = app.onChangeLoader;
+        var loaderSelector = dwvjq.html.createHtmlSelect("loaderSelect", list, "io");
+        loaderSelector.onchange = function (event) {
+            // show tool gui
+            for ( var gui in loaderGuis ) {
+                loaderGuis[gui].display(false);
+            }
+            loaderGuis[event.currentTarget.value].display(true);
+        };
 
         // node
         var node = app.getElement("loaderlist");
@@ -33,36 +35,26 @@ dwvjq.gui.Loadbox = function (app, loaders)
         node.appendChild(loaderSelector);
         // refresh
         dwvjq.gui.refreshElement(node);
-    };
 
-    /**
-     * Display a loader.
-     * @param {String} name The name of the loader to show.
-     */
-    this.displayLoader = function (name)
-    {
-        var keys = Object.keys(loaders);
-        for ( var i = 0; i < keys.length; ++i ) {
-            if ( keys[i] === name ) {
-                loaders[keys[i]].display(true);
+        // create tool gui and call setup
+        loaderGuis = [];
+        var first = true;
+        for ( var key in list ) {
+            var name = list[key];
+            var guiClass = name + "Load";
+            if (typeof dwvjq.gui[guiClass] === "undefined") {
+                console.warn("Could not create unknown loader gui: "+guiClass);
+                continue;
             }
-            else {
-                loaders[keys[i]].display(false);
+            var gui = new dwvjq.gui[guiClass](app);
+            gui.setup();
+            // display
+            gui.display(first);
+            if (first) {
+                first = false;
             }
-        }
-    };
-
-    /**
-     * Reset to its original state.
-     */
-    this.reset = function ()
-    {
-        // display first loader
-        var keys = Object.keys(loaders);
-        this.displayLoader(keys[0]);
-        // reset HTML select
-        if (loaderSelector) {
-            loaderSelector.selectedIndex = 0;
+            // store
+            loaderGuis[name] = gui;
         }
     };
 
