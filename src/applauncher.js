@@ -46,10 +46,10 @@ function startApp() {
     myapp.addEventListener("undo-add", function (event) {
         undoGui.addCommandToUndoHtml(event.command);
     });
-    myapp.addEventListener("undo", function (event) {
+    myapp.addEventListener("undo", function (/*event*/) {
         undoGui.enableLastInUndoHtml(false);
     });
-    myapp.addEventListener("redo", function (event) {
+    myapp.addEventListener("redo", function (/*event*/) {
         undoGui.enableLastInUndoHtml(true);
     });
 
