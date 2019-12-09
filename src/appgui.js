@@ -173,6 +173,3 @@ dwv.gui.Threshold = dwvjq.gui.Threshold;
 dwv.gui.Sharpen = dwvjq.gui.Sharpen;
 // Filter: sobel
 dwv.gui.Sobel = dwvjq.gui.Sobel;
-
-// Undo/redo
-dwv.gui.Undo = dwvjq.gui.Undo;

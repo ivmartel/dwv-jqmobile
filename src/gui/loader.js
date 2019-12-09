@@ -6,9 +6,9 @@ dwvjq.gui = dwvjq.gui || {};
  * Loadbox base gui.
  * @constructor
  */
-dwvjq.gui.Loadbox = function (app, loaders)
+dwvjq.gui.Loadbox = function (app)
 {
-    loaderGuis = {};
+    var loaderGuis = {};
 
     /**
      * Setup the loadbox HTML.
@@ -25,18 +25,18 @@ dwvjq.gui.Loadbox = function (app, loaders)
             loaderGuis[event.currentTarget.value].display(true);
         };
 
-        // node
+        // get node
         var node = app.getElement("loaderlist");
         // clear it
         while(node.hasChildNodes()) {
             node.removeChild(node.firstChild);
         }
-        // append
+        // append selector
         node.appendChild(loaderSelector);
         // refresh
         dwvjq.gui.refreshElement(node);
 
-        // create tool gui and call setup
+        // create tool guis and call setup
         loaderGuis = [];
         var first = true;
         for ( var key in list ) {
@@ -77,7 +77,7 @@ dwvjq.gui.FileLoad = function (app)
         if (typeof self.onchange === "function") {
             self.onchange(event);
         }
-        app.onChangeFiles(event);
+        app.loadFiles(event.target.files);
     }
 
     /**
@@ -139,7 +139,7 @@ dwvjq.gui.FolderLoad = function (app)
         if (typeof self.onchange === "function") {
             self.onchange(event);
         }
-        app.onChangeFiles(event);
+        app.loadFiles(event.target.files);
     }
 
     /**
@@ -152,7 +152,7 @@ dwvjq.gui.FolderLoad = function (app)
         fileLoadInput.onchange = onchangeinternal;
         fileLoadInput.type = "file";
         fileLoadInput.multiple = true;
-        fileLoadInput.webkitdirectory  = true;
+        fileLoadInput.webkitdirectory = true;
         fileLoadInput.className = "imagefolder";
         fileLoadInput.setAttribute("data-clear-btn","true");
         fileLoadInput.setAttribute("data-mini","true");
@@ -202,7 +202,7 @@ dwvjq.gui.UrlLoad = function (app)
         if (typeof self.onchange === "function") {
             self.onchange(event);
         }
-        app.onChangeURL(event);
+        app.loadURLs([event.target.value]);
     }
 
     /**

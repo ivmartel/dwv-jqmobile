@@ -16,6 +16,9 @@ function startApp() {
     // main application
     var myapp = new dwv.App();
 
+    // setup the undo gui
+    var undoGui = new dwv.gui.Undo(myapp);
+
     // display loading time
     var loadListener = function (event) {
         if (event.type === "load-start") {
@@ -39,6 +42,15 @@ function startApp() {
     myapp.addEventListener("load-abort", function (/*event*/) {
         // hide the progress bar
         dwvjq.gui.displayProgress(100);
+    });
+    myapp.addEventListener("undo-add", function (event) {
+        undoGui.addCommandToUndoHtml(event.command);
+    });
+    myapp.addEventListener("undo", function (event) {
+        undoGui.enableLastInUndoHtml(false);
+    });
+    myapp.addEventListener("redo", function (event) {
+        undoGui.enableLastInUndoHtml(true);
     });
 
     // also available:
@@ -105,6 +117,8 @@ function startApp() {
     }
     myapp.init(options);
 
+    undoGui.setup();
+
     // show help
     var isMobile = true;
     dwvjq.gui.appendHelpHtml(
@@ -138,6 +152,8 @@ function startApp() {
     myapp.addEventListener('load-end', function (/*event*/) {
         // allow loadgin via drag and drop on layer contanier
         dropBoxLoader.switchToLayerContainer();
+        // initialise undo gui
+        undoGui.setup();
         // initialise and display the toolbox
         toolboxGui.initialise();
         toolboxGui.display(true);

@@ -82,7 +82,7 @@ dwvjq.gui.Undo = function (app)
      * Enable the last command of the undo HTML.
      * @param {Boolean} enable Flag to enable or disable the command.
      */
-    this.enableInUndoHtml = function (enable)
+    this.enableLastInUndoHtml = function (enable)
     {
         var select = app.getElement("history_list");
         // enable or not (order is important)
