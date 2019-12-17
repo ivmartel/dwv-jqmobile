@@ -70,7 +70,7 @@ dwvjq.gui.Filter = function (app)
             var optionKeys = Object.keys(filterSelector.options);
             for (var i = 0; i < optionKeys.length; ++i) {
                 var option = filterSelector.options[optionKeys[i]];
-                filterGuis[option.text].display(false);
+                filterGuis[option.value].display(false);
             }
         }
     };
