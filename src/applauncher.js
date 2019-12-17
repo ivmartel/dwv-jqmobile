@@ -17,7 +17,7 @@ function startApp() {
     var myapp = new dwv.App();
 
     // setup the undo gui
-    var undoGui = new dwv.gui.Undo(myapp);
+    var undoGui = new dwvjq.gui.Undo(myapp);
 
     // display loading time
     var loadListener = function (event) {
