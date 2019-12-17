@@ -136,7 +136,7 @@ function startApp() {
     loadboxGui.setup(loaderList);
 
     // info layer
-    var infoController = new dwv.InfoController(myapp, "dwv");
+    var infoController = new dwv.gui.info.Controller(myapp, "dwv");
     infoController.init();
 
     // setup the tool gui
