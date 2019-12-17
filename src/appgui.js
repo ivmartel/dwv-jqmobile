@@ -86,7 +86,7 @@ dwvjq.gui.UrlLoad.prototype.onchange = function (/*event*/) {
 };
 
 // Toolbox
-dwv.gui.Toolbox = function (app)
+dwv.gui.Toolbox = function (app, infoController)
 {
     var base = new dwvjq.gui.Toolbox(app);
 
@@ -113,7 +113,7 @@ dwv.gui.Toolbox = function (app)
 
         var toggleInfo = document.createElement("a");
         toggleInfo.setAttribute("class", buttonClass + " ui-icon-info");
-        toggleInfo.onclick = app.onToggleInfoLayer;
+        toggleInfo.onclick = infoController.toggle;
 
         var toggleSaveState = document.createElement("a");
         toggleSaveState.setAttribute("class", buttonClass + " download-state ui-icon-action");

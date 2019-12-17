@@ -135,8 +135,12 @@ function startApp() {
     var loadboxGui = new dwv.gui.Loadbox(myapp);
     loadboxGui.setup(loaderList);
 
+    // info layer
+    var infoController = new dwv.InfoController(myapp, "dwv");
+    infoController.init();
+
     // setup the tool gui
-    var toolboxGui = new dwv.gui.Toolbox(myapp);
+    var toolboxGui = new dwv.gui.Toolbox(myapp, infoController);
     toolboxGui.setFilterList(filterList);
     toolboxGui.setShapeList(shapeList);
     toolboxGui.setup(toolList);
@@ -147,6 +151,8 @@ function startApp() {
     // setup the draw list gui
     var drawListGui = new dwvjq.gui.DrawList(myapp);
     drawListGui.init();
+
+    myapp.addEventListener('load-slice', infoController.onLoadSlice);
 
     // listen to 'load-end'
     myapp.addEventListener('load-end', function (/*event*/) {
