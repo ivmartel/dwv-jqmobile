@@ -132,7 +132,7 @@ function startApp() {
     dropBoxLoader.init();
 
     // setup the loadbox gui
-    var loadboxGui = new dwv.gui.Loadbox(myapp);
+    var loadboxGui = new dwvjq.gui.Loadbox(myapp);
     loadboxGui.setup(loaderList);
 
     // info layer
@@ -140,7 +140,7 @@ function startApp() {
     infoController.init();
 
     // setup the tool gui
-    var toolboxGui = new dwv.gui.Toolbox(myapp, infoController);
+    var toolboxGui = new dwvjq.gui.ToolboxContainer(myapp, infoController);
     toolboxGui.setFilterList(filterList);
     toolboxGui.setShapeList(shapeList);
     toolboxGui.setup(toolList);
@@ -152,6 +152,7 @@ function startApp() {
     var drawListGui = new dwvjq.gui.DrawList(myapp);
     drawListGui.init();
 
+    // update overlay info on slice load
     myapp.addEventListener('load-slice', infoController.onLoadSlice);
 
     // listen to 'load-end'
@@ -166,6 +167,9 @@ function startApp() {
         // update DICOM tags
         tagsGui.update(myapp.getTags());
     });
+
+    // possible load from location
+    dwvjq.utils.loadFromUri(window.location.href, myapp);
 }
 
 // Image decoders (for web workers)

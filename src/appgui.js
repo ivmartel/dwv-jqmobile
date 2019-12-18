@@ -1,5 +1,6 @@
 // namespaces
 var dwvjq = dwvjq || {};
+dwvjq.utils = dwvjq.utils || {};
 
 /**
  * Application GUI.
@@ -27,66 +28,62 @@ dwv.tool.defaultpresets.CT = {
     "head": {"center": 90, "width": 350}
 };
 
-//decode query
-dwv.utils.decodeQuery = function (query, callback)
+// decode query
+dwvjq.utils.loadFromUri = function (uri, app)
 {
-    if (query.type === "gdrive") {
-        var gAuth = new dwv.google.Auth();
-        var gDrive = new dwv.google.Drive();
-        gDrive.setIds( query.input.split(',') );
-        // pipeline
-        gAuth.onload = gDrive.load;
-        gAuth.onfail = function () {
-            $("#popupAuth").popup("open");
-            var authorizeButton = document.getElementById('gauth-button');
-            // explicit auth from button to allow popup
-            authorizeButton.onclick = function() {
-                $("#popupAuth").popup("close");
-                gAuth.load();
+    var query = dwv.utils.getUriQuery(uri);
+    // check query
+    if ( query && typeof query.input !== "undefined" ) {
+        // special gdrive
+        if (query.type === "gdrive") {
+            var gAuth = new dwv.google.Auth();
+            var gDrive = new dwv.google.Drive();
+            gDrive.setIds( query.input.split(',') );
+            // pipeline
+            gAuth.onload = gDrive.load;
+            gAuth.onfail = function () {
+                $("#popupAuth").popup("open");
+                var authorizeButton = document.getElementById('gauth-button');
+                // explicit auth from button to allow popup
+                authorizeButton.onclick = function() {
+                    $("#popupAuth").popup("close");
+                    gAuth.load();
+                };
             };
-        };
-        gDrive.onload = dwv.google.getAuthorizedCallback(callback);
-        // launch with silent auth
-        gAuth.loadSilent();
-    }
-    else {
-        // default
-        dwv.utils.base.decodeQuery(query, callback);
+            gDrive.onload = dwv.google.getAuthorizedCallback(app.loadURLs);
+            // launch with silent auth
+            gAuth.loadSilent();
+        } else {
+            // default
+            dwv.utils.loadFromQuery(query, app);
+        }
     }
 };
 
-// Prompt
+// dwv overrides -------------------------
+
+// prompt
 dwv.gui.prompt = dwvjq.gui.prompt;
 // get element
 dwv.gui.getElement = dwvjq.gui.getElement;
 // refresh
 dwv.gui.refreshElement = dwvjq.gui.refreshElement;
-// set selected
-dwv.gui.setSelected = dwvjq.gui.setSelected;
 
-// Post process table
-dwv.gui.postProcessTable = dwvjq.gui.postProcessTable;
+// [end] dwv overrides -------------------------
 
-// Loaders
-dwv.gui.Loadbox = dwvjq.gui.Loadbox;
-// File loader
-dwv.gui.FileLoad = dwvjq.gui.FileLoad;
+// special close dialog on change
 dwvjq.gui.FileLoad.prototype.onchange = function (/*event*/) {
     $("#popupOpen").popup("close");
 };
-// Folder loader
-dwv.gui.FolderLoad = dwvjq.gui.FolderLoad;
 dwvjq.gui.FolderLoad.prototype.onchange = function (/*event*/) {
     $("#popupOpen").popup("close");
 };
-// Url loader
-dwv.gui.UrlLoad = dwvjq.gui.UrlLoad;
 dwvjq.gui.UrlLoad.prototype.onchange = function (/*event*/) {
     $("#popupOpen").popup("close");
 };
 
 // Toolbox
-dwv.gui.Toolbox = function (app, infoController)
+dwvjq.gui.ToolboxContainer = function (app, infoController)
 {
     var base = new dwvjq.gui.Toolbox(app);
 
@@ -113,7 +110,11 @@ dwv.gui.Toolbox = function (app, infoController)
 
         var toggleInfo = document.createElement("a");
         toggleInfo.setAttribute("class", buttonClass + " ui-icon-info");
-        toggleInfo.onclick = infoController.toggle;
+        toggleInfo.onclick = function() {
+            var infoLayer = app.getElement("infoLayer");
+            dwvjq.html.toggleDisplay();
+            infoController.toggleListeners();
+        };
 
         var toggleSaveState = document.createElement("a");
         toggleSaveState.setAttribute("class", buttonClass + " download-state ui-icon-action");
@@ -153,23 +154,3 @@ dwv.gui.Toolbox = function (app, infoController)
     };
 
 };
-
-// Window/level
-dwv.gui.WindowLevel = dwvjq.gui.WindowLevel;
-// Draw
-dwv.gui.Draw = dwvjq.gui.Draw;
-// ColourTool
-dwv.gui.ColourTool = dwvjq.gui.ColourTool;
-// ZoomAndPan
-dwv.gui.ZoomAndPan = dwvjq.gui.ZoomAndPan;
-// Scroll
-dwv.gui.Scroll = dwvjq.gui.Scroll;
-// Filter
-dwv.gui.Filter = dwvjq.gui.Filter;
-
-// Filter: threshold
-dwv.gui.Threshold = dwvjq.gui.Threshold;
-// Filter: sharpen
-dwv.gui.Sharpen = dwvjq.gui.Sharpen;
-// Filter: sobel
-dwv.gui.Sobel = dwvjq.gui.Sobel;

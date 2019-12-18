@@ -1,6 +1,6 @@
 // namespaces
-var dwv = dwv || {};
-dwv.tool = dwv.tool || {};
+var dwvjq = dwvjq || {};
+dwvjq.tool = dwvjq.tool || {};
 
 /**
  * Alert tool: demo tool that does a lot of logging and alerts.
@@ -10,7 +10,7 @@ dwv.tool = dwv.tool || {};
  * @constructor
  * @param {Object} app The associated application.
  */
-dwv.tool.Alert = function (app)
+dwvjq.tool.Alert = function (app)
 {
     /**
      * Associated GUI.
@@ -54,7 +54,7 @@ dwv.tool.Alert = function (app)
     this.setup = function () {
         console.log("[alert:tool:setup]");
 
-        gui = new dwv.gui.Alert(app);
+        gui = new dwvjq.gui.Alert(app);
         gui.setup();
     };
 
@@ -104,7 +104,7 @@ dwv.tool.Alert.prototype.getHelp = function ()
  * Alert tool GUI.
  * @param {Object} app The associated application.
  */
-dwv.gui.Alert = function (app)
+dwvjq.gui.Alert = function (app)
 {
     /**
      * Setup the tool GUI.
