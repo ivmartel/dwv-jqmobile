@@ -99,11 +99,11 @@ dwvjq.gui.setSelected = function (element, value)
 };
 
 /**
- * DICOM tags base gui.
+ * MetaData base gui: shows DICOM tags or file meta data.
  * @param {Object} app The associated application.
  * @constructor
  */
-dwvjq.gui.DicomTags = function (app)
+dwvjq.gui.MetaData = function (app)
 {
     /**
      * Update the DICOM tags table with the input info.
@@ -111,12 +111,16 @@ dwvjq.gui.DicomTags = function (app)
      */
     this.update = function (dataInfo)
     {
-        var dataInfoArray = dwv.utils.objectToArray(dataInfo);
+        var dataInfoArray = dataInfo;
+        if (dwv.utils.isObject(dataInfo) &&
+            !dwv.utils.isArray(dataInfo)) {
+            dataInfoArray = dwv.utils.objectToArray(dataInfo);
+        }
 
         // HTML node
         var node = app.getElement("tags");
         if( node === null ) {
-            console.warn("Cannot find a node to append the DICOM tags.");
+            console.warn("Cannot find a node to append the meta data.");
             return;
         }
         // remove possible previous
@@ -126,7 +130,7 @@ dwvjq.gui.DicomTags = function (app)
 
         // exit if no tags
         if (dataInfoArray.length === 0) {
-            console.warn("No DICOM tags to show.");
+            console.warn("No meta data tags to show.");
             return;
         }
 

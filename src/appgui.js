@@ -112,7 +112,7 @@ dwvjq.gui.ToolboxContainer = function (app, infoController)
         toggleInfo.setAttribute("class", buttonClass + " ui-icon-info");
         toggleInfo.onclick = function() {
             var infoLayer = app.getElement("infoLayer");
-            dwvjq.html.toggleDisplay();
+            dwvjq.html.toggleDisplay(infoLayer);
             infoController.toggleListeners();
         };
 
