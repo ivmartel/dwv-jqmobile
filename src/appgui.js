@@ -66,8 +66,6 @@ dwvjq.utils.loadFromUri = function (uri, app)
 dwv.gui.prompt = dwvjq.gui.prompt;
 // get element
 dwv.gui.getElement = dwvjq.gui.getElement;
-// refresh
-dwv.gui.refreshElement = dwvjq.gui.refreshElement;
 
 // [end] dwv overrides -------------------------
 
@@ -118,7 +116,10 @@ dwvjq.gui.ToolboxContainer = function (app, infoController)
 
         var toggleSaveState = document.createElement("a");
         toggleSaveState.setAttribute("class", buttonClass + " download-state ui-icon-action");
-        toggleSaveState.onclick = app.onStateSave;
+        toggleSaveState.onclick = function () {
+            var blob = new Blob([app.getState()], {type: 'application/json'});
+            toggleSaveState.href = window.URL.createObjectURL(blob);
+        };
         toggleSaveState.download = "state.json";
 
         var tags = document.createElement("a");
