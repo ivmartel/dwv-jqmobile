@@ -3,23 +3,32 @@ var dwvjq = dwvjq || {};
 dwvjq.gui = dwvjq.gui || {};
 
 /**
- * Dropbox loader
+ * Dropbox loader.
+ * Listens to drag events on the layer container and
+ * uses a drop box element as first display.
  * @constructor
  * @param {Object} app The associated application.
  */
 dwvjq.gui.DropboxLoader = function (app)
 {
+    // drop box class name
+    var dropboxClassName = "dropBox";
+
     /**
      * Initialise the drop box.
      */
     this.init = function () {
-        // listen to drag&drop
-        var box = app.getElement("dropBox");
-        if ( box ) {
-            box.addEventListener("dragover", onDragOver);
-            box.addEventListener("dragleave", onDragLeave);
-            box.addEventListener("drop", onDrop);
-            // initial size
+        // start listening to drag events on the layerContainer
+        var layerDiv = app.getElement("layerContainer");
+        if (layerDiv) {
+            layerDiv.addEventListener("dragover", onDragOver);
+            layerDiv.addEventListener("dragleave", onDragLeave);
+            layerDiv.addEventListener("drop", onDrop);
+        }
+
+        // set the initial drop box size
+        var box = app.getElement(dropboxClassName);
+        if (box) {
             var size = app.getLayerContainerSize();
             var dropBoxSize = 2 * size.height / 3;
             box.setAttribute("style","width:"+dropBoxSize+"px;height:"+dropBoxSize+"px");
@@ -27,23 +36,12 @@ dwvjq.gui.DropboxLoader = function (app)
     };
 
     /**
-     * Switch listening from the box to the layer container.
+     * Remove the drop box gui.
      */
-    this.switchToLayerContainer = function () {
-        // stop box listening to drag (after first drag)
-        var box = app.getElement("dropBox");
-        var layerDiv = app.getElement("layerContainer");
-        if ( box && layerDiv) {
-            // stop listening to the box
-            box.removeEventListener("dragover", onDragOver);
-            box.removeEventListener("dragleave", onDragLeave);
-            box.removeEventListener("drop", onDrop);
-            // remove the box node
+    this.removeDropboxElement = function () {
+        var box = app.getElement(dropboxClassName);
+        if (box) {
             dwvjq.html.removeNode(box);
-            // start listening to the layerContainer
-            layerDiv.addEventListener("dragover", onDragOver);
-            layerDiv.addEventListener("dragleave", onDragLeave);
-            layerDiv.addEventListener("drop", onDrop);
         }
     };
 
@@ -52,15 +50,14 @@ dwvjq.gui.DropboxLoader = function (app)
      * @private
      * @param {Object} event The event to handle.
      */
-    function onDragOver(event)
-    {
+    function onDragOver(event) {
         // prevent default handling
         event.stopPropagation();
         event.preventDefault();
         // update box
-        var box = app.getElement("dropBox");
-        if ( box ) {
-            box.className = 'dropBox hover';
+        var box = app.getElement(dropboxClassName);
+        if (box) {
+            box.className = dropboxClassName + " hover";
         }
     }
 
@@ -69,15 +66,14 @@ dwvjq.gui.DropboxLoader = function (app)
      * @private
      * @param {Object} event The event to handle.
      */
-    function onDragLeave(event)
-    {
+    function onDragLeave(event) {
         // prevent default handling
         event.stopPropagation();
         event.preventDefault();
-        // update box
-        var box = app.getElement("dropBox hover");
-        if ( box ) {
-            box.className = 'dropBox';
+        // update box class
+        var box = app.getElement(dropboxClassName + " hover");
+        if (box) {
+            box.className = dropboxClassName;
         }
     }
 
@@ -86,8 +82,7 @@ dwvjq.gui.DropboxLoader = function (app)
      * @private
      * @param {Object} event The event to handle.
      */
-    function onDrop(event)
-    {
+    function onDrop(event) {
         // prevent default handling
         event.stopPropagation();
         event.preventDefault();

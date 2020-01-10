@@ -157,8 +157,8 @@ function startApp() {
 
     // listen to 'load-end'
     myapp.addEventListener('load-end', function (/*event*/) {
-        // allow loadgin via drag and drop on layer contanier
-        dropBoxLoader.switchToLayerContainer();
+        // remove drop box
+        dropBoxLoader.removeDropboxElement();
         // initialise undo gui
         undoGui.setup();
         // initialise and display the toolbox
