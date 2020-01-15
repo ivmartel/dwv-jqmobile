@@ -31,29 +31,31 @@ dwvjq.gui.appendHelpHtml = function (toolList, mobile, app, resourcesPath)
 
     var toolHelpDiv = document.createElement("div");
 
-    var tool = null;
+    var helpKeys = null;
     var tkeys = Object.keys(toolList);
     for ( var t=0; t < tkeys.length; ++t )
     {
-        tool = toolList[tkeys[t]];
+        helpKeys = toolList[tkeys[t]].getHelpKeys();
         // title
-        var title = document.createElement("h3");
-        title.appendChild(document.createTextNode(tool.getHelp().title));
+        var titleElement = document.createElement("h3");
+        var titleStr = dwv.i18n(helpKeys.title);
+        titleElement.appendChild(document.createTextNode(titleStr));
         // doc div
         var docDiv = document.createElement("div");
         // brief
-        var brief = document.createElement("p");
-        brief.appendChild(document.createTextNode(tool.getHelp().brief));
-        docDiv.appendChild(brief);
+        var briefElement = document.createElement("p");
+        var briefStr = dwv.i18n(helpKeys.brief);
+        briefElement.appendChild(document.createTextNode(briefStr));
+        docDiv.appendChild(briefElement);
         // details
-        if( tool.getHelp()[actionType] ) {
-            var keys = Object.keys(tool.getHelp()[actionType]);
+        if( helpKeys[actionType] ) {
+            var keys = Object.keys(helpKeys[actionType]);
             for( var i=0; i<keys.length; ++i )
             {
-                var action = tool.getHelp()[actionType][keys[i]];
+                var action = keys[i];
 
                 var img = document.createElement("img");
-                img.src = resourcesPath + "/" + keys[i] + ".png";
+                img.src = resourcesPath + "/" + action + ".png";
                 img.style.float = "left";
                 img.style.margin = "0px 15px 15px 0px";
 
@@ -62,7 +64,8 @@ dwvjq.gui.appendHelpHtml = function (toolList, mobile, app, resourcesPath)
 
                 var para = document.createElement("p");
                 para.appendChild(img);
-                para.appendChild(document.createTextNode(action));
+                var actionHelp = dwv.i18n(helpKeys[actionType][action]);
+                para.appendChild(document.createTextNode(actionHelp));
                 para.appendChild(br);
                 docDiv.appendChild(para);
             }
@@ -73,14 +76,14 @@ dwvjq.gui.appendHelpHtml = function (toolList, mobile, app, resourcesPath)
         {
             var toolDiv = document.createElement("div");
             toolDiv.setAttribute("data-role", "collapsible");
-            toolDiv.appendChild(title);
+            toolDiv.appendChild(titleElement);
             toolDiv.appendChild(docDiv);
             toolHelpDiv.appendChild(toolDiv);
         }
         else
         {
             toolHelpDiv.id = "accordion";
-            toolHelpDiv.appendChild(title);
+            toolHelpDiv.appendChild(titleElement);
             toolHelpDiv.appendChild(docDiv);
         }
     }
