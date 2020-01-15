@@ -117,7 +117,9 @@ dwvjq.gui.Alert = function (app)
         button.className = "alert-button";
         button.value = "Alert";
         // let the app handle the tool change
-        button.onclick = app.onChangeTool;
+        button.onclick = function (event) {
+            app.setTool(event.currentTarget.value);
+        };
         button.appendChild(document.createTextNode("Alert!"));
 
         // the app handles finding the document HTML element

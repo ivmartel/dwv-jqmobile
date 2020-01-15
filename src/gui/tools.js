@@ -29,7 +29,7 @@ dwvjq.gui.Toolbox = function (app)
         var toolSelector = dwvjq.html.createHtmlSelect("toolSelect", list, "tool");
         toolSelector.onchange = function (event) {
             // tell the app
-            app.onChangeTool(event);
+            app.setTool(event.currentTarget.value);
             // show tool gui
             for ( var gui in toolGuis ) {
                 toolGuis[gui].display(false);
@@ -107,13 +107,13 @@ dwvjq.gui.Toolbox = function (app)
         // propagate and check if tool can be displayed
         var displays = [];
         var first = true;
-        for ( var gui in toolGuis ) {
-            toolGuis[gui].display(false);
-            var canInit = toolGuis[gui].initialise();
+        for ( var guiClass in toolGuis ) {
+            toolGuis[guiClass].display(false);
+            var canInit = toolGuis[guiClass].initialise();
             // activate first tool
             if (canInit && first) {
-                app.onChangeTool({currentTarget: {value: gui}});
-                toolGuis[gui].display(true);
+                app.setTool(guiClass);
+                toolGuis[guiClass].display(true);
                 first = false;
             }
             // store state
@@ -155,10 +155,14 @@ dwvjq.gui.WindowLevel = function (app)
     {
         // preset select
         var wlSelector = dwvjq.html.createHtmlSelect("presetSelect", []);
-        wlSelector.onchange = app.onChangeWindowLevelPreset;
+        wlSelector.onchange = function (event) {
+            app.setWindowLevelPreset(event.currentTarget.value);
+        };
         // colour map select
         var cmSelector = dwvjq.html.createHtmlSelect("colourMapSelect", dwv.tool.colourMaps, "colourmap");
-        cmSelector.onchange = app.onChangeColourMap;
+        cmSelector.onchange = function (event) {
+            app.setColourMap(event.currentTarget.value);
+        };
 
         // preset list element
         var wlLi = document.createElement("li");
@@ -226,7 +230,9 @@ dwvjq.gui.WindowLevel = function (app)
         // create new preset select
         var wlSelector = dwvjq.html.createHtmlSelect("presetSelect",
             app.getViewController().getWindowLevelPresetsNames(), "wl.presets", true);
-        wlSelector.onchange = app.onChangeWindowLevelPreset;
+        wlSelector.onchange = function (event) {
+            app.setWindowLevelPreset(event.currentTarget.value);
+        };
         wlSelector.title = "Select w/l preset.";
 
         // copy html list
@@ -283,7 +289,9 @@ dwvjq.gui.Draw = function (app)
     {
         // shape select
         var shapeSelector = dwvjq.html.createHtmlSelect("shapeSelect", shapeList, "shape");
-        shapeSelector.onchange = app.onChangeShape;
+        shapeSelector.onchange = function (event) {
+            app.setDrawShape(event.currentTarget.value);
+        };
         // colour select
         var colourSelector = null;
         if ( dwvjq.browser.hasInputColor() ) {
@@ -295,7 +303,9 @@ dwvjq.gui.Draw = function (app)
         else {
             colourSelector = dwvjq.html.createHtmlSelect("colourSelect", colours, "colour");
         }
-        colourSelector.onchange = app.onChangeLineColour;
+        colourSelector.onchange = function (event) {
+            app.setDrawLineColour(event.currentTarget.value);
+        };
 
         // shape list element
         var shapeLi = document.createElement("li");
@@ -336,7 +346,7 @@ dwvjq.gui.Draw = function (app)
         // set selected shape
         if (bool) {
             var shapeSelector = app.getElement("shapeSelect");
-            app.onChangeShape({currentTarget: {value: shapeSelector.options[0].text}});
+            app.setDrawShape(shapeSelector.options[0].text);
         }
     };
 
@@ -408,7 +418,9 @@ dwvjq.gui.ColourTool = function (app, prefix)
         else {
             colourSelector = dwvjq.html.createHtmlSelect(colourSelectClassName, colours, "colour");
         }
-        colourSelector.onchange = app.onChangeLineColour;
+        colourSelector.onchange = function (event) {
+            app.setDrawLineColour(event.currentTarget.value);
+        };
 
         // colour list element
         var colourLi = document.createElement("li");
@@ -468,7 +480,9 @@ dwvjq.gui.ZoomAndPan = function (app)
         var button = document.createElement("button");
         button.className = "zoomResetButton";
         button.name = "zoomResetButton";
-        button.onclick = app.onZoomReset;
+        button.onclick = function (/*event*/) {
+            app.resetZoom();
+        };
         button.setAttribute("style","width:100%; margin-top:0.5em;");
         button.setAttribute("class","ui-btn ui-btn-b");
         var text = document.createTextNode(dwv.i18n("basics.reset"));

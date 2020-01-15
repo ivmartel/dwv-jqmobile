@@ -85,7 +85,7 @@ dwvjq.gui.Slider = function (app)
         // bind change
         $("#threshold-div").on("change",
                 function(/*event*/) {
-                    app.onChangeMinMax(
+                    app.setFilterMinMax(
                         { "min":$("#threshold-min").val(),
                           "max":$("#threshold-max").val() } );
                 }

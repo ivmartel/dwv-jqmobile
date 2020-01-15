@@ -100,11 +100,15 @@ dwvjq.gui.ToolboxContainer = function (app, infoController)
 
         var undo = document.createElement("a");
         undo.setAttribute("class", buttonClass + " ui-icon-back");
-        undo.onclick = app.onUndo;
+        undo.onclick = function (/*event*/) {
+            app.undo();
+        };
 
         var redo = document.createElement("a");
         redo.setAttribute("class", buttonClass + " ui-icon-forward");
-        redo.onclick = app.onRedo;
+        redo.onclick = function (/*event*/) {
+            app.redo();
+        };
 
         var toggleInfo = document.createElement("a");
         toggleInfo.setAttribute("class", buttonClass + " ui-icon-info");
