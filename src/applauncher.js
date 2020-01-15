@@ -157,8 +157,6 @@ function startApp() {
 
     // listen to 'load-end'
     myapp.addEventListener('load-end', function (/*event*/) {
-        // remove drop box
-        dropBoxLoader.removeDropboxElement();
         // initialise undo gui
         undoGui.setup();
         // initialise and display the toolbox

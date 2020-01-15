@@ -13,6 +13,8 @@ dwvjq.gui.DropboxLoader = function (app)
 {
     // drop box class name
     var dropboxClassName = "dropBox";
+    var borderClassName = "dropBoxBorder";
+    var hoverClassName = "hover";
 
     /**
      * Initialise the drop box.
@@ -25,23 +27,29 @@ dwvjq.gui.DropboxLoader = function (app)
             layerDiv.addEventListener("dragleave", onDragLeave);
             layerDiv.addEventListener("drop", onDrop);
         }
-
         // set the initial drop box size
         var box = app.getElement(dropboxClassName);
         if (box) {
             var size = app.getLayerContainerSize();
             var dropBoxSize = 2 * size.height / 3;
-            box.setAttribute("style","width:"+dropBoxSize+"px;height:"+dropBoxSize+"px");
+            box.setAttribute(
+                "style",
+                "width:" + dropBoxSize + "px;height:" + dropBoxSize + "px"
+            );
         }
     };
 
     /**
-     * Remove the drop box gui.
+     * Hide the drop box gui.
      */
-    this.removeDropboxElement = function () {
+    function hideDropboxElement() {
         var box = app.getElement(dropboxClassName);
         if (box) {
-            dwvjq.html.removeNode(box);
+            // remove size
+            box.removeAttribute("style");
+            // remove border
+            box.className = box.className.replace(" " + borderClassName, "");
+            box.className = box.className.replace(" " + hoverClassName, "");
         }
     };
 
@@ -54,10 +62,10 @@ dwvjq.gui.DropboxLoader = function (app)
         // prevent default handling
         event.stopPropagation();
         event.preventDefault();
-        // update box
-        var box = app.getElement(dropboxClassName);
-        if (box) {
-            box.className = dropboxClassName + " hover";
+        // update box border
+        var box = app.getElement(borderClassName);
+        if (box && box.className.indexOf(hoverClassName) === -1) {
+            box.className += " " + hoverClassName;
         }
     }
 
@@ -70,10 +78,10 @@ dwvjq.gui.DropboxLoader = function (app)
         // prevent default handling
         event.stopPropagation();
         event.preventDefault();
-        // update box class
-        var box = app.getElement(dropboxClassName + " hover");
-        if (box) {
-            box.className = dropboxClassName;
+        // update box border
+        var box = app.getElement(borderClassName);
+        if (box && box.className.indexOf(hoverClassName) !== -1) {
+            box.className = box.className.replace(" " + hoverClassName, "");
         }
     }
 
@@ -88,6 +96,8 @@ dwvjq.gui.DropboxLoader = function (app)
         event.preventDefault();
         // load files
         app.loadFiles(event.dataTransfer.files);
+        // hide drop box
+        hideDropboxElement();
     }
 
 }; // dwvjq.gui.dropboxLoader
