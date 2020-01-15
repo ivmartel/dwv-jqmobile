@@ -51,7 +51,7 @@ dwvjq.gui.DropboxLoader = function (app)
             box.className = box.className.replace(" " + borderClassName, "");
             box.className = box.className.replace(" " + hoverClassName, "");
         }
-    };
+    }
 
     /**
      * Handle a drag over.
