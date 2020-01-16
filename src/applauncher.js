@@ -112,7 +112,7 @@ function startApp() {
         "shapes": shapeList
         //"defaultCharacterSet": "chinese"
     };
-    if ( dwv.browser.hasInputDirectory() ) {
+    if ( dwv.env.hasInputDirectory() ) {
         options.loaders.splice(1, 0, "Folder");
     }
     myapp.init(options);
@@ -205,8 +205,8 @@ dwv.i18nOnInitialised( function () {
     });
 });
 
-// check browser support
-dwv.browser.check();
+// check environment support
+dwv.env.check();
 // initialise i18n
 dwv.i18nInitialise("auto", "node_modules/dwv");
 

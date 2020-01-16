@@ -1,5 +1,5 @@
 --
--- dwv-jqmobile (medical viewer using DWV and jQuery Mobile) lua script 
+-- dwv-jqmobile (medical viewer using DWV and jQuery Mobile) lua script
 --  for integration in a Conquest PACS server.
 --
 -- Usage:
@@ -13,7 +13,7 @@
 -- >> viewer = dwv-jqmobile
 -- 3. copy the dwv-jqmobile source code from one of its release available at
 -- https://github.com/ivmartel/dwv-jqmobile/releases
--- in a 'dwv-jqmobile' folder in the web folder of your web server. 
+-- in a 'dwv-jqmobile' folder in the web folder of your web server.
 -- It should be accessible via '[server address]/dwv-jqmobile'.
 --
 -- This script relies on the 'kFactorFile', 'ACRNemaMap' and 'Dictionary'
@@ -161,7 +161,7 @@ function startApp() {
         "helpResourcesPath": "/dwv-jqmobile/resources/help",
         "skipLoadUrl": true
     };
-    if ( dwv.browser.hasInputDirectory() ) {
+    if ( dwv.env.hasInputDirectory() ) {
         options.loaders.splice(1, 0, "Folder");
     }
     myapp.init(options);
@@ -219,8 +219,8 @@ dwv.i18nOnInitialised( function () {
 ]])
 
 print([[
-// check browser support
-dwv.browser.check();
+// check environment support
+dwv.env.check();
 // initialise i18n
 dwv.i18nInitialise("auto", "/dwv-jqmobile/node_modules/dwv");
 // DOM ready?
