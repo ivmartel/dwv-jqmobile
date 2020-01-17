@@ -76,16 +76,6 @@ function startApp() {
         "Dropbox"
     ];
 
-    var toolList = [
-        "Scroll",
-        "WindowLevel",
-        "ZoomAndPan",
-        "Draw",
-        "Livewire",
-        "Filter",
-        "Floodfill"
-    ];
-
     var filterList = [
         "Threshold",
         "Sharpen",
@@ -102,14 +92,34 @@ function startApp() {
         "FreeHand"
     ];
 
+    var toolList = {
+        "Scroll": {},
+        "WindowLevel": {},
+        "ZoomAndPan": {},
+        "Draw": {
+            options: shapeList,
+            type: "factory",
+            events: ["draw-create", "draw-change", "draw-move", "draw-delete"]
+        },
+        "Livewire":  {
+            events: ["draw-create", "draw-change", "draw-move", "draw-delete"]
+        },
+        "Filter": {
+            options: filterList,
+            type: "instance",
+            events: ["filter-run", "filter-undo"]
+        },
+        "Floodfill": {
+            events: ["draw-create", "draw-change", "draw-move", "draw-delete"]
+        }
+    };
+
     // initialise the application
     var options = {
         "containerDivId": "dwv",
         "gui": ["help", "undo"],
         "loaders": loaderList,
-        "tools": toolList,
-        "filters": filterList,
-        "shapes": shapeList
+        "tools": toolList
         //"defaultCharacterSet": "chinese"
     };
     if ( dwv.env.hasInputDirectory() ) {
@@ -141,8 +151,6 @@ function startApp() {
 
     // setup the tool gui
     var toolboxGui = new dwvjq.gui.ToolboxContainer(myapp, infoController);
-    toolboxGui.setFilterList(filterList);
-    toolboxGui.setShapeList(shapeList);
     toolboxGui.setup(toolList);
 
     // setup the meta data gui

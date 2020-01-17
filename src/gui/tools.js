@@ -10,18 +10,9 @@ dwvjq.gui.Toolbox = function (app)
 {
     var toolGuis = {};
 
-    var filterList = [];
-    this.setFilterList = function (list) {
-        filterList = list;
-    };
-
-    var shapeList = [];
-    this.setShapeList = function (list) {
-        shapeList = list;
-    };
-
     /**
      * Setup the toolbox HTML.
+     * @param {Object} list The tool list
      */
     this.setup = function (list)
     {
@@ -58,7 +49,7 @@ dwvjq.gui.Toolbox = function (app)
         // create tool gui and call setup
         toolGuis = [];
         for ( var key in list ) {
-            var guiClass = list[key];
+            var guiClass = key;
             var gui = null;
             if (guiClass === "Livewire") {
                 gui = new dwvjq.gui.ColourTool(app, "lw");
@@ -72,10 +63,9 @@ dwvjq.gui.Toolbox = function (app)
                 gui = new dwvjq.gui[guiClass](app);
             }
 
-            if (guiClass === "Filter") {
-                gui.setup(filterList);
-            } else if (guiClass === "Draw") {
-                gui.setup(shapeList);
+            if (guiClass === "Filter" ||
+                guiClass === "Draw") {
+                gui.setup(list[key].options);
             } else {
                 gui.setup();
             }
@@ -346,7 +336,7 @@ dwvjq.gui.Draw = function (app)
         // set selected shape
         if (bool) {
             var shapeSelector = app.getElement("shapeSelect");
-            app.setDrawShape(shapeSelector.options[0].text);
+            app.setDrawShape(shapeSelector.options[0].value);
         }
     };
 

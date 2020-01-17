@@ -151,11 +151,5 @@ dwvjq.gui.ToolboxContainer = function (app, infoController)
     this.initialise = function () {
         base.initialise();
     };
-    this.setFilterList = function (list) {
-        base.setFilterList(list);
-    };
-    this.setShapeList = function (list) {
-        base.setShapeList(list);
-    };
 
 };

@@ -63,7 +63,7 @@ dwvjq.gui.Filter = function (app)
         // set selected filter
         var filterSelector = app.getElement("filterSelect");
         if (flag) {
-            var firstFilter = filterSelector.options[0].text;
+            var firstFilter = filterSelector.options[0].value;
             filterGuis[firstFilter].display(true);
             app.setImageFilter(firstFilter);
         } else {
