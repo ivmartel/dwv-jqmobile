@@ -4,7 +4,7 @@ module.exports = function(grunt) {
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),
         jshint: {
-            files: ['Gruntfile.js', 'service-worker.js', 'src/*.js'],
+            files: ['Gruntfile.js', 'service-worker.js', 'src/**/*.js', '!src/utils/modernizr.js'],
             options: {
                 jshintrc: '.jshintrc'
             }
@@ -16,7 +16,7 @@ module.exports = function(grunt) {
                 options: {
                     process: function (content/*, srcpath*/) {
                         // do not register service worker
-                        return content.replace(/<script type="text\/javascript" src="src\/register-sw\.js"><\/script>/g, 
+                        return content.replace(/<script type="text\/javascript" src="src\/register-sw\.js"><\/script>/g,
                             '<!-- <script type="text/javascript" src="src/register-sw.js"></script> -->');
                     },
                 },
@@ -61,6 +61,7 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-watch');
 
     // Task to run tests
+    grunt.registerTask('lint', ['jshint']);
     grunt.registerTask('test', ['jshint']);
     grunt.registerTask('start', ['connect:prod', 'watch']);
     grunt.registerTask('dev', ['copy:dev', 'connect:dev', 'watch']);

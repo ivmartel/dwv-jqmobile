@@ -4,9 +4,10 @@
  * - https://www.dropbox.com/static/api/2/dropins.js
  * API doc page: https://www.dropbox.com/developers/chooser
  */
-var dwv = dwv || {};
+var dwvjq = dwvjq || {};
+dwvjq.gui = dwvjq.gui || {};
 /** @namespace */
-dwv.dropbox = dwv.dropbox || {};
+dwvjq.dropbox = dwvjq.dropbox || {};
 // external
 var Dropbox = Dropbox || {};
 
@@ -14,7 +15,7 @@ var Dropbox = Dropbox || {};
  * DropboxLoad gui.
  * @constructor
  */
-dwv.gui.DropboxLoad = function (app)
+dwvjq.gui.DropboxLoad = function (app)
 {
     /**
      * Setup the dropbox load HTML to the page.
@@ -31,7 +32,7 @@ dwv.gui.DropboxLoad = function (app)
         // append
         node.appendChild(gdriveLoadDiv);
         // refresh
-        dwv.gui.refreshElement(node);
+        dwvjq.gui.refreshElement(node);
     };
 
     /**
@@ -48,7 +49,7 @@ dwv.gui.DropboxLoad = function (app)
         if (bool) {
             // jquery mobile dependent
             $("#popupOpen").popup("close");
-            app.resetLoadbox();
+            //app.resetLoadbox();
 
             var options = {
                 // Required. Called when a user selects an item in the Chooser.

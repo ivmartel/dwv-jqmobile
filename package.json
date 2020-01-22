@@ -30,6 +30,7 @@
   "scripts": {
     "start": "grunt start",
     "dev": "grunt dev",
+    "lint": "grunt lint",
     "test": "grunt test --verbose"
   }
 }
