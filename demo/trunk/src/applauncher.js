@@ -1,3 +1,6 @@
+// namespaces
+var dwvjq = dwvjq || {};
+
 /**
  * Application launcher.
  */
@@ -7,25 +10,50 @@ function startApp() {
     // translate page
     dwv.i18nPage();
 
+    // show dwv version
+    dwvjq.gui.appendVersionHtml(dwv.getVersion());
+
     // main application
     var myapp = new dwv.App();
 
+    // setup the undo gui
+    var undoGui = new dwvjq.gui.Undo(myapp);
+
     // display loading time
-    var listener = function (event) {
+    var loadListener = function (event) {
         if (event.type === "load-start") {
             console.time("load-data");
-        }
-        else {
+        } else {
             console.timeEnd("load-data");
         }
     };
-
-    // before myapp.init since it does the url load
-    myapp.addEventListener("load-start", listener);
-    myapp.addEventListener("load-end", listener);
+    myapp.addEventListener("load-start", loadListener);
+    myapp.addEventListener("load-end", loadListener);
+    myapp.addEventListener("load-progress", function (event) {
+        var percent = Math.ceil((event.loaded / event.total) * 100);
+        dwvjq.gui.displayProgress(percent);
+    });
+    myapp.addEventListener("load-error", function (event) {
+        // hide the progress bar
+        dwvjq.gui.displayProgress(100);
+        // basic alert window
+        alert(event.message);
+    });
+    myapp.addEventListener("load-abort", function (/*event*/) {
+        // hide the progress bar
+        dwvjq.gui.displayProgress(100);
+    });
+    myapp.addEventListener("undo-add", function (event) {
+        undoGui.addCommandToUndoHtml(event.command);
+    });
+    myapp.addEventListener("undo", function (/*event*/) {
+        undoGui.enableLastInUndoHtml(false);
+    });
+    myapp.addEventListener("redo", function (/*event*/) {
+        undoGui.enableLastInUndoHtml(true);
+    });
 
     // also available:
-    //myapp.addEventListener("load-progress", listener);
     //myapp.addEventListener("draw-create", listener);
     //myapp.addEventListener("draw-move", listener);
     //myapp.addEventListener("draw-change", listener);
@@ -41,22 +69,115 @@ function startApp() {
     //myapp.addEventListener("filter-run", listener);
     //myapp.addEventListener("filter-undo", listener);
 
+    var loaderList = [
+        "File",
+        "Url",
+        "GoogleDrive",
+        "Dropbox"
+    ];
+
+    var filterList = [
+        "Threshold",
+        "Sharpen",
+        "Sobel"
+    ];
+
+    var shapeList = [
+        "Arrow",
+        "Ruler",
+        "Protractor",
+        "Rectangle",
+        "Roi",
+        "Ellipse",
+        "FreeHand"
+    ];
+
+    var toolList = {
+        "Scroll": {},
+        "WindowLevel": {},
+        "ZoomAndPan": {},
+        "Draw": {
+            options: shapeList,
+            type: "factory",
+            events: ["draw-create", "draw-change", "draw-move", "draw-delete"]
+        },
+        "Livewire":  {
+            events: ["draw-create", "draw-change", "draw-move", "draw-delete"]
+        },
+        "Filter": {
+            options: filterList,
+            type: "instance",
+            events: ["filter-run", "filter-undo"]
+        },
+        "Floodfill": {
+            events: ["draw-create", "draw-change", "draw-move", "draw-delete"]
+        }
+    };
+
     // initialise the application
     var options = {
         "containerDivId": "dwv",
-        "gui": ["tool", "load", "help", "undo", "version", "tags", "drawList"],
-        "loaders": ["File", "Url", "GoogleDrive", "Dropbox"],
-        "tools": ["Scroll", "WindowLevel", "ZoomAndPan", "Draw", "Livewire", "Filter", "Floodfill"],
-        "filters": ["Threshold", "Sharpen", "Sobel"],
-        "shapes": ["Arrow", "Ruler", "Protractor", "Rectangle", "Roi", "Ellipse", "FreeHand"],
-        "isMobile": true,
-        "helpResourcesPath": "resources/help"
+        "gui": ["help", "undo"],
+        "loaders": loaderList,
+        "tools": toolList
         //"defaultCharacterSet": "chinese"
     };
-    if ( dwv.browser.hasInputDirectory() ) {
+    if ( dwv.env.hasInputDirectory() ) {
         options.loaders.splice(1, 0, "Folder");
     }
     myapp.init(options);
+
+    undoGui.setup();
+
+    // show help
+    var isMobile = true;
+    dwvjq.gui.appendHelpHtml(
+        myapp.getToolboxController().getToolList(),
+        isMobile,
+        myapp,
+        "resources/help");
+
+    // setup the dropbox loader
+    var dropBoxLoader = new dwvjq.gui.DropboxLoader(myapp);
+    dropBoxLoader.init();
+
+    // setup the loadbox gui
+    var loadboxGui = new dwvjq.gui.Loadbox(myapp);
+    loadboxGui.setup(loaderList);
+
+    // info layer
+    var infoController = new dwvjq.gui.info.Controller(myapp, "dwv");
+    infoController.init();
+
+    // setup the tool gui
+    var toolboxGui = new dwvjq.gui.ToolboxContainer(myapp, infoController);
+    toolboxGui.setup(toolList);
+
+    // setup the meta data gui
+    var metaDataGui = new dwvjq.gui.MetaData(myapp);
+
+    // setup the draw list gui
+    var drawListGui = new dwvjq.gui.DrawList(myapp);
+    drawListGui.init();
+
+    // update overlay info on slice load
+    myapp.addEventListener('load-slice', infoController.onLoadSlice);
+
+    // listen to 'load-end'
+    myapp.addEventListener('load-end', function (/*event*/) {
+        // initialise undo gui
+        undoGui.setup();
+        // initialise and display the toolbox
+        toolboxGui.initialise();
+        toolboxGui.display(true);
+        // update meta data
+        metaDataGui.update(myapp.getMetaData());
+        // update info overlay
+        infoController.onLoadEnd();
+    });
+
+    // possible load from location
+    dwvjq.utils.loadFromUri(window.location.href, myapp);
 }
 
 // Image decoders (for web workers)
@@ -80,7 +201,7 @@ function launchApp() {
 dwv.i18nOnInitialised( function () {
     // call next once the overlays are loaded
     var onLoaded = function (data) {
-        dwv.gui.info.overlayMaps = data;
+        dwvjq.gui.info.overlayMaps = data;
         i18nInitialised = true;
         launchApp();
     };
@@ -92,8 +213,8 @@ dwv.i18nOnInitialised( function () {
     });
 });
 
-// check browser support
-dwv.browser.check();
+// check environment support
+dwv.env.check();
 // initialise i18n
 dwv.i18nInitialise("auto", "node_modules/dwv");
 
