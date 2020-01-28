@@ -35,7 +35,7 @@ function startApp() {
                 if (nReceivedError > 1) {
                     message = "Load errors have ";
                 }
-                message += "occured. See log for details."
+                message += "occured. See log for details.";
                 alert(message);
             }
         }
@@ -52,7 +52,7 @@ function startApp() {
         var percent = Math.ceil((event.loaded / event.total) * 100);
         dwvjq.gui.displayProgress(percent);
     });
-    myapp.addEventListener("load-error", function (event) {
+    myapp.addEventListener("load-error", function (/*event*/) {
         // count errors to not show too many messages
         ++nReceivedError;
     });
