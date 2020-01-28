@@ -20,24 +20,41 @@ function startApp() {
     var undoGui = new dwvjq.gui.Undo(myapp);
 
     // display loading time
+    var nReceivedError = null;
     var loadListener = function (event) {
         if (event.type === "load-start") {
             console.time("load-data");
+            nReceivedError = 0;
         } else {
             console.timeEnd("load-data");
+            if (nReceivedError !== 0) {
+                // hide the progress bar
+                dwvjq.gui.displayProgress(100);
+                // basic alert window
+                var message = "A load error has ";
+                if (nReceivedError > 1) {
+                    message = "Load errors have ";
+                }
+                message += "occured. See log for details."
+                alert(message);
+            }
         }
     };
     myapp.addEventListener("load-start", loadListener);
     myapp.addEventListener("load-end", loadListener);
+    myapp.addEventListener("load-slice", function (event) {
+        console.log("load-slice", event);
+    });
+    myapp.addEventListener("load-item-start", function (event) {
+        console.log("load-item-start", event);
+    });
     myapp.addEventListener("load-progress", function (event) {
         var percent = Math.ceil((event.loaded / event.total) * 100);
         dwvjq.gui.displayProgress(percent);
     });
     myapp.addEventListener("load-error", function (event) {
-        // hide the progress bar
-        dwvjq.gui.displayProgress(100);
-        // basic alert window
-        alert(event.message);
+        // count errors to not show too many messages
+        ++nReceivedError;
     });
     myapp.addEventListener("load-abort", function (/*event*/) {
         // hide the progress bar
