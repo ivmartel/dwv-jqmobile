@@ -11,6 +11,9 @@ dwvjq.gui = dwvjq.gui || {};
  */
 dwvjq.gui.DropboxLoader = function (app)
 {
+    // closure to self
+    var self = this;
+
     // drop box class name
     var dropboxClassName = "dropBox";
     var borderClassName = "dropBoxBorder";
@@ -42,7 +45,7 @@ dwvjq.gui.DropboxLoader = function (app)
     /**
      * Hide the drop box gui.
      */
-    function hideDropboxElement() {
+    this.hideDropboxElement = function () {
         var box = app.getElement(dropboxClassName);
         if (box) {
             // remove size
@@ -51,7 +54,7 @@ dwvjq.gui.DropboxLoader = function (app)
             box.className = box.className.replace(" " + borderClassName, "");
             box.className = box.className.replace(" " + hoverClassName, "");
         }
-    }
+    };
 
     /**
      * Handle a drag over.
@@ -97,7 +100,7 @@ dwvjq.gui.DropboxLoader = function (app)
         // load files
         app.loadFiles(event.dataTransfer.files);
         // hide drop box
-        hideDropboxElement();
+        self.hideDropboxElement();
     }
 
 }; // dwvjq.gui.dropboxLoader
