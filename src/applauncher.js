@@ -56,7 +56,7 @@ function startApp() {
         // count errors to not show too many messages
         ++nReceivedError;
     });
-    myapp.addEventListener("abort", function (event) {
+    myapp.addEventListener("abort", function (/*event*/) {
         ++nReceivedAbort;
     });
     myapp.addEventListener("load-end", function (event) {
@@ -192,7 +192,7 @@ function startApp() {
     // update overlay info on item load
     myapp.addEventListener('load-item', function (event) {
         if (event.loadtype === "image") {
-            infoController.onLoadItem(event)
+            infoController.onLoadItem(event);
         }
     });
 
