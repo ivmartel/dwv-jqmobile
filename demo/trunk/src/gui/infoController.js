@@ -51,10 +51,10 @@ dwvjq.gui.info.Controller = function (app, containerDivId)
     };
 
     /**
-     * Handle a new loaded slice event.
-     * @param {Object} event The slice-load event.
+     * Handle a new loaded item event.
+     * @param {Object} event The load-item event.
      */
-    this.onLoadSlice = function (event) {
+    this.onLoadItem = function (event) {
         // reset
         if (loadEnd) {
             overlayData = [];
