@@ -196,7 +196,7 @@ function startApp() {
         }
     });
 
-    // listen to 'load-end'
+    // listen to 'load'
     myapp.addEventListener('load', function (/*event*/) {
         // hide drop box
         dropBoxLoader.hideDropboxElement();
