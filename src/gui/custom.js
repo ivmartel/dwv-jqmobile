@@ -8,15 +8,11 @@ dwvjq.gui = dwvjq.gui || {};
  * @param {Number} percent The progress percentage.
  */
 /* global NProgress */
-dwvjq.gui.displayProgress = function (percent)
-{
+dwvjq.gui.displayProgress = function (percent) {
     NProgress.configure({ showSpinner: false });
-    if( percent < 100 ) {
-        //$.mobile.loading("show", {text: percent+"%", textVisible: true, theme: "b"} );
+    if (percent < 100) {
         NProgress.set(percent/100);
-    }
-    else if( percent >= 100 ) {
-        //$.mobile.loading("hide");
+    } else if (percent >= 100) {
         NProgress.done();
     }
 };
