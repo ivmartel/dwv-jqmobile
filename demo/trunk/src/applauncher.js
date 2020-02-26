@@ -13,90 +13,6 @@ function startApp() {
     // show dwv version
     dwvjq.gui.appendVersionHtml(dwv.getVersion());
 
-    // main application
-    var myapp = new dwv.App();
-
-    // setup the undo gui
-    var undoGui = new dwvjq.gui.Undo(myapp);
-
-    var nReceivedError = null;
-    var nReceivedAbort = null;
-
-    // display loading time
-    var loadTimerListener = function (event) {
-        if (event.type === "load-start") {
-            console.time("load-data");
-        } else if (event.type === "load-end") {
-            console.timeEnd("load-data");
-        }
-    };
-    var abortOnCrtlX = function (event) {
-        if (event.ctrlKey && event.keyCode === 88 ) { // crtl-x
-            console.log("Abort load received from user (crtl-x).");
-            myapp.abortLoad();
-        }
-    };
-    myapp.addEventListener("load-start", function (event) {
-        loadTimerListener(event);
-        // reset counts
-        nReceivedError = 0;
-        nReceivedAbort = 0;
-        // reset progress bar
-        dwvjq.gui.displayProgress(0);
-        // allow to cancel via crtl-x
-        window.addEventListener("keydown", abortOnCrtlX);
-    });
-    myapp.addEventListener("load-progress", function (event) {
-        var percent = Math.ceil((event.loaded / event.total) * 100);
-        dwvjq.gui.displayProgress(percent);
-    });
-    myapp.addEventListener("error", function (event) {
-        console.error("load error", event);
-        console.error(event.error);
-        // count errors to not show too many messages
-        ++nReceivedError;
-    });
-    myapp.addEventListener("abort", function (/*event*/) {
-        ++nReceivedAbort;
-    });
-    myapp.addEventListener("load-end", function (event) {
-        loadTimerListener(event);
-        // check errors
-        if (nReceivedError !== 0) {
-            // basic alert window
-            var message = "A load error has ";
-            if (nReceivedError > 1) {
-                message = "Load errors have ";
-            }
-            message += "occured. See log for details.";
-            alert(message);
-        }
-        // check abort
-        if (nReceivedAbort !== 0) {
-            console.warn("Data load was aborted.");
-        }
-        // stop listening for crtl-x
-        window.removeEventListener("keydown", abortOnCrtlX);
-        // hide the progress bar
-        dwvjq.gui.displayProgress(100);
-    });
-
-    myapp.addEventListener("undo-add", function (event) {
-        undoGui.addCommandToUndoHtml(event.command);
-    });
-    myapp.addEventListener("undo", function (/*event*/) {
-        undoGui.enableLastInUndoHtml(false);
-    });
-    myapp.addEventListener("redo", function (/*event*/) {
-        undoGui.enableLastInUndoHtml(true);
-    });
-    myapp.addEventListener("keydown", function (event) {
-        myapp.defaultOnKeydown(event);
-    });
-
-    // listen to window resize
-    window.addEventListener('resize', myapp.onResize);
-
     // initialise the application
     var loaderList = [
         "File",
@@ -154,9 +70,10 @@ function startApp() {
     if ( dwv.env.hasInputDirectory() ) {
         options.loaders.splice(1, 0, "Folder");
     }
-    myapp.init(options);
 
-    undoGui.setup();
+    // main application
+    var myapp = new dwv.App();
+    myapp.init(options);
 
     // show help
     var isMobile = true;
@@ -165,6 +82,10 @@ function startApp() {
         isMobile,
         myapp,
         "resources/help");
+
+    // setup the undo gui
+    var undoGui = new dwvjq.gui.Undo(myapp);
+    undoGui.setup();
 
     // setup the dropbox loader
     var dropBoxLoader = new dwvjq.gui.DropboxLoader(myapp);
@@ -189,17 +110,48 @@ function startApp() {
     var drawListGui = new dwvjq.gui.DrawList(myapp);
     drawListGui.init();
 
-    // update overlay info on item load
+    // loading time listener
+    var loadTimerListener = function (event) {
+        if (event.type === "load-start") {
+            console.time("load-data");
+        } else if (event.type === "load-end") {
+            console.timeEnd("load-data");
+        }
+    };
+    // abort shortcut listener
+    var abortOnCrtlX = function (event) {
+        if (event.ctrlKey && event.keyCode === 88 ) { // crtl-x
+            console.log("Abort load received from user (crtl-x).");
+            myapp.abortLoad();
+        }
+    };
+
+    // handle load events
+    var nReceivedError = null;
+    var nReceivedAbort = null;
+    myapp.addEventListener("load-start", function (event) {
+        loadTimerListener(event);
+        // reset counts
+        nReceivedError = 0;
+        nReceivedAbort = 0;
+        // reset progress bar
+        dwvjq.gui.displayProgress(0);
+        // allow to cancel via crtl-x
+        window.addEventListener("keydown", abortOnCrtlX);
+    });
+    myapp.addEventListener("load-progress", function (event) {
+        var percent = Math.ceil((event.loaded / event.total) * 100);
+        dwvjq.gui.displayProgress(percent);
+    });
     myapp.addEventListener('load-item', function (event) {
         if (event.loadtype === "image") {
+            // add new meta data to the info controller
             infoController.onLoadItem(event);
         }
-    });
-
-    // listen to 'load'
-    myapp.addEventListener('load', function (/*event*/) {
-        // hide drop box
+        // hide drop box (for url load)
         dropBoxLoader.hideDropboxElement();
+    });
+    myapp.addEventListener('load', function (/*event*/) {
         // initialise undo gui
         undoGui.setup();
         // initialise and display the toolbox
@@ -210,6 +162,54 @@ function startApp() {
         // update info overlay
         infoController.onLoadEnd();
     });
+    myapp.addEventListener("error", function (event) {
+        console.error("load error", event);
+        console.error(event.error);
+        ++nReceivedError;
+    });
+    myapp.addEventListener("abort", function (/*event*/) {
+        ++nReceivedAbort;
+    });
+    myapp.addEventListener("load-end", function (event) {
+        loadTimerListener(event);
+        // check errors
+        if (nReceivedError !== 0) {
+            // basic alert window
+            var message = "A load error has ";
+            if (nReceivedError > 1) {
+                message = "Load errors have ";
+            }
+            message += "occured. See log for details.";
+            alert(message);
+        }
+        // check abort
+        if (nReceivedAbort !== 0) {
+            console.warn("Data load was aborted.");
+        }
+        // stop listening for crtl-x
+        window.removeEventListener("keydown", abortOnCrtlX);
+        // hide the progress bar
+        dwvjq.gui.displayProgress(100);
+    });
+
+    // handle undo/redo
+    myapp.addEventListener("undo-add", function (event) {
+        undoGui.addCommandToUndoHtml(event.command);
+    });
+    myapp.addEventListener("undo", function (/*event*/) {
+        undoGui.enableLastInUndoHtml(false);
+    });
+    myapp.addEventListener("redo", function (/*event*/) {
+        undoGui.enableLastInUndoHtml(true);
+    });
+
+    // handle key events
+    myapp.addEventListener("keydown", function (event) {
+        myapp.defaultOnKeydown(event);
+    });
+
+    // handle window resize
+    window.addEventListener('resize', myapp.onResize);
 
     // possible load from location
     dwvjq.utils.loadFromUri(window.location.href, myapp);
