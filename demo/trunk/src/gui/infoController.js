@@ -68,7 +68,7 @@ dwvjq.gui.info.Controller = function (app, containerDivId)
         if (typeof data.x00020010 !== "undefined") {
             if (typeof data.x00080018 !== "undefined") {
                 // SOP instance UID
-                dataUid = data.x00080018.value[0];
+                dataUid = dwv.dicom.cleanString(data.x00080018.value[0]);
             } else {
                 dataUid = overlayData.length;
             }

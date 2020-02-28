@@ -177,7 +177,7 @@ function startApp() {
             // basic alert window
             var message = "A load error has ";
             if (nReceivedError > 1) {
-                message = "Load errors have ";
+                message = nReceivedError + " load errors have ";
             }
             message += "occured. See log for details.";
             alert(message);
