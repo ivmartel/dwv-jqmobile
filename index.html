@@ -114,7 +114,7 @@
 <!-- DWV -->
 <div id="dwv">
 
-<div id="pageMain" data-role="content" style="padding:2px;">
+<div id="pageMain" data-role="content">
 
 <!-- Toolbar -->
 <div class="toolbar"></div>
@@ -143,8 +143,8 @@
 
 <!-- Layer Container -->
 <div class="layerContainer">
-<div class="dropBox dropBoxBorder"></div>
 <canvas class="imageLayer">Only for HTML5 compatible browsers...</canvas>
+<div class="dropBox dropBoxBorder"></div>
 <div class="drawDiv"></div>
 <div class="infoLayer">
 <div class="infotl info"></div>
@@ -161,16 +161,17 @@
 <!-- History -->
 <div class="history" title="History" style="display:none;"></div>
 
-</div><!-- /content -->
-
-<div data-role="footer" data-position="fixed">
+<!-- pageFooter -->
+<div id="pageFooter" data-role="footer" data-position="fixed">
 <div data-role="navbar" class="toolList">
 </div><!-- /navbar -->
-</div><!-- /footer -->
+</div><!-- /pageFooter -->
 
 </div><!-- /page main -->
 
 </div><!-- /dwv -->
+
+</div><!-- /page -->
 
 <!-- Tags page -->
 <div data-role="page" data-theme="b" id="tags_page">
