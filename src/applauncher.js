@@ -152,6 +152,10 @@ function startApp() {
         dropBoxLoader.hideDropboxElement();
     });
     myapp.addEventListener('load', function (/*event*/) {
+        if (event.loadtype === "image") {
+            // update info overlay
+            infoController.onLoadEnd();
+        }
         // initialise undo gui
         undoGui.setup();
         // initialise and display the toolbox
@@ -159,8 +163,6 @@ function startApp() {
         toolboxGui.display(true);
         // update meta data
         metaDataGui.update(myapp.getMetaData());
-        // update info overlay
-        infoController.onLoadEnd();
     });
     myapp.addEventListener("error", function (event) {
         console.error("load error", event);
