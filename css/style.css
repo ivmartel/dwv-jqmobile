@@ -11,10 +11,6 @@ body {
     padding: 2px;
 }
 
-#pageFooter {
-    height: 49px;
-}
-
 /* Layers */
 .layerContainer {
     position: relative; padding: 0;
