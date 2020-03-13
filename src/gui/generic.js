@@ -111,6 +111,11 @@ dwvjq.gui.MetaData = function (app)
      */
     this.update = function (dataInfo)
     {
+        // remove locally create meta data
+        if (typeof dataInfo.InstanceNumber !== "undefined") {
+            delete dataInfo.InstanceNumber;
+        }
+
         var dataInfoArray = dataInfo;
         if (dwv.utils.isObject(dataInfo) &&
             !dwv.utils.isArray(dataInfo)) {
@@ -151,7 +156,7 @@ dwvjq.gui.MetaData = function (app)
         dwvjq.html.translateTableRow(table.rows.item(0));
 
         // append search form
-        node.appendChild(dwvjq.html.getHtmlSearchForm(table));
+        node.appendChild(dwvjq.html.getHtmlSearchForm(table, "metadata-search"));
         // append tags table
         node.appendChild(table);
 
@@ -345,7 +350,7 @@ dwvjq.gui.DrawList = function (app)
         tickDiv.appendChild(tickBox);
 
         // search form
-        node.appendChild(dwvjq.html.getHtmlSearchForm(table));
+        node.appendChild(dwvjq.html.getHtmlSearchForm(table, "draw-search"));
         // tick form
         node.appendChild(tickDiv);
 
