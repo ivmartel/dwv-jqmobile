@@ -173,13 +173,14 @@ dwvjq.html.toTable = function (input)
 /**
  * Get an HTML search form.
  * @param {Object} htmlTableToSearch The table to do the search on.
+ * @param {string} elementId The HTML element id.
  * @return {Object} The HTML search form.
  */
-dwvjq.html.getHtmlSearchForm = function (htmlTableToSearch)
+dwvjq.html.getHtmlSearchForm = function (htmlTableToSearch, elementId)
 {
     // input
     var input = document.createElement("input");
-    input.id = "table-search";
+    input.id = elementId;
     // TODO Use new html5 search type
     //input.setAttribute("type", "search");
     input.onkeyup = function () {
