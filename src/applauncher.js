@@ -127,11 +127,13 @@ function startApp() {
     };
 
     // handle load events
+    var nReceivedLoadItem = null;
     var nReceivedError = null;
     var nReceivedAbort = null;
     myapp.addEventListener("load-start", function (event) {
         loadTimerListener(event);
         // reset counts
+        nReceivedLoadItem = 0;
         nReceivedError = 0;
         nReceivedAbort = 0;
         // reset progress bar
@@ -144,24 +146,25 @@ function startApp() {
         dwvjq.gui.displayProgress(percent);
     });
     myapp.addEventListener('load-item', function (event) {
+        ++nReceivedLoadItem;
+        // add new meta data to the info controller
         if (event.loadtype === "image") {
-            // add new meta data to the info controller
             infoController.onLoadItem(event);
         }
         // hide drop box (for url load)
         dropBoxLoader.hideDropboxElement();
+        // initialise and display the toolbox
+        toolboxGui.initialise();
+        toolboxGui.display(true);
     });
-    myapp.addEventListener('load', function (/*event*/) {
+    myapp.addEventListener('load', function (event) {
+        // update info controller
         if (event.loadtype === "image") {
-            // update info overlay
             infoController.onLoadEnd();
         }
         // initialise undo gui
         undoGui.setup();
-        // initialise and display the toolbox
-        toolboxGui.initialise();
-        toolboxGui.display(true);
-        // update meta data
+        // update meta data table
         metaDataGui.update(myapp.getMetaData());
     });
     myapp.addEventListener("error", function (event) {
@@ -174,9 +177,12 @@ function startApp() {
     });
     myapp.addEventListener("load-end", function (event) {
         loadTimerListener(event);
-        // check errors
+        // show the drop box if no item were received
+        if (nReceivedLoadItem === 0) {
+            dropBoxLoader.showDropboxElement();
+        }
+        // show alert for errors
         if (nReceivedError !== 0) {
-            // basic alert window
             var message = "A load error has ";
             if (nReceivedError > 1) {
                 message = nReceivedError + " load errors have ";
@@ -184,7 +190,7 @@ function startApp() {
             message += "occured. See log for details.";
             alert(message);
         }
-        // check abort
+        // console warn for aborts
         if (nReceivedAbort !== 0) {
             console.warn("Data load was aborted.");
         }
@@ -211,6 +217,8 @@ function startApp() {
     });
 
     // handle window resize
+    // WARNING: will fail if the resize happens and the image is not shown
+    // (for example resizing while viewing the meta data table)
     window.addEventListener('resize', myapp.onResize);
 
     // possible load from location
