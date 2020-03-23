@@ -1,3 +1,6 @@
+// namespaces
+var dwvjq = dwvjq || {};
+
 /**
  * Application launcher.
  */
@@ -7,56 +10,219 @@ function startApp() {
     // translate page
     dwv.i18nPage();
 
-    // main application
-    var myapp = new dwv.App();
+    // show dwv version
+    dwvjq.gui.appendVersionHtml(dwv.getVersion());
 
-    // display loading time
-    var listener = function (event) {
-        if (event.type === "load-start") {
-            console.time("load-data");
-        }
-        else {
-            console.timeEnd("load-data");
+    // initialise the application
+    var loaderList = [
+        "File",
+        "Url",
+        "GoogleDrive",
+        "Dropbox"
+    ];
+
+    var filterList = [
+        "Threshold",
+        "Sharpen",
+        "Sobel"
+    ];
+
+    var shapeList = [
+        "Arrow",
+        "Ruler",
+        "Protractor",
+        "Rectangle",
+        "Roi",
+        "Ellipse",
+        "FreeHand"
+    ];
+
+    var toolList = {
+        "Scroll": {},
+        "WindowLevel": {},
+        "ZoomAndPan": {},
+        "Draw": {
+            options: shapeList,
+            type: "factory",
+            events: ["draw-create", "draw-change", "draw-move", "draw-delete"]
+        },
+        "Livewire":  {
+            events: ["draw-create", "draw-change", "draw-move", "draw-delete"]
+        },
+        "Filter": {
+            options: filterList,
+            type: "instance",
+            events: ["filter-run", "filter-undo"]
+        },
+        "Floodfill": {
+            events: ["draw-create", "draw-change", "draw-move", "draw-delete"]
         }
     };
-
-    // before myapp.init since it does the url load
-    myapp.addEventListener("load-start", listener);
-    myapp.addEventListener("load-end", listener);
-
-    // also available:
-    //myapp.addEventListener("load-progress", listener);
-    //myapp.addEventListener("draw-create", listener);
-    //myapp.addEventListener("draw-move", listener);
-    //myapp.addEventListener("draw-change", listener);
-    //myapp.addEventListener("draw-delete", listener);
-    //myapp.addEventListener("wl-width-change", listener);
-    //myapp.addEventListener("wl-center-change", listener);
-    //myapp.addEventListener("colour-change", listener);
-    //myapp.addEventListener("position-change", listener);
-    //myapp.addEventListener("slice-change", listener);
-    //myapp.addEventListener("frame-change", listener);
-    //myapp.addEventListener("zoom-change", listener);
-    //myapp.addEventListener("offset-change", listener);
-    //myapp.addEventListener("filter-run", listener);
-    //myapp.addEventListener("filter-undo", listener);
 
     // initialise the application
     var options = {
         "containerDivId": "dwv",
-        "gui": ["tool", "load", "help", "undo", "version", "tags", "drawList"],
-        "loaders": ["File", "Url", "GoogleDrive", "Dropbox"],
-        "tools": ["Scroll", "WindowLevel", "ZoomAndPan", "Draw", "Livewire", "Filter", "Floodfill"],
-        "filters": ["Threshold", "Sharpen", "Sobel"],
-        "shapes": ["Arrow", "Ruler", "Protractor", "Rectangle", "Roi", "Ellipse", "FreeHand"],
-        "isMobile": true,
-        "helpResourcesPath": "resources/help"
+        "gui": ["help", "undo"],
+        "loaders": loaderList,
+        "tools": toolList
         //"defaultCharacterSet": "chinese"
     };
-    if ( dwv.browser.hasInputDirectory() ) {
+    if ( dwv.env.hasInputDirectory() ) {
         options.loaders.splice(1, 0, "Folder");
     }
+
+    // main application
+    var myapp = new dwv.App();
     myapp.init(options);
+
+    // show help
+    var isMobile = true;
+    dwvjq.gui.appendHelpHtml(
+        myapp.getToolboxController().getToolList(),
+        isMobile,
+        myapp,
+        "resources/help");
+
+    // setup the undo gui
+    var undoGui = new dwvjq.gui.Undo(myapp);
+    undoGui.setup();
+
+    // setup the dropbox loader
+    var dropBoxLoader = new dwvjq.gui.DropboxLoader(myapp);
+    dropBoxLoader.init();
+
+    // setup the loadbox gui
+    var loadboxGui = new dwvjq.gui.Loadbox(myapp);
+    loadboxGui.setup(loaderList);
+
+    // info layer
+    var infoController = new dwvjq.gui.info.Controller(myapp, "dwv");
+    infoController.init();
+
+    // setup the tool gui
+    var toolboxGui = new dwvjq.gui.ToolboxContainer(myapp, infoController);
+    toolboxGui.setup(toolList);
+
+    // setup the meta data gui
+    var metaDataGui = new dwvjq.gui.MetaData(myapp);
+
+    // setup the draw list gui
+    var drawListGui = new dwvjq.gui.DrawList(myapp);
+    drawListGui.init();
+
+    // loading time listener
+    var loadTimerListener = function (event) {
+        if (event.type === "load-start") {
+            console.time("load-data");
+        } else if (event.type === "load-end") {
+            console.timeEnd("load-data");
+        }
+    };
+    // abort shortcut listener
+    var abortOnCrtlX = function (event) {
+        if (event.ctrlKey && event.keyCode === 88 ) { // crtl-x
+            console.log("Abort load received from user (crtl-x).");
+            myapp.abortLoad();
+        }
+    };
+
+    // handle load events
+    var nReceivedLoadItem = null;
+    var nReceivedError = null;
+    var nReceivedAbort = null;
+    myapp.addEventListener("load-start", function (event) {
+        loadTimerListener(event);
+        // reset counts
+        nReceivedLoadItem = 0;
+        nReceivedError = 0;
+        nReceivedAbort = 0;
+        // reset progress bar
+        dwvjq.gui.displayProgress(0);
+        // allow to cancel via crtl-x
+        window.addEventListener("keydown", abortOnCrtlX);
+    });
+    myapp.addEventListener("load-progress", function (event) {
+        var percent = Math.ceil((event.loaded / event.total) * 100);
+        dwvjq.gui.displayProgress(percent);
+    });
+    myapp.addEventListener('load-item', function (event) {
+        ++nReceivedLoadItem;
+        // add new meta data to the info controller
+        if (event.loadtype === "image") {
+            infoController.onLoadItem(event);
+        }
+        // hide drop box (for url load)
+        dropBoxLoader.hideDropboxElement();
+        // initialise and display the toolbox
+        toolboxGui.initialise();
+        toolboxGui.display(true);
+    });
+    myapp.addEventListener('load', function (event) {
+        // update info controller
+        if (event.loadtype === "image") {
+            infoController.onLoadEnd();
+        }
+        // initialise undo gui
+        undoGui.setup();
+        // update meta data table
+        metaDataGui.update(myapp.getMetaData());
+    });
+    myapp.addEventListener("error", function (event) {
+        console.error("load error", event);
+        console.error(event.error);
+        ++nReceivedError;
+    });
+    myapp.addEventListener("abort", function (/*event*/) {
+        ++nReceivedAbort;
+    });
+    myapp.addEventListener("load-end", function (event) {
+        loadTimerListener(event);
+        // show the drop box if no item were received
+        if (nReceivedLoadItem === 0) {
+            dropBoxLoader.showDropboxElement();
+        }
+        // show alert for errors
+        if (nReceivedError !== 0) {
+            var message = "A load error has ";
+            if (nReceivedError > 1) {
+                message = nReceivedError + " load errors have ";
+            }
+            message += "occured. See log for details.";
+            alert(message);
+        }
+        // console warn for aborts
+        if (nReceivedAbort !== 0) {
+            console.warn("Data load was aborted.");
+        }
+        // stop listening for crtl-x
+        window.removeEventListener("keydown", abortOnCrtlX);
+        // hide the progress bar
+        dwvjq.gui.displayProgress(100);
+    });
+
+    // handle undo/redo
+    myapp.addEventListener("undo-add", function (event) {
+        undoGui.addCommandToUndoHtml(event.command);
+    });
+    myapp.addEventListener("undo", function (/*event*/) {
+        undoGui.enableLastInUndoHtml(false);
+    });
+    myapp.addEventListener("redo", function (/*event*/) {
+        undoGui.enableLastInUndoHtml(true);
+    });
+
+    // handle key events
+    myapp.addEventListener("keydown", function (event) {
+        myapp.defaultOnKeydown(event);
+    });
+
+    // handle window resize
+    // WARNING: will fail if the resize happens and the image is not shown
+    // (for example resizing while viewing the meta data table)
+    window.addEventListener('resize', myapp.onResize);
+
+    // possible load from location
+    dwvjq.utils.loadFromUri(window.location.href, myapp);
 }
 
 // Image decoders (for web workers)
@@ -80,7 +246,7 @@ function launchApp() {
 dwv.i18nOnInitialised( function () {
     // call next once the overlays are loaded
     var onLoaded = function (data) {
-        dwv.gui.info.overlayMaps = data;
+        dwvjq.gui.info.overlayMaps = data;
         i18nInitialised = true;
         launchApp();
     };
@@ -92,8 +258,8 @@ dwv.i18nOnInitialised( function () {
     });
 });
 
-// check browser support
-dwv.browser.check();
+// check environment support
+dwv.env.check();
 // initialise i18n
 dwv.i18nInitialise("auto", "node_modules/dwv");
 

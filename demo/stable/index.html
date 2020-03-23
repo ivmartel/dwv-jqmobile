@@ -75,10 +75,28 @@
     id="dropboxjs" data-app-key="96u3396jtx3bwr8"></script>
 <script type="text/javascript" src="src/dropbox.js"></script>
 
+<!-- browser -->
+<script type="text/javascript" src="src/utils/browser.js"></script>
+<script type="text/javascript" src="src/utils/modernizr.js"></script>
+
+<!-- gui -->
+<script type="text/javascript" src="src/gui/custom.js"></script>
+<script type="text/javascript" src="src/gui/dropBoxLoader.js"></script>
+<script type="text/javascript" src="src/gui/filter.js"></script>
+<script type="text/javascript" src="src/gui/generic.js"></script>
+<script type="text/javascript" src="src/gui/help.js"></script>
+<script type="text/javascript" src="src/gui/html.js"></script>
+<script type="text/javascript" src="src/gui/infoController.js"></script>
+<script type="text/javascript" src="src/gui/infoOverlay.js"></script>
+<script type="text/javascript" src="src/gui/loader.js"></script>
+<script type="text/javascript" src="src/gui/tools.js"></script>
+<script type="text/javascript" src="src/gui/undo.js"></script>
+
 <!-- Launch the app -->
 <script type="text/javascript" src="src/register-sw.js"></script>
 <script type="text/javascript" src="src/appgui.js"></script>
 <script type="text/javascript" src="src/applauncher.js"></script>
+
 </head>
 
 <body>
@@ -96,7 +114,7 @@
 <!-- DWV -->
 <div id="dwv">
 
-<div id="pageMain" data-role="content" style="padding:2px;">
+<div id="pageMain" data-role="content">
 
 <!-- Toolbar -->
 <div class="toolbar"></div>
@@ -125,8 +143,8 @@
 
 <!-- Layer Container -->
 <div class="layerContainer">
-<div class="dropBox"></div>
 <canvas class="imageLayer">Only for HTML5 compatible browsers...</canvas>
+<div class="dropBox dropBoxBorder"></div>
 <div class="drawDiv"></div>
 <div class="infoLayer">
 <div class="infotl info"></div>
@@ -143,16 +161,17 @@
 <!-- History -->
 <div class="history" title="History" style="display:none;"></div>
 
-</div><!-- /content -->
-
-<div data-role="footer" data-position="fixed">
-<div data-role="navbar" class="toolList">
-</div><!-- /navbar -->
-</div><!-- /footer -->
-
 </div><!-- /page main -->
 
+<!-- pageFooter -->
+<div id="pageFooter" data-role="footer" data-position="fixed">
+<div data-role="navbar" class="toolList">
+</div><!-- /navbar -->
+</div><!-- /pageFooter -->
+
 </div><!-- /dwv -->
+
+</div><!-- /page -->
 
 <!-- Tags page -->
 <div data-role="page" data-theme="b" id="tags_page">

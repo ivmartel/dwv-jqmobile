@@ -4,9 +4,10 @@
  * - https://apis.google.com/js/api.js: auth and picker
  * - https://apis.google.com/js/client.js: drive and request
  */
-var dwv = dwv || {};
+ var dwvjq = dwvjq || {};
+ dwvjq.gui = dwvjq.gui || {};
 /** @namespace */
-dwv.google = dwv.google || {};
+dwvjq.google = dwvjq.google || {};
 // external
 var gapi = gapi || {};
 var google = google || {};
@@ -15,7 +16,7 @@ var google = google || {};
 * Google Authentification class.
 * Allows to authentificate to google services.
 */
-dwv.google.Auth = function ()
+dwvjq.google.Auth = function ()
 {
     // closure to self
     var self = this;
@@ -90,7 +91,7 @@ dwv.google.Auth = function ()
 * Google Picker class.
 * Allows to create a picker and handle its result.
 */
-dwv.google.Picker = function ()
+dwvjq.google.Picker = function ()
 {
     // closure to self
     var self = this;
@@ -146,7 +147,7 @@ dwv.google.Picker = function ()
 * Google Drive class.
 * Allows to request google drive for file download links from a list of file ids.
 */
-dwv.google.Drive = function ()
+dwvjq.google.Drive = function ()
 {
     // closure to self
     var self = this;
@@ -261,7 +262,7 @@ dwv.google.Drive = function ()
  * Append authorized header to the input callback arguments.
  * @param {Function} callback The callback to append headers to.
  */
-dwv.google.getAuthorizedCallback = function (callback) {
+dwvjq.google.getAuthorizedCallback = function (callback) {
     var func = function (urls) {
         //see https://developers.google.com/api-client-library/javascript/features/cors
         var header = {
@@ -277,7 +278,7 @@ dwv.google.getAuthorizedCallback = function (callback) {
  * GoogleDriveLoad gui.
  * @constructor
  */
-dwv.gui.GoogleDriveLoad = function (app)
+dwvjq.gui.GoogleDriveLoad = function (app)
 {
     /**
      * Setup the gdrive load HTML to the page.
@@ -285,7 +286,7 @@ dwv.gui.GoogleDriveLoad = function (app)
     this.setup = function()
     {
         // behind the scenes authentification to avoid popup blocker
-        var gAuth = new dwv.google.Auth();
+        var gAuth = new dwvjq.google.Auth();
         gAuth.loadSilent();
 
         // associated div
@@ -298,7 +299,7 @@ dwv.gui.GoogleDriveLoad = function (app)
         // append
         node.appendChild(gdriveLoadDiv);
         // refresh
-        dwv.gui.refreshElement(node);
+        dwvjq.gui.refreshElement(node);
     };
 
     /**
@@ -315,15 +316,15 @@ dwv.gui.GoogleDriveLoad = function (app)
         if (bool) {
             // jquery mobile dependent
             $("#popupOpen").popup("close");
-            app.resetLoadbox();
+            //app.resetLoadbox();
 
-            var gAuth = new dwv.google.Auth();
-            var gPicker = new dwv.google.Picker();
-            var gDrive = new dwv.google.Drive();
+            var gAuth = new dwvjq.google.Auth();
+            var gPicker = new dwvjq.google.Picker();
+            var gDrive = new dwvjq.google.Drive();
             // pipeline
             gAuth.onload = gPicker.load;
             gPicker.onload = gDrive.loadIds;
-            gDrive.onload = dwv.google.getAuthorizedCallback(app.loadURLs);
+            gDrive.onload = dwvjq.google.getAuthorizedCallback(app.loadURLs);
             // launch
             gAuth.load();
         }

@@ -6,7 +6,10 @@ body {
     font-family: Arial, Helvetica, sans-serif;
     margin: 10px; padding: 0; }
 
-#pageMain { height: 82vh; }
+#pageMain {
+    height: 82vh;
+    padding: 2px;
+}
 
 /* Layers */
 .layerContainer {
@@ -16,10 +19,14 @@ body {
     position: absolute;
     left: 0px; }
 .drawDiv { position: absolute; pointer-events: none; }
-.dropBox {
-    border: 5px dashed #ccc;
-    margin: 20px auto; }
-.dropBox.hover { border: 5px dashed #cc0; }
+
+.dropBox {}
+.dropBoxBorder {
+    margin: 20px auto;
+    border: 5px dashed #ccc; }
+.dropBoxBorder.hover {
+    margin: 20px auto;
+    border: 5px dashed #cc0; }
 
 .inline { display: inline-block !important; }
 
