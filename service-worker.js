@@ -16,7 +16,7 @@ var urlsToCache = [
     './src/google.js',
     './src/register-sw.js',
     './src/gui/custom.js',
-    './src/gui/dropBoxLoader.js',
+    './src/gui/dropboxLoader.js',
     './src/gui/filter.js',
     './src/gui/generic.js',
     './src/gui/help.js',
