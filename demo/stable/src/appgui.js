@@ -36,8 +36,8 @@ dwvjq.utils.loadFromUri = function (uri, app)
     if ( query && typeof query.input !== "undefined" ) {
         // special gdrive
         if (query.type === "gdrive") {
-            var gAuth = new dwv.google.Auth();
-            var gDrive = new dwv.google.Drive();
+            var gAuth = new dwvjq.google.Auth();
+            var gDrive = new dwvjq.google.Drive();
             gDrive.setIds( query.input.split(',') );
             // pipeline
             gAuth.onload = gDrive.load;
@@ -50,7 +50,7 @@ dwvjq.utils.loadFromUri = function (uri, app)
                     gAuth.load();
                 };
             };
-            gDrive.onload = dwv.google.getAuthorizedCallback(app.loadURLs);
+            gDrive.onload = dwvjq.google.getAuthorizedCallback(app.loadURLs);
             // launch with silent auth
             gAuth.loadSilent();
         } else {
