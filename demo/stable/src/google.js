@@ -227,7 +227,7 @@ dwvjq.google.Drive = function ()
             // see https://developers.google.com/api-client-library/...
             //   ...javascript/reference/referencedocs#gapiclientrequestargs
             var request = gapi.client.request({
-                'path': 'drive/v2/files/' + ids[i],
+                'path': 'https://www.googleapis.com/drive/v2/files/' + ids[i],
                 'method': 'GET'
             });
 
