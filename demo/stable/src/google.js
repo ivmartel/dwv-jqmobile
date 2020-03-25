@@ -253,6 +253,7 @@ dwvjq.google.Drive = function ()
         for ( var i = 0; i < respKeys.length; ++i ) {
             urls[urls.length] = resp[respKeys[i]].result.webContentLink;
         }
+        console.log(urls);
         // call onload
         self.onload(urls);
     }
