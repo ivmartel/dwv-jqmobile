@@ -251,8 +251,15 @@ dwvjq.google.Drive = function ()
         var urls = [];
         // ID-response map of each requests response
         var respKeys = Object.keys(resp);
+        var url;
+        var contentRoot = "https://content.googleapis.com";
+        var apiRoot = "https://www.googleapis.com";
         for ( var i = 0; i < respKeys.length; ++i ) {
-            urls[urls.length] = resp[respKeys[i]].result.webContentLink;
+            url = resp[respKeys[i]].result.downloadUrl;
+            if (url.substr(0, contentRoot.length) === contentRoot) {
+                url = apiRoot + url.substr(contentRoot.length, url.length);
+            }
+            urls[urls.length] = url;
         }
         // call onload
         self.onload(urls);
