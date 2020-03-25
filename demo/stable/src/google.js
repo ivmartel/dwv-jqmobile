@@ -220,7 +220,7 @@ dwvjq.google.Drive = function ()
             // Can't make it work, HTTPRequest sends CORS error...
             // see https://developers.google.com/drive/v3/reference/files/get
             var request = gapi.client.drive.files.get({
-                'fileId': fileId, 'alt': 'media'
+                'fileId': ids[i], 'alt': 'media'
             });
 
             // File path with v2??
