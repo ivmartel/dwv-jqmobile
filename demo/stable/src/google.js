@@ -246,6 +246,7 @@ dwvjq.google.Drive = function ()
     *   ...javascript/reference/referencedocs#gapiclientRequestexecute
     */
     function handleDriveLoad(resp) {
+        console.log(resp);
         // link list
         var urls = [];
         // ID-response map of each requests response
@@ -253,7 +254,6 @@ dwvjq.google.Drive = function ()
         for ( var i = 0; i < respKeys.length; ++i ) {
             urls[urls.length] = resp[respKeys[i]].result.webContentLink;
         }
-        console.log(urls);
         // call onload
         self.onload(urls);
     }
