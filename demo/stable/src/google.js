@@ -219,17 +219,17 @@ dwvjq.google.Drive = function ()
         for (var i = 0; i < ids.length; ++i) {
             // Can't make it work, HTTPRequest sends CORS error...
             // see https://developers.google.com/drive/v3/reference/files/get
-            //var request = gapi.client.drive.files.get({
-            //    'fileId': fileId, 'fields': 'webViewLink'
-            //});
+            var request = gapi.client.drive.files.get({
+                'fileId': fileId, 'alt': 'media'
+            });
 
             // File path with v2??
             // see https://developers.google.com/api-client-library/...
             //   ...javascript/reference/referencedocs#gapiclientrequestargs
-            var request = gapi.client.request({
-                'path': 'drive/v3/files/' + ids[i],
+            /*var request = gapi.client.request({
+                'path': 'drive/v2/files/' + ids[i],
                 'method': 'GET'
-            });
+            });*/
 
             // add to batch
             batch.add(request);
