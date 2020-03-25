@@ -227,7 +227,7 @@ dwvjq.google.Drive = function ()
             // see https://developers.google.com/api-client-library/...
             //   ...javascript/reference/referencedocs#gapiclientrequestargs
             var request = gapi.client.request({
-                'path': '/drive/v2/files/' + ids[i],
+                'path': 'drive/v2/files/' + ids[i],
                 'method': 'GET'
             });
 
@@ -250,8 +250,17 @@ dwvjq.google.Drive = function ()
         var urls = [];
         // ID-response map of each requests response
         var respKeys = Object.keys(resp);
+        var url;
+        // if the download url uses the google content root,
+        // replace it with the api root... (see #32)
+        var contentRoot = "https://content.googleapis.com";
+        var apiRoot = "https://www.googleapis.com";
         for ( var i = 0; i < respKeys.length; ++i ) {
-            urls[urls.length] = resp[respKeys[i]].result.downloadUrl;
+            url = resp[respKeys[i]].result.downloadUrl;
+            if (url.substr(0, contentRoot.length) === contentRoot) {
+                url = apiRoot + url.substr(contentRoot.length, url.length);
+            }
+            urls[urls.length] = url;
         }
         // call onload
         self.onload(urls);
