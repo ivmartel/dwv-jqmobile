@@ -22,7 +22,8 @@ dwvjq.google.Auth = function () {
   // immediate mode: behind the scenes token refresh
   var immediate = false;
 
-  // The Client ID obtained from the Google Developers Console. Replace with your own Client ID.
+  // The Client ID obtained from the Google Developers Console.
+  // Replace with your own Client ID.
   this.clientId =
     '544445548355-7pli7rbg578hslnngnkj7ledcg6g5ejo.apps.googleusercontent.com';
   // The scope to use to access user's Drive items.
@@ -33,7 +34,7 @@ dwvjq.google.Auth = function () {
    */
   this.load = function () {
     immediate = false;
-    gapi.load('auth', { callback: onApiLoad });
+    gapi.load('auth', {callback: onApiLoad});
   };
 
   /**
@@ -41,7 +42,7 @@ dwvjq.google.Auth = function () {
    */
   this.loadSilent = function () {
     immediate = true;
-    gapi.load('auth', { callback: onApiLoad });
+    gapi.load('auth', {callback: onApiLoad});
   };
 
   /**
@@ -99,7 +100,7 @@ dwvjq.google.Picker = function () {
    * Load API and create picker.
    */
   this.load = function () {
-    gapi.load('picker', { callback: onApiLoad });
+    gapi.load('picker', {callback: onApiLoad});
   };
 
   /**
@@ -143,7 +144,8 @@ dwvjq.google.Picker = function () {
 
 /**
  * Google Drive class.
- * Allows to request google drive for file download links from a list of file ids.
+ * Allows to request google drive for file download links from a list
+ * of file ids.
  */
 dwvjq.google.Drive = function () {
   // closure to self

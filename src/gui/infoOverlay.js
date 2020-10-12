@@ -8,7 +8,8 @@ dwvjq.gui.info = dwvjq.gui.info || {};
  * DICOM Header overlay info layer.
  * @constructor
  * @param {Object} div The HTML element to add Header overlay info to.
- * @param {String} pos The string to specify the corner position. (tl,tc,tr,cl,cr,bl,bc,br)
+ * @param {String} pos The string to specify the corner position:
+ *  (tl,tc,tr,cl,cr,bl,bc,br)
  */
 dwvjq.gui.info.Overlay = function (div, pos) {
   var overlayData = null;
@@ -234,7 +235,7 @@ dwvjq.gui.info.createOverlayData = function (dicomElements) {
     if (!overlays[pos]) {
       overlays[pos] = [];
     }
-    overlays[pos].push({ value: value.trim(), format: format });
+    overlays[pos].push({value: value.trim(), format: format});
   }
 
   // (0020,0020) Patient Orientation
@@ -246,10 +247,10 @@ dwvjq.gui.info.createOverlayData = function (dicomElements) {
   ) {
     var po0 = dwv.dicom.cleanString(valuePO[0]);
     var po1 = dwv.dicom.cleanString(valuePO[1]);
-    overlays.cr = [{ value: po0 }];
-    overlays.cl = [{ value: dwv.dicom.getReverseOrientation(po0) }];
-    overlays.bc = [{ value: po1 }];
-    overlays.tc = [{ value: dwv.dicom.getReverseOrientation(po1) }];
+    overlays.cr = [{value: po0}];
+    overlays.cl = [{value: dwv.dicom.getReverseOrientation(po0)}];
+    overlays.bc = [{value: po1}];
+    overlays.tc = [{value: dwv.dicom.getReverseOrientation(po1)}];
   }
 
   return overlays;
@@ -302,7 +303,7 @@ dwvjq.gui.info.createOverlayDataForDom = function (info) {
     if (!overlays[pos]) {
       overlays[pos] = [];
     }
-    overlays[pos].push({ value: value.trim(), format: format });
+    overlays[pos].push({value: value.trim(), format: format});
   }
 
   return overlays;

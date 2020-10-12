@@ -19,7 +19,8 @@ module.exports = function (grunt) {
             // do not register service worker
             return content.replace(
               /<script type="text\/javascript" src="src\/register-sw\.js"><\/script>/g,
-              '<!-- <script type="text/javascript" src="src/register-sw.js"></script> -->'
+              '<!-- <script type="text/javascript" src="src/register-sw.js"> \
+              </script> -->'
             );
           }
         }

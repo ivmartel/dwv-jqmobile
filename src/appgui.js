@@ -21,11 +21,11 @@ dwv.tool.colourMaps = {
 dwv.tool.defaultpresets = {};
 // Default window level presets for CT.
 dwv.tool.defaultpresets.CT = {
-  mediastinum: { center: 40, width: 400 },
-  lung: { center: -500, width: 1500 },
-  bone: { center: 500, width: 2000 },
-  brain: { center: 40, width: 80 },
-  head: { center: 90, width: 350 }
+  mediastinum: {center: 40, width: 400},
+  lung: {center: -500, width: 1500},
+  bone: {center: 500, width: 2000},
+  brain: {center: 40, width: 80},
+  head: {center: 90, width: 350}
 };
 
 // decode query
@@ -121,7 +121,7 @@ dwvjq.gui.ToolboxContainer = function (app, infoController) {
       buttonClass + ' download-state ui-icon-action'
     );
     toggleSaveState.onclick = function () {
-      var blob = new Blob([app.getState()], { type: 'application/json' });
+      var blob = new Blob([app.getState()], {type: 'application/json'});
       toggleSaveState.href = window.URL.createObjectURL(blob);
     };
     toggleSaveState.download = 'state.json';

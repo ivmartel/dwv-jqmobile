@@ -76,7 +76,8 @@ var urlsToCache = [
   './node_modules/dwv/dist/dwv.min.js',
   './node_modules/i18next/i18next.min.js',
   './node_modules/i18next-xhr-backend/i18nextXHRBackend.min.js',
-  './node_modules/i18next-browser-languagedetector/i18nextBrowserLanguageDetector.min.js',
+  './node_modules/i18next-browser-languagedetector/' +
+    'i18nextBrowserLanguageDetector.min.js',
   './node_modules/jszip/dist/jszip.min.js',
   './node_modules/konva/konva.min.js',
   './node_modules/magic-wand-js/js/magic-wand-min.js',
@@ -115,7 +116,7 @@ self.addEventListener('install', function (event) {
 self.addEventListener('fetch', function (event) {
   event.respondWith(
     caches
-      .match(event.request, { ignoreSearch: true })
+      .match(event.request, {ignoreSearch: true})
       .then(function (response) {
         // cache hit: return response
         if (response) {

@@ -57,7 +57,8 @@ dwvjq.html.appendHCell = function (row, text) {
  * @param {Array} input The input row array.
  * @param {Number} level The depth level of the input array.
  * @param {Number} maxLevel The maximum depth level.
- * @param {String} rowHeader The content of the first cell of a row (mainly for objects).
+ * @param {String} rowHeader The content of the first cell of a row
+ *   (mainly for objects).
  */
 dwvjq.html.appendRowForArray = function (
   table,
@@ -82,9 +83,8 @@ dwvjq.html.appendRowForArray = function (
         row = table.insertRow(-1);
       }
       dwvjq.html.appendCell(row, value);
-    }
-    // more to come
-    else {
+    } else {
+      // more to come
       dwvjq.html.appendRow(table, value, level + i, maxLevel, rowHeader);
     }
   }
@@ -96,7 +96,8 @@ dwvjq.html.appendRowForArray = function (
  * @param {Array} input The input row array.
  * @param {Number} level The depth level of the input array.
  * @param {Number} maxLevel The maximum depth level.
- * @param {String} rowHeader The content of the first cell of a row (mainly for objects).
+ * @param {String} rowHeader The content of the first cell of a row
+ *  (mainly for objects).
  */
 dwvjq.html.appendRowForObject = function (
   table,
@@ -124,9 +125,8 @@ dwvjq.html.appendRowForObject = function (
         dwvjq.html.appendCell(row, rowHeader);
       }
       dwvjq.html.appendCell(row, value);
-    }
-    // more to come
-    else {
+    } else {
+      // more to come
       dwvjq.html.appendRow(table, value, level + o, maxLevel, keys[o]);
     }
   }
@@ -151,15 +151,15 @@ dwvjq.html.appendRowForObject = function (
  * @param {Array} input The input row array.
  * @param {Number} level The depth level of the input array.
  * @param {Number} maxLevel The maximum depth level.
- * @param {String} rowHeader The content of the first cell of a row (mainly for objects).
+ * @param {String} rowHeader The content of the first cell of a row
+ *  (mainly for objects).
  */
 dwvjq.html.appendRow = function (table, input, level, maxLevel, rowHeader) {
   // array
   if (input instanceof Array) {
     dwvjq.html.appendRowForArray(table, input, level + 1, maxLevel, rowHeader);
-  }
-  // object
-  else if (typeof input === 'object') {
+  } else if (typeof input === 'object') {
+    // object
     dwvjq.html.appendRowForObject(table, input, level + 1, maxLevel, rowHeader);
   } else {
     throw new Error('Unsupported input data type.');
@@ -170,7 +170,8 @@ dwvjq.html.appendRow = function (table, input, level, maxLevel, rowHeader) {
  * Converts the input to an HTML table.
  * @input {Mixed} input Allowed types are: array, array of object, object.
  * @return {Object} The created HTML table or null if the input is empty.
- * @warning Null is interpreted differently in browsers, firefox will not display it.
+ * @warning Null is interpreted differently in browsers,
+ *  Firefox will not display it.
  */
 dwvjq.html.toTable = function (input) {
   // check content
@@ -421,10 +422,11 @@ dwvjq.html.translateTableColumn = function (
 };
 
 /**
- * Make a HTML table cell editable by putting its content inside an input element.
+ * Make a HTML table cell editable by putting its content inside an
+ * input element.
  * @param {Object} cell The cell to make editable.
- * @param {Function} onchange The callback to call when cell's content is changed.
- *    if set to null, the HTML input will be disabled.
+ * @param {Function} onchange The callback to call when cell's content
+ *  is changed. If set to null, the HTML input will be disabled.
  * @param {String} inputType The type of the HTML input, default to 'text'.
  */
 dwvjq.html.makeCellEditable = function (cell, onchange, inputType) {
@@ -486,7 +488,8 @@ dwvjq.html.setCursorToDefault = function () {
  * It is left to the user to set the 'onchange' method of the select.
  * @param {String} name The name of the HTML select.
  * @param {Mixed} list The list of options of the HTML select.
- * @param {String} i18nPrefix An optional namespace prefix to find the translation values.
+ * @param {String} i18nPrefix An optional namespace prefix to find the
+ *  translation values.
  * @param {Bool} i18nSafe An optional flag to check translation existence.
  * @return {Object} The created HTML select.
  */

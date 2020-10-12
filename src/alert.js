@@ -59,7 +59,8 @@ dwvjq.tool.Alert = function (app) {
 
   /**
    * Display the tool.
-   * Called when switching tools: the last enabled tool is hidden and the current one shown.
+   * Called when switching tools: the last enabled tool is hidden
+   *  and the current one shown.
    * @param {Boolean} bool The flag to display or not.
    */
   this.display = function (bool) {

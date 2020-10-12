@@ -147,7 +147,8 @@ dwvjq.browser.check = function () {
   if (!dwvjq.browser.hasTypedArraySlice()) {
     // silent fail with warning
     console.warn(
-      'The TypedArray.slice method is not supported in this browser. This may impair performance. '
+      'The TypedArray.slice method is not supported in this browser. ' +
+      'This may impair performance. '
     );
     // basic Uint16Array implementation
     Uint16Array.prototype.slice = function (begin, end) {
@@ -190,7 +191,8 @@ dwvjq.browser.check = function () {
   if (!dwvjq.browser.hasClampedArray()) {
     // silent fail with warning
     console.warn(
-      'The Uint8ClampedArray is not supported in this browser. This may impair performance. '
+      'The Uint8ClampedArray is not supported in this browser. ' +
+      'This may impair performance. '
     );
     // Use Uint8Array instead... Not good
     // TODO Find better replacement!
@@ -200,7 +202,8 @@ dwvjq.browser.check = function () {
   if (!dwvjq.browser.hasFloat64Array()) {
     // silent fail with warning
     console.warn(
-      'The Float64Array is not supported in this browser. This may impair performance. '
+      'The Float64Array is not supported in this browser. ' +
+      'This may impair performance. '
     );
     // Use Float32Array instead... Not good
     // TODO Find better replacement!

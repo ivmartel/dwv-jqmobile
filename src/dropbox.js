@@ -57,15 +57,16 @@ dwvjq.gui.DropboxLoad = function (app) {
           }
           app.loadURLs(urls);
         },
-        // Optional. Called when the user closes the dialog without selecting a file
-        // and does not include any parameters.
+        // Optional. Called when the user closes the dialog without selecting
+        // a file and does not include any parameters.
         cancel: function () {},
-        // Optional. "preview" (default) is a preview link to the document for sharing,
-        // "direct" is an expiring link to download the contents of the file. For more
-        // information about link types, see Link types below.
+        // Optional.
+        // "preview" (default) is a preview link to the document for sharing,
+        // "direct" is an expiring link to download the contents of the file.
+        // For more information about link types, see Link types below.
         linkType: 'direct', // "preview" or "direct"
-        // Optional. A value of false (default) limits selection to a single file, while
-        // true enables multiple file selection.
+        // Optional. A value of false (default) limits selection to a
+        // single file, while true enables multiple file selection.
         multiselect: true, // true or false
         // Optional. List of file extensions
         extensions: ['.dcm']

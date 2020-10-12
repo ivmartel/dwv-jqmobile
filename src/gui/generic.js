@@ -180,7 +180,8 @@ dwvjq.gui.DrawList = function (app) {
 
   /**
    * Update the draw list html element
-   * @param {Object} event A change event, decides if the table is editable or not.
+   * @param {Object} event A change event, decides if the table is editable
+   *  or not.
    */
   function update(event) {
     var isEditable = false;
@@ -294,16 +295,14 @@ dwvjq.gui.DrawList = function (app) {
               createColorOnKeyUp(drawDetails),
               'color'
             );
-          }
-          // text
-          else if (c === 5) {
+          } else if (c === 5) {
+            // text
             dwvjq.html.makeCellEditable(
               cells[c],
               createTextOnKeyUp(drawDetails)
             );
-          }
-          // long text
-          else if (c === 6) {
+          } else if (c === 6) {
+            // long text
             dwvjq.html.makeCellEditable(
               cells[c],
               createLongTextOnKeyUp(drawDetails)
@@ -339,7 +338,7 @@ dwvjq.gui.DrawList = function (app) {
     tickBox.id = 'checkbox-editable';
     tickBox.checked = isEditable;
     tickBox.onclick = function () {
-      update({ editable: this.checked });
+      update({editable: this.checked});
     };
     // checkbox label
     var tickLabel = document.createElement('label');

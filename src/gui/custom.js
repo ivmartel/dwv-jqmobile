@@ -9,7 +9,7 @@ dwvjq.gui = dwvjq.gui || {};
  */
 /* global NProgress */
 dwvjq.gui.displayProgress = function (percent) {
-  NProgress.configure({ showSpinner: false });
+  NProgress.configure({showSpinner: false});
   if (percent < 100) {
     NProgress.set(percent / 100);
   } else if (percent >= 100) {
