@@ -48,6 +48,9 @@ module.exports = {
     // spaces in parenthesis (default: never)
     // https://eslint.org/docs/rules/space-in-parens
     'space-in-parens': 'error',
+    // space before blocks
+    // https://eslint.org/docs/space-before-blocks
+    'space-before-blocks': 'error',
     // spaces inside brackets (default: never)
     // https://eslint.org/docs/rules/array-bracket-spacing
     'array-bracket-spacing': 'error',
