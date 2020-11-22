@@ -10,6 +10,13 @@ module.exports = {
   },
   extends: 'eslint:recommended',
   rules: {
+    // require triple equal
+    // https://eslint.org/docs/rules/eqeqeq
+    eqeqeq: 'error',
+    // force semi colon
+    // https://eslint.org/docs/rules/semi
+    semi: ['error'],
+
     // formatting rules
 
     // force 2 space indent (default: 4)
@@ -49,7 +56,7 @@ module.exports = {
     // https://eslint.org/docs/rules/space-in-parens
     'space-in-parens': 'error',
     // space before blocks
-    // https://eslint.org/docs/space-before-blocks
+    // https://eslint.org/docs/rules/space-before-blocks
     'space-before-blocks': 'error',
     // spaces inside brackets (default: never)
     // https://eslint.org/docs/rules/array-bracket-spacing
@@ -90,6 +97,9 @@ module.exports = {
     'no-multi-spaces': 'error',
     // no space for named functions (default {'max': 2})
     // https://eslint.org/docs/rules/no-multiple-empty-lines
-    'no-multiple-empty-lines': 'error'
+    'no-multiple-empty-lines': 'error',
+    // linebreak after operator
+    // https://eslint.org/docs/rules/operator-linebreak
+    'operator-linebreak': 'error'
   }
 };
