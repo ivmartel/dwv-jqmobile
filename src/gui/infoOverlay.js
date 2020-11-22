@@ -243,7 +243,7 @@ dwvjq.gui.info.createOverlayData = function (dicomElements) {
   if (
     typeof valuePO !== 'undefined' &&
     valuePO !== null &&
-    valuePO.length == 2
+    valuePO.length === 2
   ) {
     var po0 = dwv.dicom.cleanString(valuePO[0]);
     var po1 = dwv.dicom.cleanString(valuePO[1]);
