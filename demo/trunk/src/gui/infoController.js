@@ -114,7 +114,7 @@ dwvjq.gui.info.Controller = function (app, containerDivId) {
    * Toggle info listeners.
    */
   this.toggleListeners = function () {
-    if (overlayGuis.length == 0) {
+    if (overlayGuis.length === 0) {
       return;
     }
 
