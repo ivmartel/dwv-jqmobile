@@ -120,15 +120,17 @@ function startApp() {
   };
 
   // handle load events
-  var nReceivedLoadItem = null;
+  var nLoadItem = null;
   var nReceivedError = null;
   var nReceivedAbort = null;
   myapp.addEventListener('load-start', function (event) {
     loadTimerListener(event);
     // reset counts
-    nReceivedLoadItem = 0;
+    nLoadItem = 0;
     nReceivedError = 0;
     nReceivedAbort = 0;
+    // hide drop box
+    dropBoxLoader.showDropbox(false);
     // reset progress bar
     dwvjq.gui.displayProgress(0);
     // allow to cancel via crtl-x
@@ -139,13 +141,11 @@ function startApp() {
     dwvjq.gui.displayProgress(percent);
   });
   myapp.addEventListener('load-item', function (event) {
-    ++nReceivedLoadItem;
+    ++nLoadItem;
     // add new meta data to the info controller
     if (event.loadtype === 'image') {
       infoController.onLoadItem(event);
     }
-    // hide drop box (for url load)
-    dropBoxLoader.hideDropboxElement();
     // initialise and display the toolbox
     toolboxGui.initialise();
     toolboxGui.display(true);
@@ -162,7 +162,6 @@ function startApp() {
   });
   myapp.addEventListener('error', function (event) {
     console.error('load error', event);
-    console.error(event.error);
     ++nReceivedError;
   });
   myapp.addEventListener('abort', function (/*event*/) {
@@ -170,22 +169,23 @@ function startApp() {
   });
   myapp.addEventListener('load-end', function (event) {
     loadTimerListener(event);
-    // show the drop box if no item were received
-    if (nReceivedLoadItem === 0) {
-      dropBoxLoader.showDropboxElement();
-    }
     // show alert for errors
-    if (nReceivedError !== 0) {
+    if (nReceivedError) {
       var message = 'A load error has ';
       if (nReceivedError > 1) {
         message = nReceivedError + ' load errors have ';
       }
       message += 'occured. See log for details.';
       alert(message);
+      // show the drop box if no item were received
+      if (!nLoadItem) {
+        dropBoxLoader.showDropbox(true);
+      }
     }
     // console warn for aborts
     if (nReceivedAbort !== 0) {
       console.warn('Data load was aborted.');
+      dropBoxLoader.showDropbox(true);
     }
     // stop listening for crtl-x
     window.removeEventListener('keydown', abortOnCrtlX);
