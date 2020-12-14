@@ -132,7 +132,6 @@ dwvjq.gui.info.Controller = function (app, containerDivId) {
         }
       }
     }
-    console.log(events);
 
     var n;
     var e;
