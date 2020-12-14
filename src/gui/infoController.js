@@ -118,22 +118,41 @@ dwvjq.gui.info.Controller = function (app, containerDivId) {
       return;
     }
 
+    // parse overlays to get the list of events to listen to
+    var events = [];
+    var keys = Object.keys(dwvjq.gui.info.overlayMaps);
+    for (var i = 0; i < keys.length; ++i) {
+      var map = dwvjq.gui.info.overlayMaps[keys[i]];
+      for (var j = 0; j < map.length; ++j) {
+        var value = map[j].value;
+        if (typeof value !== 'undefined') {
+          if (!events.includes(value)) {
+            events.push(value);
+          }
+        }
+      }
+    }
+    console.log(events);
+
     var n;
+    var e;
     if (isInfoLayerListening) {
       for (n = 0; n < overlayGuis.length; ++n) {
-        app.removeEventListener('zoom-change', overlayGuis[n].update);
-        app.removeEventListener('wl-width-change', overlayGuis[n].update);
-        app.removeEventListener('wl-center-change', overlayGuis[n].update);
-        app.removeEventListener('position-change', overlayGuis[n].update);
-        app.removeEventListener('frame-change', overlayGuis[n].update);
+        // default slice change for tags
+        app.removeEventListener('slice-change', overlayGuis[n].update);
+        // from config
+        for (e = 0; e < events.length; ++e) {
+          app.removeEventListener(events[e], overlayGuis[n].update);
+        }
       }
     } else {
       for (n = 0; n < overlayGuis.length; ++n) {
-        app.addEventListener('zoom-change', overlayGuis[n].update);
-        app.addEventListener('wl-width-change', overlayGuis[n].update);
-        app.addEventListener('wl-center-change', overlayGuis[n].update);
-        app.addEventListener('position-change', overlayGuis[n].update);
-        app.addEventListener('frame-change', overlayGuis[n].update);
+        // default slice change for tags
+        app.addEventListener('slice-change', overlayGuis[n].update);
+        // from config
+        for (e = 0; e < events.length; ++e) {
+          app.addEventListener(events[e], overlayGuis[n].update);
+        }
       }
     }
     // update flag
