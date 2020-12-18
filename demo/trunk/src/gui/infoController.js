@@ -15,8 +15,6 @@ dwvjq.gui.info.Controller = function (app, containerDivId) {
   var overlayGuis = [];
   // flag to tell if guis have been created
   var guisCreated = false;
-  // flag to tell if data was all laoded
-  var loadEnd = false;
 
   // overlay data
   var overlayData = [];
@@ -46,16 +44,19 @@ dwvjq.gui.info.Controller = function (app, containerDivId) {
   };
 
   /**
+   * Handle a load start event: reset local vars.
+   * @param {Object} event The load-start event.
+   */
+  this.onLoadStart = function (/*event*/) {
+    overlayData = [];
+    guisCreated = false;
+  };
+
+  /**
    * Handle a new loaded item event.
    * @param {Object} event The load-item event.
    */
   this.onLoadItem = function (event) {
-    // reset
-    if (loadEnd) {
-      overlayData = [];
-      guisCreated = false;
-      loadEnd = false;
-    }
     // create and store overlay data
     var data = event.data;
     var dataUid = 0;
@@ -88,14 +89,6 @@ dwvjq.gui.info.Controller = function (app, containerDivId) {
       }
       guisCreated = true;
     }
-  };
-
-  /**
-   * Handle a load end event.
-   * @param {Object} event The load-end event.
-   */
-  this.onLoadEnd = function (/*event*/) {
-    loadEnd = true;
   };
 
   /**
