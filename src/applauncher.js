@@ -80,7 +80,7 @@ function startApp() {
   var loadboxGui = new dwvjq.gui.Loadbox(myapp);
   var loaderList = ['File', 'Url', 'GoogleDrive', 'Dropbox'];
   if (dwv.env.hasInputDirectory()) {
-    options.loaders.splice(1, 0, 'Folder');
+    loaderList.splice(1, 0, 'Folder');
   }
   loadboxGui.setup(loaderList);
 
