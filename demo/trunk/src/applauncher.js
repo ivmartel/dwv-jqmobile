@@ -13,9 +13,7 @@ function startApp() {
   // show dwv version
   dwvjq.gui.appendVersionHtml(dwv.getVersion());
 
-  // initialise the application
-  var loaderList = ['File', 'Url', 'GoogleDrive', 'Dropbox'];
-
+  // application options
   var filterList = ['Threshold', 'Sharpen', 'Sobel'];
 
   var shapeList = [
@@ -53,14 +51,9 @@ function startApp() {
   // initialise the application
   var options = {
     containerDivId: 'dwv',
-    gui: ['help', 'undo'],
-    loaders: loaderList,
     tools: toolList
     //"defaultCharacterSet": "chinese"
   };
-  if (dwv.env.hasInputDirectory()) {
-    options.loaders.splice(1, 0, 'Folder');
-  }
 
   // main application
   var myapp = new dwv.App();
@@ -85,6 +78,10 @@ function startApp() {
 
   // setup the loadbox gui
   var loadboxGui = new dwvjq.gui.Loadbox(myapp);
+  var loaderList = ['File', 'Url', 'GoogleDrive', 'Dropbox'];
+  if (dwv.env.hasInputDirectory()) {
+    options.loaders.splice(1, 0, 'Folder');
+  }
   loadboxGui.setup(loaderList);
 
   // info layer
