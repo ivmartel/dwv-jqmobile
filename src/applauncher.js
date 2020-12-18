@@ -133,6 +133,10 @@ function startApp() {
     dropBoxLoader.showDropbox(false);
     // reset progress bar
     dwvjq.gui.displayProgress(0);
+    // update info controller
+    if (event.loadtype === 'image') {
+      infoController.onLoadStart();
+    }
     // allow to cancel via crtl-x
     window.addEventListener('keydown', abortOnCrtlX);
   });
@@ -150,11 +154,7 @@ function startApp() {
     toolboxGui.initialise();
     toolboxGui.display(true);
   });
-  myapp.addEventListener('load', function (event) {
-    // update info controller
-    if (event.loadtype === 'image') {
-      infoController.onLoadEnd();
-    }
+  myapp.addEventListener('load', function (/*event*/) {
     // initialise undo gui
     undoGui.setup();
     // update meta data table
