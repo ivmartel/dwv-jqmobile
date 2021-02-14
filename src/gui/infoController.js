@@ -15,8 +15,6 @@ dwvjq.gui.info.Controller = function (app, containerDivId) {
   var overlayGuis = [];
   // flag to tell if guis have been created
   var guisCreated = false;
-  // flag to tell if data was all laoded
-  var loadEnd = false;
 
   // overlay data
   var overlayData = [];
@@ -40,9 +38,18 @@ dwvjq.gui.info.Controller = function (app, containerDivId) {
     }
 
     // listen to update data
-    app.addEventListener('slice-change', onSliceChange);
+    app.addEventListener('slicechange', onSliceChange);
     // first toggle: set to listening
     this.toggleListeners();
+  };
+
+  /**
+   * Handle a load start event: reset local vars.
+   * @param {Object} event The load-start event.
+   */
+  this.onLoadStart = function (/*event*/) {
+    overlayData = [];
+    guisCreated = false;
   };
 
   /**
@@ -50,12 +57,6 @@ dwvjq.gui.info.Controller = function (app, containerDivId) {
    * @param {Object} event The load-item event.
    */
   this.onLoadItem = function (event) {
-    // reset
-    if (loadEnd) {
-      overlayData = [];
-      guisCreated = false;
-      loadEnd = false;
-    }
     // create and store overlay data
     var data = event.data;
     var dataUid = 0;
@@ -88,14 +89,6 @@ dwvjq.gui.info.Controller = function (app, containerDivId) {
       }
       guisCreated = true;
     }
-  };
-
-  /**
-   * Handle a load end event.
-   * @param {Object} event The load-end event.
-   */
-  this.onLoadEnd = function (/*event*/) {
-    loadEnd = true;
   };
 
   /**
@@ -138,7 +131,7 @@ dwvjq.gui.info.Controller = function (app, containerDivId) {
     if (isInfoLayerListening) {
       for (n = 0; n < overlayGuis.length; ++n) {
         // default slice change for tags
-        app.removeEventListener('slice-change', overlayGuis[n].update);
+        app.removeEventListener('slicechange', overlayGuis[n].update);
         // from config
         for (e = 0; e < events.length; ++e) {
           app.removeEventListener(events[e], overlayGuis[n].update);
@@ -147,7 +140,7 @@ dwvjq.gui.info.Controller = function (app, containerDivId) {
     } else {
       for (n = 0; n < overlayGuis.length; ++n) {
         // default slice change for tags
-        app.addEventListener('slice-change', overlayGuis[n].update);
+        app.addEventListener('slicechange', overlayGuis[n].update);
         // from config
         for (e = 0; e < events.length; ++e) {
           app.addEventListener(events[e], overlayGuis[n].update);
