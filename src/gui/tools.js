@@ -195,9 +195,9 @@ dwvjq.gui.WindowLevel = function (app) {
     };
 
     if (bool) {
-      app.addEventListener('wl-preset-add', onAddPreset);
+      app.addEventListener('wlpresetadd', onAddPreset);
     } else {
-      app.removeEventListener('wl-preset-add', onAddPreset);
+      app.removeEventListener('wlpresetadd', onAddPreset);
     }
   };
 
