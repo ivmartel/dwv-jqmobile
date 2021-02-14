@@ -33,18 +33,18 @@ function startApp() {
     Draw: {
       options: shapeList,
       type: 'factory',
-      events: ['draw-create', 'draw-change', 'draw-move', 'draw-delete']
+      events: ['drawcreate', 'drawchange', 'drawmove', 'drawdelete']
     },
     Livewire: {
-      events: ['draw-create', 'draw-change', 'draw-move', 'draw-delete']
+      events: ['drawcreate', 'drawchange', 'drawmove', 'drawdelete']
     },
     Filter: {
       options: filterList,
       type: 'instance',
-      events: ['filter-run', 'filter-undo']
+      events: ['filterrun', 'filterundo']
     },
     Floodfill: {
-      events: ['draw-create', 'draw-change', 'draw-move', 'draw-delete']
+      events: ['drawcreate', 'drawchange', 'drawmove', 'drawdelete']
     }
   };
 
@@ -99,14 +99,6 @@ function startApp() {
   var drawListGui = new dwvjq.gui.DrawList(myapp);
   drawListGui.init();
 
-  // loading time listener
-  var loadTimerListener = function (event) {
-    if (event.type === 'load-start') {
-      console.time('load-data');
-    } else if (event.type === 'load-end') {
-      console.timeEnd('load-data');
-    }
-  };
   // abort shortcut listener
   var abortOnCrtlX = function (event) {
     if (event.ctrlKey && event.keyCode === 88) {
@@ -120,12 +112,13 @@ function startApp() {
   var nLoadItem = null;
   var nReceivedError = null;
   var nReceivedAbort = null;
-  myapp.addEventListener('load-start', function (event) {
-    loadTimerListener(event);
+  var isFirstRender = null;
+  myapp.addEventListener('loadstart', function (/*event*/) {
     // reset counts
     nLoadItem = 0;
     nReceivedError = 0;
     nReceivedAbort = 0;
+    isFirstRender = true;
     // hide drop box
     dropBoxLoader.showDropbox(false);
     // reset progress bar
@@ -137,19 +130,24 @@ function startApp() {
     // allow to cancel via crtl-x
     window.addEventListener('keydown', abortOnCrtlX);
   });
-  myapp.addEventListener('load-progress', function (event) {
+  myapp.addEventListener('loadprogress', function (event) {
     var percent = Math.ceil((event.loaded / event.total) * 100);
     dwvjq.gui.displayProgress(percent);
   });
-  myapp.addEventListener('load-item', function (event) {
+  myapp.addEventListener('loaditem', function (event) {
     ++nLoadItem;
     // add new meta data to the info controller
     if (event.loadtype === 'image') {
       infoController.onLoadItem(event);
     }
-    // initialise and display the toolbox
-    toolboxGui.initialise();
-    toolboxGui.display(true);
+  });
+  myapp.addEventListener('renderend', function (/*event*/) {
+    if (isFirstRender) {
+      isFirstRender = false;
+      // initialise and display the toolbox on first load
+      toolboxGui.initialise();
+      toolboxGui.display(true);
+    }
   });
   myapp.addEventListener('load', function (/*event*/) {
     // initialise undo gui
@@ -164,8 +162,7 @@ function startApp() {
   myapp.addEventListener('abort', function (/*event*/) {
     ++nReceivedAbort;
   });
-  myapp.addEventListener('load-end', function (event) {
-    loadTimerListener(event);
+  myapp.addEventListener('loadend', function (/*event*/) {
     // show alert for errors
     if (nReceivedError) {
       var message = 'A load error has ';
@@ -191,7 +188,7 @@ function startApp() {
   });
 
   // handle undo/redo
-  myapp.addEventListener('undo-add', function (event) {
+  myapp.addEventListener('undoadd', function (event) {
     undoGui.addCommandToUndoHtml(event.command);
   });
   myapp.addEventListener('undo', function (/*event*/) {

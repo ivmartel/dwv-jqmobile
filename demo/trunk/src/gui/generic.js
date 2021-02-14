@@ -173,9 +173,9 @@ dwvjq.gui.DrawList = function (app) {
    * Initialise.
    */
   this.init = function () {
-    app.addEventListener('draw-create', update);
-    app.addEventListener('draw-change', update);
-    app.addEventListener('draw-delete', update);
+    app.addEventListener('drawcreate', update);
+    app.addEventListener('drawchange', update);
+    app.addEventListener('drawdelete', update);
   };
 
   /**
