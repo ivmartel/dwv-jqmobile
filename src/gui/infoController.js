@@ -38,7 +38,7 @@ dwvjq.gui.info.Controller = function (app, containerDivId) {
     }
 
     // listen to update data
-    app.addEventListener('slice-change', onSliceChange);
+    app.addEventListener('slicechange', onSliceChange);
     // first toggle: set to listening
     this.toggleListeners();
   };
@@ -114,19 +114,19 @@ dwvjq.gui.info.Controller = function (app, containerDivId) {
     var n;
     if (isInfoLayerListening) {
       for (n = 0; n < overlayGuis.length; ++n) {
-        app.removeEventListener('zoom-change', overlayGuis[n].update);
-        app.removeEventListener('wl-width-change', overlayGuis[n].update);
-        app.removeEventListener('wl-center-change', overlayGuis[n].update);
-        app.removeEventListener('position-change', overlayGuis[n].update);
-        app.removeEventListener('frame-change', overlayGuis[n].update);
+        app.removeEventListener('zoomchange', overlayGuis[n].update);
+        app.removeEventListener('wlwidthchange', overlayGuis[n].update);
+        app.removeEventListener('wlcenterchange', overlayGuis[n].update);
+        app.removeEventListener('positionchange', overlayGuis[n].update);
+        app.removeEventListener('framechange', overlayGuis[n].update);
       }
     } else {
       for (n = 0; n < overlayGuis.length; ++n) {
-        app.addEventListener('zoom-change', overlayGuis[n].update);
-        app.addEventListener('wl-width-change', overlayGuis[n].update);
-        app.addEventListener('wl-center-change', overlayGuis[n].update);
-        app.addEventListener('position-change', overlayGuis[n].update);
-        app.addEventListener('frame-change', overlayGuis[n].update);
+        app.addEventListener('zoomchange', overlayGuis[n].update);
+        app.addEventListener('wlwidthchange', overlayGuis[n].update);
+        app.addEventListener('wlcenterchange', overlayGuis[n].update);
+        app.addEventListener('positionchange', overlayGuis[n].update);
+        app.addEventListener('framechange', overlayGuis[n].update);
       }
     }
     // update flag
