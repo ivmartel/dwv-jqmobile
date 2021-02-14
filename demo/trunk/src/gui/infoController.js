@@ -111,22 +111,40 @@ dwvjq.gui.info.Controller = function (app, containerDivId) {
       return;
     }
 
+    // parse overlays to get the list of events to listen to
+    var events = [];
+    var keys = Object.keys(dwvjq.gui.info.overlayMaps);
+    for (var i = 0; i < keys.length; ++i) {
+      var map = dwvjq.gui.info.overlayMaps[keys[i]];
+      for (var j = 0; j < map.length; ++j) {
+        var value = map[j].value;
+        if (typeof value !== 'undefined') {
+          if (!events.includes(value)) {
+            events.push(value);
+          }
+        }
+      }
+    }
+
     var n;
+    var e;
     if (isInfoLayerListening) {
       for (n = 0; n < overlayGuis.length; ++n) {
-        app.removeEventListener('zoomchange', overlayGuis[n].update);
-        app.removeEventListener('wlwidthchange', overlayGuis[n].update);
-        app.removeEventListener('wlcenterchange', overlayGuis[n].update);
-        app.removeEventListener('positionchange', overlayGuis[n].update);
-        app.removeEventListener('framechange', overlayGuis[n].update);
+        // default slice change for tags
+        app.removeEventListener('slicechange', overlayGuis[n].update);
+        // from config
+        for (e = 0; e < events.length; ++e) {
+          app.removeEventListener(events[e], overlayGuis[n].update);
+        }
       }
     } else {
       for (n = 0; n < overlayGuis.length; ++n) {
-        app.addEventListener('zoomchange', overlayGuis[n].update);
-        app.addEventListener('wlwidthchange', overlayGuis[n].update);
-        app.addEventListener('wlcenterchange', overlayGuis[n].update);
-        app.addEventListener('positionchange', overlayGuis[n].update);
-        app.addEventListener('framechange', overlayGuis[n].update);
+        // default slice change for tags
+        app.addEventListener('slicechange', overlayGuis[n].update);
+        // from config
+        for (e = 0; e < events.length; ++e) {
+          app.addEventListener(events[e], overlayGuis[n].update);
+        }
       }
     }
     // update flag
