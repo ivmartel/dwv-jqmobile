@@ -144,7 +144,7 @@ function startApp() {
   myapp.addEventListener('renderend', function (/*event*/) {
     if (isFirstRender) {
       isFirstRender = false;
-      // initialise and display the toolbox on first load
+      // initialise and display the toolbox on first render
       toolboxGui.initialise();
       toolboxGui.display(true);
     }
