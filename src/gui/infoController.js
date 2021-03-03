@@ -93,7 +93,7 @@ dwvjq.gui.info.Controller = function (app, containerDivId) {
 
   /**
    * Handle a changed slice event.
-   * @param {Object} event The slice-change event.
+   * @param {Object} event The slicechange event.
    */
   function onSliceChange(event) {
     // change the overlay data to the one of the new slice

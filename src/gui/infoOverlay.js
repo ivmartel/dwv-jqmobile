@@ -97,7 +97,7 @@ dwvjq.gui.info.Overlay = function (div, pos) {
         var value = overlayData[n].value;
         if (typeof overlayData[n].tags !== 'undefined') {
           // update tags only on slice change
-          if (event.type === 'slice-change') {
+          if (event.type === 'slicechange') {
             text = value;
           }
         } else {
