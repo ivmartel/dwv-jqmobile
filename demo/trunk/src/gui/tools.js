@@ -341,7 +341,8 @@ dwvjq.gui.Draw = function (app) {
     // set selected shape
     if (bool) {
       var shapeSelector = app.getElement('shapeSelect');
-      app.setDrawShape(shapeSelector.options[0].value);
+      app.setDrawShape(
+        shapeSelector.options[shapeSelector.selectedIndex].value);
     }
   };
 
