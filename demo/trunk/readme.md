@@ -6,7 +6,7 @@ All coding/implementation contributions and comments are welcome. Releases shoul
 
 dwv-jqmobile is not certified for diagnostic use. Released under GNU GPL-3.0 license (see [license.txt](license.txt)).
 
-[![Build Status](https://travis-ci.org/ivmartel/dwv-jqmobile.svg?branch=master)](https://travis-ci.org/ivmartel/dwv-jqmobile)
+[![Node.js CI](https://github.com/ivmartel/dwv-jqmobile/actions/workflows/nodejs-ci.yml/badge.svg)](https://github.com/ivmartel/dwv-jqmobile/actions/workflows/nodejs-ci.yml)
 
 ## Steps to run the viewer from scratch
 
