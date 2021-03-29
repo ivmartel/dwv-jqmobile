@@ -257,6 +257,7 @@ dwvjq.google.Drive = function () {
     var contentRoot = 'https://content.googleapis.com';
     var apiRoot = 'https://www.googleapis.com';
     for (var i = 0; i < respKeys.length; ++i) {
+      console.log('resp', respKeys[i], resp[respKeys[i]]);
       url = resp[respKeys[i]].result.downloadUrl;
       if (url.substr(0, contentRoot.length) === contentRoot) {
         url = apiRoot + url.substr(contentRoot.length, url.length);
