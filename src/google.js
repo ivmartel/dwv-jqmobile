@@ -277,7 +277,8 @@ dwvjq.google.getAuthorizedCallback = function (callback) {
     //see https://developers.google.com/api-client-library/javascript/features/cors
     var header = {
       name: 'Authorization',
-      value: 'Bearer ' + gapi.auth.getToken().access_token
+      value: 'Bearer ' + gapi.auth.getToken().access_token,
+      referer: 'ivmartel.github.io/dwv-jqmobile'
     };
     callback(urls, [header]);
   };
