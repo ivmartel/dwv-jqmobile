@@ -275,13 +275,17 @@ dwvjq.google.Drive = function () {
 dwvjq.google.getAuthorizedCallback = function (callback) {
   var func = function (urls) {
     //see https://developers.google.com/api-client-library/javascript/features/cors
-    var header = {
-      name: 'Authorization',
-      value: 'Bearer ' + gapi.auth.getToken().access_token,
-      referer: 'https://ivmartel.github.io/dwv-jqmobile'
-    };
-    console.log('urls', urls);
-    callback(urls, [header]);
+    var headers = [
+      {
+        name: 'Authorization',
+        value: 'Bearer ' + gapi.auth.getToken().access_token
+      },
+      {
+        name: 'Referer',
+        value: 'ivmartel.github.io/dwv-jqmobile'
+      }
+    ];
+    callback(urls, [headers]);
   };
   return func;
 };
