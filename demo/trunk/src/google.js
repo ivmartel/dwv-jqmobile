@@ -278,8 +278,9 @@ dwvjq.google.getAuthorizedCallback = function (callback) {
     var header = {
       name: 'Authorization',
       value: 'Bearer ' + gapi.auth.getToken().access_token,
-      referer: 'ivmartel.github.io/dwv-jqmobile'
+      referer: 'https://ivmartel.github.io/dwv-jqmobile'
     };
+    console.log('urls', urls);
     callback(urls, [header]);
   };
   return func;
