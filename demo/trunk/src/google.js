@@ -254,16 +254,14 @@ dwvjq.google.Drive = function () {
     var url;
     // if the download url uses the google content root,
     // replace it with the api root... (see #32)
-    //var contentRoot = 'https://content.googleapis.com';
-    //var apiRoot = 'https://www.googleapis.com';
+    var contentRoot = 'https://content.googleapis.com';
+    var apiRoot = 'https://www.googleapis.com';
     for (var i = 0; i < respKeys.length; ++i) {
       console.log('result', resp[respKeys[i]].result);
-      // url = resp[respKeys[i]].result.downloadUrl;
-      // if (url.substr(0, contentRoot.length) === contentRoot) {
-      //   url = apiRoot + url.substr(contentRoot.length, url.length);
-      // }
-      url = resp[respKeys[i]].result.selfLink + '?alt=media';
-      urls[urls.length] = url;
+      url = resp[respKeys[i]].result.downloadUrl;
+      if (url.substr(0, contentRoot.length) === contentRoot) {
+        url = apiRoot + url.substr(contentRoot.length, url.length);
+      }
     }
     // call onload
     self.onload(urls);
@@ -277,12 +275,14 @@ dwvjq.google.Drive = function () {
 dwvjq.google.getAuthorizedCallback = function (callback) {
   return function (urls) {
     //see https://developers.google.com/api-client-library/javascript/features/cors
-    callback(urls, [
-      {
-        name: 'Authorization',
-        value: 'Bearer ' + gapi.auth.getToken().access_token
-      }
-    ]);
+    callback(urls, {
+      requestHeaders: [
+        {
+          name: 'Authorization',
+          value: 'Bearer ' + gapi.auth.getToken().access_token
+        }
+      ]
+    });
   };
 };
 
