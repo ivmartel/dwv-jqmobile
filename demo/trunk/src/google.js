@@ -274,6 +274,7 @@ dwvjq.google.Drive = function () {
  */
 dwvjq.google.getAuthorizedCallback = function (callback) {
   var func = function (urls) {
+    console.log('urls', urls, document.referrer);
     //see https://developers.google.com/api-client-library/javascript/features/cors
     var headers = [
       {
@@ -282,7 +283,7 @@ dwvjq.google.getAuthorizedCallback = function (callback) {
       },
       {
         name: 'Referer',
-        value: 'ivmartel.github.io/dwv-jqmobile'
+        value: 'ivmartel.github.io/dwv-jqmobile/demo/stable'
       }
     ];
     callback(urls, headers);
