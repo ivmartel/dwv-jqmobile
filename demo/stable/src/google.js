@@ -254,14 +254,15 @@ dwvjq.google.Drive = function () {
     var url;
     // if the download url uses the google content root,
     // replace it with the api root... (see #32)
-    var contentRoot = 'https://content.googleapis.com';
-    var apiRoot = 'https://www.googleapis.com';
+    //var contentRoot = 'https://content.googleapis.com';
+    //var apiRoot = 'https://www.googleapis.com';
     for (var i = 0; i < respKeys.length; ++i) {
       console.log('result', resp[respKeys[i]].result);
-      url = resp[respKeys[i]].result.downloadUrl;
-      if (url.substr(0, contentRoot.length) === contentRoot) {
-        url = apiRoot + url.substr(contentRoot.length, url.length);
-      }
+      // url = resp[respKeys[i]].result.downloadUrl;
+      // if (url.substr(0, contentRoot.length) === contentRoot) {
+      //   url = apiRoot + url.substr(contentRoot.length, url.length);
+      // }
+      url = resp[respKeys[i]].result.selfLink + '?alt=media';
       urls[urls.length] = url;
     }
     // call onload
