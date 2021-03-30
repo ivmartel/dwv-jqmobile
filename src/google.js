@@ -262,6 +262,7 @@ dwvjq.google.Drive = function () {
       if (url.substr(0, contentRoot.length) === contentRoot) {
         url = apiRoot + url.substr(contentRoot.length, url.length);
       }
+      urls[urls.length] = url;
     }
     // call onload
     self.onload(urls);
