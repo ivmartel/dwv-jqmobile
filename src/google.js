@@ -27,7 +27,7 @@ dwvjq.google.Auth = function () {
   this.clientId =
     '544445548355-7pli7rbg578hslnngnkj7ledcg6g5ejo.apps.googleusercontent.com';
   // The scope to use to access user's Drive items.
-  this.scope = ['https://www.googleapis.com/auth/drive.readonly'];
+  this.scope = ['https://www.googleapis.com/auth/drive.file'];
 
   /**
    * Load the API and authentify.
