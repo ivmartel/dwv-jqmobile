@@ -283,7 +283,7 @@ dwvjq.google.getAuthorizedCallback = function (callback) {
       },
       {
         name: 'Referer',
-        value: 'ivmartel.github.io/dwv-jqmobile/demo/stable'
+        value: 'https://ivmartel.github.io/dwv-jqmobile/demo/stable'
       }
     ];
     callback(urls, headers);
