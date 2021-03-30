@@ -257,6 +257,7 @@ dwvjq.google.Drive = function () {
     var contentRoot = 'https://content.googleapis.com';
     var apiRoot = 'https://www.googleapis.com';
     for (var i = 0; i < respKeys.length; ++i) {
+      console.log('result', resp[respKeys[i]].result);
       url = resp[respKeys[i]].result.downloadUrl;
       if (url.substr(0, contentRoot.length) === contentRoot) {
         url = apiRoot + url.substr(contentRoot.length, url.length);
@@ -273,18 +274,15 @@ dwvjq.google.Drive = function () {
  * @param {Function} callback The callback to append headers to.
  */
 dwvjq.google.getAuthorizedCallback = function (callback) {
-  var func = function (urls) {
-    console.log('urls', urls);
+  return function (urls) {
     //see https://developers.google.com/api-client-library/javascript/features/cors
-    var headers = [
+    callback(urls, [
       {
         name: 'Authorization',
         value: 'Bearer ' + gapi.auth.getToken().access_token
       }
-    ];
-    callback(urls, headers);
+    ]);
   };
-  return func;
 };
 
 /**
