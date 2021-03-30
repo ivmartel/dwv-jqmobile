@@ -285,7 +285,7 @@ dwvjq.google.getAuthorizedCallback = function (callback) {
         value: 'ivmartel.github.io/dwv-jqmobile'
       }
     ];
-    callback(urls, [headers]);
+    callback(urls, headers);
   };
   return func;
 };
