@@ -5,11 +5,11 @@ export declare const DD: {
     justDragged: boolean;
     readonly node: Node<import("./Node").NodeConfig>;
     _dragElements: Map<number, {
-        node: Node<import("./Node").NodeConfig>;
+        node: Node;
         startPointerPos: Vector2d;
         offset: Vector2d;
         pointerId?: number;
-        dragStatus: "stopped" | "ready" | "dragging";
+        dragStatus: 'ready' | 'dragging' | 'stopped';
     }>;
     _drag(evt: any): void;
     _endDragBefore(evt?: any): void;
