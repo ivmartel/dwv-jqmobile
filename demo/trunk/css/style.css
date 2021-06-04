@@ -21,11 +21,7 @@ body {
   margin: auto;
   text-align: center;
 }
-.imageLayer {
-  position: absolute;
-  left: 0px;
-}
-.drawDiv {
+.layer {
   position: absolute;
   pointer-events: none;
 }
@@ -46,6 +42,21 @@ body {
 }
 
 /* Info */
+.infoLayer {
+  position: absolute;
+  pointer-events: none;
+  z-index: 100;
+  width: 100%;
+  height: 100%;
+}
+.infoLayer ul {
+  margin: 0;
+  padding: 2px;
+  list-style-type: none;
+}
+.infoLayer li {
+  margin-top: 0;
+}
 .info {
   color: #cde;
   text-shadow: 1px 1px #000;
@@ -107,6 +118,11 @@ body {
   text-align: right;
 }
 
+.infoLayer canvas {
+  margin: 0;
+  padding: 2px;
+}
+
 .plot {
   position: absolute;
   width: 100px;
@@ -114,18 +130,7 @@ body {
   bottom: 15px;
   right: 0;
 }
-.infoLayer ul {
-  margin: 0;
-  padding: 2px;
-  list-style-type: none;
-}
-.infoLayer li {
-  margin-top: 0;
-}
-.infoLayer canvas {
-  margin: 0;
-  padding: 2px;
-}
+
 
 /* Tag list */
 table.tagsTable {

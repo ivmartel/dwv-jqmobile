@@ -208,8 +208,26 @@ dwvjq.gui.DrawList = function (app) {
       return;
     }
 
+    // simpler details
+    var simpleDetails = [];
+    for (var i = 0; i < drawDisplayDetails.length; ++i) {
+      var detail = drawDisplayDetails[i];
+      // copy all but meta
+      var keys = Object.keys(detail);
+      var simpleDetail = {};
+      for (var k = 0; k < keys.length; ++k) {
+        var key = keys[k];
+        if (key !== 'meta') {
+          simpleDetail[key] = detail[key];
+        }
+      }
+      // add description
+      simpleDetail.description = detail.meta.textExpr;
+      simpleDetails.push(simpleDetail);
+    }
+
     // tags HTML table
-    var table = dwvjq.html.toTable(drawDisplayDetails);
+    var table = dwvjq.html.toTable(simpleDetails);
     table.className = 'drawsTable';
 
     // optional gui specific table post process
@@ -235,28 +253,24 @@ dwvjq.gui.DrawList = function (app) {
       };
     };
     // create a text onkeyup handler
-    var createTextOnKeyUp = function (details) {
+    var createDescriptionOnKeyUp = function (details) {
       return function () {
-        details.label = this.value;
-        app.updateDraw(details);
-      };
-    };
-    // create a long text onkeyup handler
-    var createLongTextOnKeyUp = function (details) {
-      return function () {
-        details.description = this.value;
+        details.meta.textExpr = this.value;
         app.updateDraw(details);
       };
     };
     // create a row onclick handler
     var createRowOnClick = function (slice, frame) {
       return function () {
+        var layerController = app.getLayerController();
+        var viewController =
+          layerController.getActiveViewLayer().getViewController();
         // update slice
-        var pos = app.getViewController().getCurrentPosition();
-        pos.k = slice;
-        app.getViewController().setCurrentPosition(pos);
+        var pos = viewController.getCurrentPosition();
+        pos.k = parseInt(slice, 10);
+        viewController.setCurrentPosition(pos);
         // update frame
-        app.getViewController().setCurrentFrame(frame);
+        viewController.setCurrentFrame(frame);
         // focus on the image
         dwvjq.gui.focusImage();
       };
@@ -299,13 +313,7 @@ dwvjq.gui.DrawList = function (app) {
             // text
             dwvjq.html.makeCellEditable(
               cells[c],
-              createTextOnKeyUp(drawDetails)
-            );
-          } else if (c === 6) {
-            // long text
-            dwvjq.html.makeCellEditable(
-              cells[c],
-              createLongTextOnKeyUp(drawDetails)
+              createDescriptionOnKeyUp(drawDetails)
             );
           }
         } else {
