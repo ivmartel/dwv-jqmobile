@@ -29,6 +29,7 @@ function startApp() {
 
   var toolList = {
     Scroll: {},
+    Opacity: {},
     WindowLevel: {},
     ZoomAndPan: {},
     Draw: {
