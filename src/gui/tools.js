@@ -210,10 +210,14 @@ dwvjq.gui.WindowLevel = function (app) {
       return false;
     }
 
+    var layerController = app.getLayerController();
+    var viewController =
+      layerController.getActiveViewLayer().getViewController();
+
     // create new preset select
     var wlSelector = dwvjq.html.createHtmlSelect(
       'presetSelect',
-      app.getViewController().getWindowLevelPresetsNames(),
+      viewController.getWindowLevelPresetsNames(),
       'wl.presets',
       true
     );
