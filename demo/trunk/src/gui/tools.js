@@ -563,6 +563,47 @@ dwvjq.gui.Scroll = function (app) {
   };
 }; // class dwvjq.gui.Scroll
 
+/**
+ * Opacity tool base gui.
+ * @constructor
+ */
+dwvjq.gui.Opacity = function (app) {
+  /**
+   * Setup the tool HTML.
+   */
+  this.setup = function () {
+    // list element
+    var liElement = document.createElement('li');
+    liElement.className = 'opacityLi ui-block-c';
+    liElement.style.display = 'none';
+
+    // node
+    var node = app.getElement('toolList').getElementsByTagName('ul')[0];
+    // append element
+    node.appendChild(liElement);
+    // refresh
+    dwvjq.gui.refreshElement(node);
+  };
+
+  /**
+   * Display the tool HTML.
+   * @param {Boolean} bool True to display, false to hide.
+   */
+  this.display = function (bool) {
+    // display list element
+    var node = app.getElement('opacityLi');
+    dwvjq.html.displayElement(node, bool);
+  };
+
+  /**
+   * Initialise the tool HTML.
+   * @returns Boolean True if the tool can be shown.
+   */
+  this.initialise = function () {
+    return true;
+  };
+}; // class dwvjq.gui.Opacity
+
 function capitalizeFirstLetter(str) {
   return str.charAt(0).toUpperCase() + str.slice(1);
 }
