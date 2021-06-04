@@ -23,6 +23,7 @@ function startApp() {
     'Rectangle',
     'Roi',
     'Ellipse',
+    'Circle',
     'FreeHand'
   ];
 
