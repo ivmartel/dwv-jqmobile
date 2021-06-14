@@ -27,6 +27,8 @@ body {
 }
 
 .dropBox {
+  text-align: center;
+  width: 50%; height: 75%;
 }
 .dropBoxBorder {
   margin: 20px auto;
