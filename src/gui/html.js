@@ -507,18 +507,17 @@ dwvjq.html.setCursorToDefault = function () {
  * Create a HTML select from an input array of options.
  * The values of the options are the name of the option made lower case.
  * It is left to the user to set the 'onchange' method of the select.
- * @param {String} name The name of the HTML select.
+ * @param {String} id The id of the HTML select.
  * @param {Mixed} list The list of options of the HTML select.
  * @param {String} i18nPrefix An optional namespace prefix to find the
  *  translation values.
  * @param {Bool} i18nSafe An optional flag to check translation existence.
  * @return {Object} The created HTML select.
  */
-dwvjq.html.createHtmlSelect = function (name, list, i18nPrefix, i18nSafe) {
+dwvjq.html.createHtmlSelect = function (id, list, i18nPrefix, i18nSafe) {
   // select
   var select = document.createElement('select');
-  //select.name = name;
-  select.className = name;
+  select.id = id;
   var prefix = typeof i18nPrefix === 'undefined' ? '' : i18nPrefix + '.';
   var safe = typeof i18nSafe === 'undefined' ? false : true;
   var getText = function (value) {
@@ -595,11 +594,11 @@ dwvjq.html.appendElement = function (parent, element) {
 /**
  * Create an element.
  * @param {String} type The type of the elemnt.
- * @param {String} className The className of the element.
+ * @param {String} id The id of the element.
  */
-dwvjq.html.createHiddenElement = function (type, className) {
+dwvjq.html.createHiddenElement = function (type, id) {
   var element = document.createElement(type);
-  element.className = className;
+  element.id = id;
   // hide by default
   element.style.display = 'none';
   // return

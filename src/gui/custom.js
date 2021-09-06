@@ -72,7 +72,7 @@ dwvjq.gui.Slider = function (app) {
     div.appendChild(inputMax);
     div.setAttribute('data-mini', 'true');
     // append to document
-    app.getElement('thresholdLi').appendChild(div);
+    document.getElementById('thresholdLi').appendChild(div);
     // bind change
     $('#threshold-div').on('change', function (/*event*/) {
       app.setFilterMinMax({
@@ -81,7 +81,7 @@ dwvjq.gui.Slider = function (app) {
       });
     });
     // refresh
-    dwvjq.gui.refreshElement(app.getElement('toolList'));
+    dwvjq.gui.refreshElement(document.getElementById('dwv-toolList'));
   };
 
   /**
@@ -102,6 +102,6 @@ dwvjq.gui.Slider = function (app) {
     inputMax.min = min;
     inputMax.value = max;
     // refresh
-    dwvjq.gui.refreshElement(app.getElement('toolList'));
+    dwvjq.gui.refreshElement(document.getElementById('dwv-toolList'));
   };
 }; // class dwvjq.gui.Slider

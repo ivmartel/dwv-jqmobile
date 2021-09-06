@@ -28,7 +28,7 @@ dwvjq.gui.Loadbox = function (app) {
     };
 
     // get node
-    var node = app.getElement('loaderlist');
+    var node = document.getElementById('dwv-loaderlist');
     // clear it
     while (node.hasChildNodes()) {
       node.removeChild(node.firstChild);
@@ -100,7 +100,7 @@ dwvjq.gui.FileLoad = function (app) {
     fileLoadDiv.appendChild(fileLoadInput);
 
     // node
-    var node = app.getElement('loaderlist');
+    var node = document.getElementById('dwv-loaderlist');
     // append
     node.appendChild(fileLoadDiv);
     // refresh
@@ -113,7 +113,7 @@ dwvjq.gui.FileLoad = function (app) {
    */
   this.display = function (bool) {
     // file div element
-    var node = app.getElement('loaderlist');
+    var node = document.getElementById('dwv-loaderlist');
     var filediv = node.getElementsByClassName('imagefilesdiv')[0];
     filediv.style.display = bool ? '' : 'none';
   };
@@ -159,7 +159,7 @@ dwvjq.gui.FolderLoad = function (app) {
     folderLoadDiv.appendChild(fileLoadInput);
 
     // node
-    var node = app.getElement('loaderlist');
+    var node = document.getElementById('dwv-loaderlist');
     // append
     node.appendChild(folderLoadDiv);
     // refresh
@@ -172,7 +172,7 @@ dwvjq.gui.FolderLoad = function (app) {
    */
   this.display = function (bool) {
     // file div element
-    var node = app.getElement('loaderlist');
+    var node = document.getElementById('dwv-loaderlist');
     var folderdiv = node.getElementsByClassName('imagefolderdiv')[0];
     folderdiv.style.display = bool ? '' : 'none';
   };
@@ -216,7 +216,7 @@ dwvjq.gui.UrlLoad = function (app) {
     urlLoadDiv.appendChild(urlLoadInput);
 
     // node
-    var node = app.getElement('loaderlist');
+    var node = document.getElementById('dwv-loaderlist');
     // append
     node.appendChild(urlLoadDiv);
     // refresh
@@ -229,7 +229,7 @@ dwvjq.gui.UrlLoad = function (app) {
    */
   this.display = function (bool) {
     // url div element
-    var node = app.getElement('loaderlist');
+    var node = document.getElementById('dwv-loaderlist');
     var urldiv = node.getElementsByClassName('imageurldiv')[0];
     urldiv.style.display = bool ? '' : 'none';
   };

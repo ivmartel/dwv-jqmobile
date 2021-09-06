@@ -110,7 +110,8 @@ dwvjq.gui.ToolboxContainer = function (app, infoController) {
     var toggleInfo = document.createElement('a');
     toggleInfo.setAttribute('class', buttonClass + ' ui-icon-info');
     toggleInfo.onclick = function () {
-      var infoLayer = app.getElement('infoLayer');
+      var infoLayer =
+        document.getElementById('dwv').querySelector('.infoLayer');
       dwvjq.html.toggleDisplay(infoLayer);
       infoController.toggleListeners();
     };
@@ -134,7 +135,7 @@ dwvjq.gui.ToolboxContainer = function (app, infoController) {
     drawList.href = '#drawList_page';
     drawList.setAttribute('class', buttonClass + ' ui-icon-edit');
 
-    var node = app.getElement('toolbar');
+    var node = document.getElementById('dwv-toolbar');
     node.appendChild(open);
     node.appendChild(undo);
     node.appendChild(redo);

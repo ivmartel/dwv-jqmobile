@@ -111,7 +111,7 @@ dwvjq.gui.Alert = function (app) {
     console.log('[alert:gui:setup]');
 
     var button = document.createElement('button');
-    button.className = 'alert-button';
+    button.id = 'alert-button';
     button.value = 'Alert';
     // let the app handle the tool change
     button.onclick = function (event) {
@@ -121,7 +121,7 @@ dwvjq.gui.Alert = function (app) {
 
     // the app handles finding the document HTML element
     // so that they are all in the same div.
-    var node = app.getElement('toolbar');
+    var node = document.getElementById('dwv-toolbar');
     node.appendChild(button);
   };
 
@@ -134,7 +134,7 @@ dwvjq.gui.Alert = function (app) {
     console.log('[alert:gui:display]');
     console.log('bool: ' + bool);
 
-    var button = app.getElement('alert-button');
+    var button = document.getElementById('alert-button');
     button.disabled = bool;
   };
 
