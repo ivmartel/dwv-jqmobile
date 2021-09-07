@@ -28,7 +28,8 @@ dwvjq.gui.Toolbox = function (app) {
 
     // tool list element
     var toolLi = document.createElement('li');
-    toolLi.className = 'toolLi ui-block-a';
+    toolLi.id = 'toolLi';
+    toolLi.className = 'ui-block-a';
     toolLi.style.display = 'none';
     toolLi.appendChild(toolSelector);
 
@@ -38,7 +39,7 @@ dwvjq.gui.Toolbox = function (app) {
     toolUl.className = 'ui-grid-b';
 
     // node
-    var node = app.getElement('toolList');
+    var node = document.getElementById('dwv-toolList');
     // append
     node.appendChild(toolUl);
     // refresh
@@ -78,7 +79,7 @@ dwvjq.gui.Toolbox = function (app) {
    */
   this.display = function (bool) {
     // tool list element
-    var node = app.getElement('toolLi');
+    var node = document.getElementById('toolLi');
     dwvjq.html.displayElement(node, bool);
   };
 
@@ -87,7 +88,7 @@ dwvjq.gui.Toolbox = function (app) {
    */
   this.initialise = function () {
     // tool select: reset selected option
-    var selector = app.getElement('toolSelect');
+    var selector = document.getElementById('toolSelect');
 
     // propagate and check if tool can be displayed
     var displays = [];
@@ -151,19 +152,21 @@ dwvjq.gui.WindowLevel = function (app) {
 
     // preset list element
     var wlLi = document.createElement('li');
-    wlLi.className = 'wlLi ui-block-b';
-    //wlLi.className = "wlLi";
+    wlLi.id = 'wlLi';
+    wlLi.className = 'ui-block-b';
     wlLi.style.display = 'none';
     wlLi.appendChild(wlSelector);
     // colour map list element
     var cmLi = document.createElement('li');
-    cmLi.className = 'cmLi ui-block-c';
+    cmLi.id = 'cmLi';
+    cmLi.className = 'ui-block-c';
     //cmLi.className = "cmLi";
     cmLi.style.display = 'none';
     cmLi.appendChild(cmSelector);
 
     // node
-    var node = app.getElement('toolList').getElementsByTagName('ul')[0];
+    var node =
+      document.getElementById('dwv-toolList').getElementsByTagName('ul')[0];
     // append preset
     node.appendChild(wlLi);
     // append colour map
@@ -178,14 +181,14 @@ dwvjq.gui.WindowLevel = function (app) {
    */
   this.display = function (bool) {
     // presets list element
-    var node = app.getElement('wlLi');
+    var node = document.getElementById('wlLi');
     dwvjq.html.displayElement(node, bool);
     // colour map list element
-    node = app.getElement('cmLi');
+    node = document.getElementById('cmLi');
     dwvjq.html.displayElement(node, bool);
 
     var onAddPreset = function (event) {
-      var wlSelector = app.getElement('presetSelect');
+      var wlSelector = document.getElementById('presetSelect');
       // add preset
       wlSelector.add(new Option(capitalizeFirstLetter(event.name), event.name));
       // set as selected
@@ -227,7 +230,7 @@ dwvjq.gui.WindowLevel = function (app) {
     wlSelector.title = 'Select w/l preset.';
 
     // copy html list
-    var wlLi = app.getElement('wlLi');
+    var wlLi = document.getElementById('wlLi');
     // clear node
     dwvjq.html.cleanNode(wlLi);
     // add children
@@ -236,7 +239,7 @@ dwvjq.gui.WindowLevel = function (app) {
     dwvjq.gui.refreshElement(wlLi);
 
     // colour map select
-    var cmSelector = app.getElement('colourMapSelect');
+    var cmSelector = document.getElementById('colourMapSelect');
     cmSelector.selectedIndex = 0;
     // special monochrome1 case
     if (app.getImage().getPhotometricInterpretation() === 'MONOCHROME1') {
@@ -293,7 +296,7 @@ dwvjq.gui.Draw = function (app) {
     var colourSelector = null;
     if (dwvjq.browser.hasInputColor()) {
       colourSelector = document.createElement('input');
-      colourSelector.className = 'colourSelect';
+      colourSelector.id = 'colourSelect';
       colourSelector.type = 'color';
       colourSelector.value = '#FFFF80';
     } else {
@@ -309,19 +312,22 @@ dwvjq.gui.Draw = function (app) {
 
     // shape list element
     var shapeLi = document.createElement('li');
-    shapeLi.className = 'shapeLi ui-block-c';
+    shapeLi.id = 'shapeLi';
+    shapeLi.className = 'ui-block-c';
     shapeLi.style.display = 'none';
     shapeLi.appendChild(shapeSelector);
     //shapeLi.setAttribute("class","ui-block-c");
     // colour list element
     var colourLi = document.createElement('li');
-    colourLi.className = 'colourLi ui-block-b';
+    colourLi.id = 'colourLi';
+    colourLi.className = 'ui-block-b';
     colourLi.style.display = 'none';
     colourLi.appendChild(colourSelector);
     //colourLi.setAttribute("class","ui-block-b");
 
     // node
-    var node = app.getElement('toolList').getElementsByTagName('ul')[0];
+    var node =
+      document.getElementById('dwv-toolList').getElementsByTagName('ul')[0];
     // apend shape
     node.appendChild(shapeLi);
     // append colour
@@ -336,15 +342,15 @@ dwvjq.gui.Draw = function (app) {
    */
   this.display = function (bool) {
     // colour list element
-    var node = app.getElement('colourLi');
+    var node = document.getElementById('colourLi');
     dwvjq.html.displayElement(node, bool);
     // shape list element
-    node = app.getElement('shapeLi');
+    node = document.getElementById('shapeLi');
     dwvjq.html.displayElement(node, bool);
 
     // set selected shape
     if (bool) {
-      var shapeSelector = app.getElement('shapeSelect');
+      var shapeSelector = document.getElementById('shapeSelect');
       app.setDrawShape(
         shapeSelector.options[shapeSelector.selectedIndex].value);
     }
@@ -356,13 +362,13 @@ dwvjq.gui.Draw = function (app) {
    */
   this.initialise = function () {
     // shape select: reset selected option
-    var shapeSelector = app.getElement('shapeSelect');
+    var shapeSelector = document.getElementById('shapeSelect');
     shapeSelector.selectedIndex = 0;
     // refresh
     dwvjq.gui.refreshElement(shapeSelector);
 
     // colour select: reset selected option
-    var colourSelector = app.getElement('colourSelect');
+    var colourSelector = document.getElementById('colourSelect');
     if (!dwvjq.browser.hasInputColor()) {
       colourSelector.selectedIndex = 0;
     }
@@ -390,9 +396,9 @@ dwvjq.gui.ColourTool = function (app, prefix) {
     'Black'
   ];
   // colour selector class
-  var colourSelectClassName = prefix + 'ColourSelect';
+  var colourSelectId = prefix + 'ColourSelect';
   // colour selector class
-  var colourLiClassName = prefix + 'ColourLi';
+  var colourLiId = prefix + 'ColourLi';
 
   /**
    * Get the default colour.
@@ -413,12 +419,12 @@ dwvjq.gui.ColourTool = function (app, prefix) {
     var colourSelector = null;
     if (dwvjq.browser.hasInputColor()) {
       colourSelector = document.createElement('input');
-      colourSelector.className = colourSelectClassName;
+      colourSelector.id = colourSelectId;
       colourSelector.type = 'color';
       colourSelector.value = '#FFFF80';
     } else {
       colourSelector = dwvjq.html.createHtmlSelect(
-        colourSelectClassName,
+        colourSelectId,
         colours,
         'colour'
       );
@@ -429,13 +435,15 @@ dwvjq.gui.ColourTool = function (app, prefix) {
 
     // colour list element
     var colourLi = document.createElement('li');
-    colourLi.className = colourLiClassName + ' ui-block-b';
+    colourLi.id = colourLiId;
+    colourLi.className = 'ui-block-b';
     colourLi.style.display = 'none';
     //colourLi.setAttribute("class","ui-block-b");
     colourLi.appendChild(colourSelector);
 
     // node
-    var node = app.getElement('toolList').getElementsByTagName('ul')[0];
+    var node =
+      document.getElementById('dwv-toolList').getElementsByTagName('ul')[0];
     // apend colour
     node.appendChild(colourLi);
     // refresh
@@ -448,7 +456,7 @@ dwvjq.gui.ColourTool = function (app, prefix) {
    */
   this.display = function (bool) {
     // colour list
-    var node = app.getElement(colourLiClassName);
+    var node = document.getElementById(colourLiId);
     dwvjq.html.displayElement(node, bool);
   };
 
@@ -457,7 +465,7 @@ dwvjq.gui.ColourTool = function (app, prefix) {
    * @returns Boolean True if the tool can be shown.
    */
   this.initialise = function () {
-    var colourSelector = app.getElement(colourSelectClassName);
+    var colourSelector = document.getElementById(colourSelectId);
     if (!dwvjq.browser.hasInputColor()) {
       colourSelector.selectedIndex = 0;
     }
@@ -490,13 +498,15 @@ dwvjq.gui.ZoomAndPan = function (app) {
 
     // list element
     var liElement = document.createElement('li');
-    liElement.className = 'zoomLi ui-block-c';
+    liElement.id = 'zoomLi';
+    liElement.className = 'ui-block-c';
     liElement.style.display = 'none';
     //liElement.setAttribute("class","ui-block-c");
     liElement.appendChild(button);
 
     // node
-    var node = app.getElement('toolList').getElementsByTagName('ul')[0];
+    var node =
+      document.getElementById('dwv-toolList').getElementsByTagName('ul')[0];
     // append element
     node.appendChild(liElement);
     // refresh
@@ -509,7 +519,7 @@ dwvjq.gui.ZoomAndPan = function (app) {
    */
   this.display = function (bool) {
     // display list element
-    var node = app.getElement('zoomLi');
+    var node = document.getElementById('zoomLi');
     dwvjq.html.displayElement(node, bool);
   };
 
@@ -533,11 +543,13 @@ dwvjq.gui.Scroll = function (app) {
   this.setup = function () {
     // list element
     var liElement = document.createElement('li');
-    liElement.className = 'scrollLi ui-block-c';
+    liElement.id = 'scrollLi';
+    liElement.className = 'ui-block-c';
     liElement.style.display = 'none';
 
     // node
-    var node = app.getElement('toolList').getElementsByTagName('ul')[0];
+    var node =
+      document.getElementById('dwv-toolList').getElementsByTagName('ul')[0];
     // append element
     node.appendChild(liElement);
     // refresh
@@ -550,7 +562,7 @@ dwvjq.gui.Scroll = function (app) {
    */
   this.display = function (bool) {
     // display list element
-    var node = app.getElement('scrollLi');
+    var node = document.getElementById('scrollLi');
     dwvjq.html.displayElement(node, bool);
   };
 
@@ -567,18 +579,20 @@ dwvjq.gui.Scroll = function (app) {
  * Opacity tool base gui.
  * @constructor
  */
-dwvjq.gui.Opacity = function (app) {
+dwvjq.gui.Opacity = function () {
   /**
    * Setup the tool HTML.
    */
   this.setup = function () {
     // list element
     var liElement = document.createElement('li');
-    liElement.className = 'opacityLi ui-block-c';
+    liElement.id = 'opacityLi';
+    liElement.className = 'ui-block-c';
     liElement.style.display = 'none';
 
     // node
-    var node = app.getElement('toolList').getElementsByTagName('ul')[0];
+    var node =
+      document.getElementById('dwv-toolList').getElementsByTagName('ul')[0];
     // append element
     node.appendChild(liElement);
     // refresh
@@ -591,7 +605,7 @@ dwvjq.gui.Opacity = function (app) {
    */
   this.display = function (bool) {
     // display list element
-    var node = app.getElement('opacityLi');
+    var node = document.getElementById('opacityLi');
     dwvjq.html.displayElement(node, bool);
   };
 

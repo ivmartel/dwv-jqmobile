@@ -99,7 +99,7 @@ dwvjq.gui.setSelected = function (element, value) {
  * @param {Object} app The associated application.
  * @constructor
  */
-dwvjq.gui.MetaData = function (app) {
+dwvjq.gui.MetaData = function () {
   /**
    * Update the DICOM tags table with the input info.
    * @param {Object} dataInfo The data information.
@@ -116,7 +116,7 @@ dwvjq.gui.MetaData = function (app) {
     }
 
     // HTML node
-    var node = app.getElement('tags');
+    var node = document.getElementById('dwv-tags');
     if (node === null) {
       console.warn('Cannot find a node to append the meta data.');
       return;
@@ -190,7 +190,7 @@ dwvjq.gui.DrawList = function (app) {
     }
 
     // HTML node
-    var node = app.getElement('drawList');
+    var node = document.getElementById('dwv-drawList');
     if (node === null) {
       console.warn('Cannot find a node to append the drawing list.');
       return;

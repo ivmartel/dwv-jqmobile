@@ -36,6 +36,23 @@ dwvjq.gui.DropboxLoader = function (app) {
   }
 
   /**
+  * Switch the hover css.
+  * @private
+  * @param {boolean} show Is the box shown or not.
+   */
+  function switchHoverCss(show) {
+    var box = document.getElementById(dropboxDivId);
+    if (box) {
+      if (show && box.className.indexOf(hoverClassName) === -1) {
+        box.className += ' ' + hoverClassName;
+      }
+      if (!show && box.className.indexOf(hoverClassName) !== -1) {
+        box.className = box.className.replace(' ' + hoverClassName, '');
+      }
+    }
+  }
+
+  /**
    * Handle a drag over.
    * @private
    * @param {Object} event The event to handle.
@@ -43,10 +60,7 @@ dwvjq.gui.DropboxLoader = function (app) {
   function onBoxDragOver(event) {
     defaultHandleDragEvent(event);
     // update box border
-    var box = document.getElementById(dropboxDivId);
-    if (box && box.className.indexOf(hoverClassName) === -1) {
-      box.className += ' ' + hoverClassName;
-    }
+    switchHoverCss(true);
   }
 
   /**
@@ -57,10 +71,7 @@ dwvjq.gui.DropboxLoader = function (app) {
   function onBoxDragLeave(event) {
     defaultHandleDragEvent(event);
     // update box border
-    var box = document.getElementById(dropboxDivId);
-    if (box && box.className.indexOf(hoverClassName) !== -1) {
-      box.className = box.className.replace(' ' + hoverClassName, '');
-    }
+    switchHoverCss(false);
   }
 
   /**
@@ -71,7 +82,13 @@ dwvjq.gui.DropboxLoader = function (app) {
   function onDrop(event) {
     defaultHandleDragEvent(event);
     // load files
-    app.loadFiles(event.dataTransfer.files);
+    var files = event.dataTransfer.files;
+    if (files.length !== 0) {
+      app.loadFiles(files);
+    } else {
+      console.warn('Drop of empty file list.');
+      switchHoverCss(false);
+    }
   }
 
   /**
@@ -81,7 +98,8 @@ dwvjq.gui.DropboxLoader = function (app) {
   this.showDropbox = function (show) {
     var box = document.getElementById(dropboxDivId);
     var isBoxShown = box && box.offsetHeight !== 0;
-    var layerDiv = app.getElement('layerContainer');
+    var layerDiv =
+      document.getElementById('dwv').querySelector('.layerContainer');
 
     if (box) {
       if (show && !isBoxShown) {

@@ -40,7 +40,8 @@ dwvjq.gui.Filter = function (app) {
     filterLi.appendChild(filterSelector);
 
     // append element
-    var node = app.getElement('toolList').getElementsByTagName('ul')[0];
+    var node =
+      document.getElementById('dwv-toolList').getElementsByTagName('ul')[0];
     dwvjq.html.appendElement(node, filterLi);
 
     // create tool gui and call setup
@@ -57,11 +58,11 @@ dwvjq.gui.Filter = function (app) {
    * @param {Boolean} flag True to display, false to hide.
    */
   this.display = function (flag) {
-    var node = app.getElement('filterLi');
+    var node = document.getElementById('filterLi');
     dwvjq.html.displayElement(node, flag);
 
     // set selected filter
-    var filterSelector = app.getElement('filterSelect');
+    var filterSelector = document.getElementById('filterSelect');
     if (flag) {
       var selectedFilter =
         filterSelector.options[filterSelector.selectedIndex].value;
@@ -82,7 +83,7 @@ dwvjq.gui.Filter = function (app) {
    */
   this.initialise = function () {
     // filter select: reset selected options
-    var filterSelector = app.getElement('filterSelect');
+    var filterSelector = document.getElementById('filterSelect');
     filterSelector.selectedIndex = 0;
 
     // propagate
@@ -119,7 +120,8 @@ dwvjq.gui.Threshold = function (app) {
     thresholdLi.className += ' ui-block-c';
 
     // node
-    var node = app.getElement('toolList').getElementsByTagName('ul')[0];
+    var node =
+      document.getElementById('dwv-toolList').getElementsByTagName('ul')[0];
     // append threshold
     node.appendChild(thresholdLi);
     // threshold slider
@@ -139,7 +141,7 @@ dwvjq.gui.Threshold = function (app) {
       slider.initialise();
     }
 
-    var node = app.getElement('thresholdLi');
+    var node = document.getElementById('thresholdLi');
     dwvjq.html.displayElement(node, flag);
   };
 
@@ -180,7 +182,8 @@ dwvjq.gui.Sharpen = function (app) {
     sharpenLi.className += ' ui-block-c';
     sharpenLi.appendChild(dwvjq.gui.filter.base.createFilterApplyButton(app));
     // append element
-    var node = app.getElement('toolList').getElementsByTagName('ul')[0];
+    var node =
+      document.getElementById('dwv-toolList').getElementsByTagName('ul')[0];
     dwvjq.html.appendElement(node, sharpenLi);
   };
 
@@ -189,7 +192,7 @@ dwvjq.gui.Sharpen = function (app) {
    * @param {Boolean} flag True to display, false to hide.
    */
   this.display = function (flag) {
-    var node = app.getElement('sharpenLi');
+    var node = document.getElementById('sharpenLi');
     dwvjq.html.displayElement(node, flag);
   };
 
@@ -212,7 +215,8 @@ dwvjq.gui.Sobel = function (app) {
     sobelLi.className += ' ui-block-c';
     sobelLi.appendChild(dwvjq.gui.filter.base.createFilterApplyButton(app));
     // append element
-    var node = app.getElement('toolList').getElementsByTagName('ul')[0];
+    var node =
+      document.getElementById('dwv-toolList').getElementsByTagName('ul')[0];
     dwvjq.html.appendElement(node, sobelLi);
   };
 
@@ -221,7 +225,7 @@ dwvjq.gui.Sobel = function (app) {
    * @param {Boolean} flag True to display, false to hide.
    */
   this.display = function (flag) {
-    var node = app.getElement('sobelLi');
+    var node = document.getElementById('sobelLi');
     dwvjq.html.displayElement(node, flag);
   };
 

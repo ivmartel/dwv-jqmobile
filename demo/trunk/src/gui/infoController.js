@@ -8,9 +8,8 @@ dwvjq.gui.info = dwvjq.gui.info || {};
  * DICOM Header overlay info controller.
  * @constructor
  * @param {Object} app The assciated app.
- * @param {String} containerDivId The id of the container div.
  */
-dwvjq.gui.info.Controller = function (app, containerDivId) {
+dwvjq.gui.info.Controller = function (app) {
   // Info layer overlay guis
   var overlayGuis = [];
   // flag to tell if guis have been created
@@ -31,7 +30,7 @@ dwvjq.gui.info.Controller = function (app, containerDivId) {
 
     for (var n = 0; n < pos_list.length; ++n) {
       var pos = pos_list[n];
-      var infoElement = getElement('info' + pos);
+      var infoElement = document.getElementById('info' + pos);
       if (infoElement) {
         overlayGuis.push(new dwvjq.gui.info.Overlay(infoElement, pos));
       }
@@ -157,12 +156,4 @@ dwvjq.gui.info.Controller = function (app, containerDivId) {
     isInfoLayerListening = !isInfoLayerListening;
   };
 
-  /**
-   * Get a HTML element associated to the application.
-   * @param name The name or id to find.
-   * @return The found element or null.
-   */
-  function getElement(name) {
-    return dwvjq.gui.getElement(containerDivId, name);
-  }
 }; // class dwvjq.gui.info.Controller
