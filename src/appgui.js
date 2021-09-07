@@ -61,8 +61,6 @@ dwvjq.utils.loadFromUri = function (uri, app) {
 
 // dwv overrides -------------------------
 
-// prompt
-dwv.gui.prompt = dwvjq.gui.prompt;
 // get element
 dwv.gui.getElement = dwvjq.gui.getElement;
 

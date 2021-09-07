@@ -3,16 +3,6 @@ var dwvjq = dwvjq || {};
 dwvjq.gui = dwvjq.gui || {};
 
 /**
- * Ask some text to the user.
- * @param {String} message Text to display to the user.
- * @param {String} defaultText Default value displayed in the text input field.
- * @return {String} Text entered by the user.
- */
-dwvjq.gui.prompt = function (message, defaultText) {
-  return prompt(message, defaultText);
-};
-
-/**
  * Post process a HTML table.
  * @param {Object} table The HTML table to process.
  * @return The processed HTML table.
