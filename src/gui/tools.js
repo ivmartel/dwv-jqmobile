@@ -579,7 +579,7 @@ dwvjq.gui.Scroll = function (app) {
  * Opacity tool base gui.
  * @constructor
  */
-dwvjq.gui.Opacity = function (app) {
+dwvjq.gui.Opacity = function () {
   /**
    * Setup the tool HTML.
    */

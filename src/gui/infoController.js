@@ -8,9 +8,8 @@ dwvjq.gui.info = dwvjq.gui.info || {};
  * DICOM Header overlay info controller.
  * @constructor
  * @param {Object} app The assciated app.
- * @param {String} containerDivId The id of the container div.
  */
-dwvjq.gui.info.Controller = function (app, containerDivId) {
+dwvjq.gui.info.Controller = function (app) {
   // Info layer overlay guis
   var overlayGuis = [];
   // flag to tell if guis have been created

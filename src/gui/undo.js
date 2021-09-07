@@ -6,7 +6,7 @@ dwvjq.gui = dwvjq.gui || {};
  * Undo base gui.
  * @constructor
  */
-dwvjq.gui.Undo = function (app) {
+dwvjq.gui.Undo = function () {
   /**
    * Setup the undo HTML.
    */

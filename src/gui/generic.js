@@ -99,7 +99,7 @@ dwvjq.gui.setSelected = function (element, value) {
  * @param {Object} app The associated application.
  * @constructor
  */
-dwvjq.gui.MetaData = function (app) {
+dwvjq.gui.MetaData = function () {
   /**
    * Update the DICOM tags table with the input info.
    * @param {Object} dataInfo The data information.
