@@ -20,7 +20,7 @@ body {
 }
 
 /* Layers */
-#layerGroup {
+.layerGroup {
   position: relative;
   padding: 0;
   display: flex;

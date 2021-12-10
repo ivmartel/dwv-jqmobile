@@ -98,7 +98,7 @@ dwvjq.gui.DropboxLoader = function (app) {
   this.showDropbox = function (show) {
     var box = document.getElementById(dropboxDivId);
     var isBoxShown = box && box.offsetHeight !== 0;
-    var layerDiv = document.getElementById('layerGroup');
+    var layerDiv = document.getElementById('layerGroup0');
 
     if (box) {
       if (show && !isBoxShown) {
