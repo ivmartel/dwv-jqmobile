@@ -52,7 +52,7 @@ function startApp() {
 
   // initialise the application
   var options = {
-    containerDivId: 'dwv',
+    dataViewConfigs: {'*': [{divId: 'layerGroup0'}]},
     tools: toolList
     //"defaultCharacterSet": "chinese"
   };
@@ -146,6 +146,7 @@ function startApp() {
   myapp.addEventListener('renderend', function (/*event*/) {
     if (isFirstRender) {
       isFirstRender = false;
+      infoController.fitContainer();
       // initialise and display the toolbox on first render
       toolboxGui.initialise();
       toolboxGui.display(true);
@@ -155,7 +156,7 @@ function startApp() {
     // initialise undo gui
     undoGui.setup();
     // update meta data table
-    metaDataGui.update(myapp.getMetaData());
+    metaDataGui.update(myapp.getMetaData(0));
   });
   myapp.addEventListener('error', function (event) {
     console.error('load error', event);
@@ -208,7 +209,10 @@ function startApp() {
   // handle window resize
   // WARNING: will fail if the resize happens and the image is not shown
   // (for example resizing while viewing the meta data table)
-  window.addEventListener('resize', myapp.onResize);
+  window.addEventListener('resize', function () {
+    myapp.onResize();
+    infoController.fitContainer();
+  });
 
   // possible load from location
   dwvjq.utils.loadFromUri(window.location.href, myapp);
