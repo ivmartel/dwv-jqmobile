@@ -88,8 +88,9 @@ dwvjq.gui.Slider = function (app) {
    * Initialise the slider HTML.
    */
   this.initialise = function () {
-    var min = app.getImage().getDataRange().min;
-    var max = app.getImage().getDataRange().max;
+    var dataRange = app.getImage(0).getDataRange();
+    var min = dataRange.min;
+    var max = dataRange.max;
 
     // minimum input
     var inputMin = document.getElementById('threshold-min');
