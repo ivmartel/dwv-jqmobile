@@ -111,9 +111,7 @@
   data-transition="slide" data-i18n="basics.help">Help</a>
 </div><!-- /pageHeader -->
 
-<!-- DWV -->
-<div id="dwv">
-
+<!-- pageMain -->
 <div id="pageMain" data-role="content">
 
 <!-- Toolbar -->
@@ -143,9 +141,12 @@
 
 <div id="dropBox"></div>
 
+<!-- DWV -->
+<div id="dwv">
+
 <!-- Layer Container -->
-<div class="layerContainer">
-  <div class="infoLayer">
+<div id="layerGroup0">
+  <div id="infoLayer">
     <div id="infotl" class="infotl info"></div>
     <div id="infotc" class="infotc infoc"></div>
     <div id="infotr" class="infotr info"></div>
@@ -155,7 +156,9 @@
     <div id="infobc" class="infobc infoc"></div>
     <div id="infobr" class="infobr info"></div>
   </div><!-- /infoLayer -->
-</div><!-- /layerContainer -->
+</div><!-- /layerGroup -->
+
+</div><!-- /dwv -->
 
 <!-- History -->
 <div id="dwv-history" title="History" style="display:none;"></div>
@@ -167,8 +170,6 @@
 <div data-role="navbar" id="dwv-toolList">
 </div><!-- /navbar -->
 </div><!-- /pageFooter -->
-
-</div><!-- /dwv -->
 
 </div><!-- /page -->
 

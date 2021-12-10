@@ -213,9 +213,9 @@ dwvjq.gui.WindowLevel = function (app) {
       return false;
     }
 
-    var layerController = app.getLayerController();
+    var layerGroup = app.getActiveLayerGroup();
     var viewController =
-      layerController.getActiveViewLayer().getViewController();
+      layerGroup.getActiveViewLayer().getViewController();
 
     // create new preset select
     var wlSelector = dwvjq.html.createHtmlSelect(
@@ -242,7 +242,7 @@ dwvjq.gui.WindowLevel = function (app) {
     var cmSelector = document.getElementById('colourMapSelect');
     cmSelector.selectedIndex = 0;
     // special monochrome1 case
-    if (app.getImage().getPhotometricInterpretation() === 'MONOCHROME1') {
+    if (app.getImage(0).getPhotometricInterpretation() === 'MONOCHROME1') {
       cmSelector.selectedIndex = 1;
     }
     // refresh

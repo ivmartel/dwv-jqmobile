@@ -61,8 +61,11 @@ dwvjq.utils.loadFromUri = function (uri, app) {
 
 // dwv overrides -------------------------
 
-// get element
-dwv.gui.getElement = dwvjq.gui.getElement;
+// logger
+// (if debug, need to activate debug level in Chrome console)
+dwv.logger = dwv.utils.logger.console;
+dwv.logger.level = dwv.utils.logger.levels.DEBUG;
+
 
 // [end] dwv overrides -------------------------
 
@@ -108,8 +111,7 @@ dwvjq.gui.ToolboxContainer = function (app, infoController) {
     var toggleInfo = document.createElement('a');
     toggleInfo.setAttribute('class', buttonClass + ' ui-icon-info');
     toggleInfo.onclick = function () {
-      var infoLayer =
-        document.getElementById('dwv').querySelector('.infoLayer');
+      var infoLayer = document.getElementById('infoLayer');
       dwvjq.html.toggleDisplay(infoLayer);
       infoController.toggleListeners();
     };

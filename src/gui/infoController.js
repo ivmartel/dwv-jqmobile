@@ -37,7 +37,7 @@ dwvjq.gui.info.Controller = function (app) {
     }
 
     // listen to update data
-    app.addEventListener('slicechange', onSliceChange);
+    app.addEventListener('positionchange', onSliceChange);
     // first toggle: set to listening
     this.toggleListeners();
   };
@@ -72,9 +72,10 @@ dwvjq.gui.info.Controller = function (app) {
       );
     } else {
       // image file case
-      for (var d = 0; d < data.length; ++d) {
-        var obj = data[d];
-        if (obj.name === 'imageUid') {
+      var keys = Object.keys(data);
+      for (var d = 0; d < keys.length; ++d) {
+        var obj = data[keys[d]];
+        if (keys[d] === 'imageUid') {
           dataUid = obj.value;
           break;
         }
@@ -136,7 +137,7 @@ dwvjq.gui.info.Controller = function (app) {
     if (isInfoLayerListening) {
       for (n = 0; n < overlayGuis.length; ++n) {
         // default slice change for tags
-        app.removeEventListener('slicechange', overlayGuis[n].update);
+        app.removeEventListener('positionchange', overlayGuis[n].update);
         // from config
         for (e = 0; e < events.length; ++e) {
           app.removeEventListener(events[e], overlayGuis[n].update);
@@ -145,7 +146,7 @@ dwvjq.gui.info.Controller = function (app) {
     } else {
       for (n = 0; n < overlayGuis.length; ++n) {
         // default slice change for tags
-        app.addEventListener('slicechange', overlayGuis[n].update);
+        app.addEventListener('positionchange', overlayGuis[n].update);
         // from config
         for (e = 0; e < events.length; ++e) {
           app.addEventListener(events[e], overlayGuis[n].update);
@@ -154,6 +155,18 @@ dwvjq.gui.info.Controller = function (app) {
     }
     // update flag
     isInfoLayerListening = !isInfoLayerListening;
+  };
+
+  /**
+   * Fit layer info to layer canvas.
+   */
+  this.fitContainer = function () {
+    var layer = document.getElementById('layer-0-0');
+    if (layer) {
+      var canvas = layer.querySelector('canvas');
+      var container = document.getElementById('infoLayer');
+      container.style.width = canvas.width + 'px';
+    }
   };
 
 }; // class dwvjq.gui.info.Controller
