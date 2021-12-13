@@ -75,7 +75,7 @@ var urlsToCache = [
   // js: dwv
   './node_modules/dwv/dist/dwv.min.js',
   './node_modules/i18next/i18next.min.js',
-  './node_modules/i18next-xhr-backend/i18nextXHRBackend.min.js',
+  './node_modules/i18next-http-backend/i18nextHttpBackend.min.js',
   './node_modules/i18next-browser-languagedetector/' +
     'i18nextBrowserLanguageDetector.min.js',
   './node_modules/jszip/dist/jszip.min.js',
