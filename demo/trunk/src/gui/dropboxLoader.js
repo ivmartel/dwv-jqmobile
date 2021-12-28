@@ -97,48 +97,48 @@ dwvjq.gui.DropboxLoader = function (app) {
    */
   this.showDropbox = function (show) {
     var box = document.getElementById(dropboxDivId);
-    var isBoxShown = box && box.offsetHeight !== 0;
+    if (!box) {
+      return;
+    }
     var layerDiv = document.getElementById('layerGroup0');
 
-    if (box) {
-      if (show && !isBoxShown) {
-        // reset css class
-        box.className = dropboxClassName + ' ' + borderClassName;
-        // add content if empty
-        if (box.innerHTML === '') {
-          var p = document.createElement('p');
-          p.appendChild(document.createTextNode('Drag and drop data here'));
-          box.appendChild(p);
-        }
-        // show box
-        box.setAttribute('style', 'visible:true;width:50%;height:75%');
-        // stop layer listening
-        if (layerDiv) {
-          layerDiv.removeEventListener('dragover', defaultHandleDragEvent);
-          layerDiv.removeEventListener('dragleave', defaultHandleDragEvent);
-          layerDiv.removeEventListener('drop', onDrop);
-        }
-        // listen to box events
-        box.addEventListener('dragover', onBoxDragOver);
-        box.addEventListener('dragleave', onBoxDragLeave);
-        box.addEventListener('drop', onDrop);
-      } else {
-        // remove border css class
-        box.className = dropboxClassName;
-        // remove content
-        box.innerHTML = '';
-        // hide box
-        box.setAttribute('style', 'visible:false;width:0;height:0');
-        // stop box listening
-        box.removeEventListener('dragover', onBoxDragOver);
-        box.removeEventListener('dragleave', onBoxDragLeave);
-        box.removeEventListener('drop', onDrop);
-        // listen to layer events
-        if (layerDiv) {
-          layerDiv.addEventListener('dragover', defaultHandleDragEvent);
-          layerDiv.addEventListener('dragleave', defaultHandleDragEvent);
-          layerDiv.addEventListener('drop', onDrop);
-        }
+    if (show) {
+      // reset css class
+      box.className = dropboxClassName + ' ' + borderClassName;
+      // add content if empty
+      if (box.innerHTML === '') {
+        var p = document.createElement('p');
+        p.appendChild(document.createTextNode('Drag and drop data here'));
+        box.appendChild(p);
+      }
+      // show box
+      box.setAttribute('style', 'display:initial');
+      // stop layer listening
+      if (layerDiv) {
+        layerDiv.removeEventListener('dragover', defaultHandleDragEvent);
+        layerDiv.removeEventListener('dragleave', defaultHandleDragEvent);
+        layerDiv.removeEventListener('drop', onDrop);
+      }
+      // listen to box events
+      box.addEventListener('dragover', onBoxDragOver);
+      box.addEventListener('dragleave', onBoxDragLeave);
+      box.addEventListener('drop', onDrop);
+    } else {
+      // remove border css class
+      box.className = dropboxClassName;
+      // remove content
+      box.innerHTML = '';
+      // hide box
+      box.setAttribute('style', 'display:none');
+      // stop box listening
+      box.removeEventListener('dragover', onBoxDragOver);
+      box.removeEventListener('dragleave', onBoxDragLeave);
+      box.removeEventListener('drop', onDrop);
+      // listen to layer events
+      if (layerDiv) {
+        layerDiv.addEventListener('dragover', defaultHandleDragEvent);
+        layerDiv.addEventListener('dragleave', defaultHandleDragEvent);
+        layerDiv.addEventListener('drop', onDrop);
       }
     }
   };
