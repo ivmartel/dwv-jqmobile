@@ -305,7 +305,7 @@ dwvjq.gui.GoogleDriveLoad = function (app) {
     gdriveLoadDiv.style.display = 'none';
 
     // node
-    var node = app.getElement('loaderlist');
+    var node = document.getElementById('dwv-loaderlist');
     // append
     node.appendChild(gdriveLoadDiv);
     // refresh
@@ -318,7 +318,7 @@ dwvjq.gui.GoogleDriveLoad = function (app) {
    */
   this.display = function (bool) {
     // gdrive div element
-    var node = app.getElement('loaderlist');
+    var node = document.getElementById('dwv-loaderlist');
     var filediv = node.getElementsByClassName('gdrivediv')[0];
     filediv.style.display = bool ? '' : 'none';
 

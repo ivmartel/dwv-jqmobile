@@ -81,7 +81,7 @@ dwvjq.gui.appendHelpHtml = function (toolList, mobile, app, resourcesPath) {
     }
   }
 
-  var helpNode = app.getElement('help');
+  var helpNode = document.getElementById('dwv-help');
 
   var headPara = document.createElement('p');
   headPara.appendChild(document.createTextNode(dwv.i18n('help.intro.p0')));

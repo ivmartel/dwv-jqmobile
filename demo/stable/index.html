@@ -15,12 +15,12 @@
 <link type="text/css" rel="stylesheet" href="node_modules/nprogress/nprogress.css" />
 <style type="text/css" >
 .ui-popup .ui-controlgroup { background-color: #252525; }
-.colourLi > .ui-input-text { text-align: center; }
-.colourLi > .ui-input-text input { min-height: 2em; width: 7em; display:inline-block }
-.lwColourLi > .ui-input-text { text-align: center; }
-.lwColourLi > .ui-input-text input { min-height: 2em; width: 7em; display:inline-block }
-.ffColourLi > .ui-input-text { text-align: center; }
-.ffColourLi > .ui-input-text input { min-height: 2em; width: 7em; display:inline-block }
+#colourLi > .ui-input-text { text-align: center; }
+#colourLi > .ui-input-text input { min-height: 2em; width: 7em; display:inline-block }
+#lwColourLi > .ui-input-text { text-align: center; }
+#lwColourLi > .ui-input-text input { min-height: 2em; width: 7em; display:inline-block }
+#ffColourLi > .ui-input-text { text-align: center; }
+#ffColourLi > .ui-input-text input { min-height: 2em; width: 7em; display:inline-block }
 /* jquery-mobile strip not visible enough */
 .table-stripe tbody tr:nth-child(odd) td,
 .table-stripe tbody tr:nth-child(odd) th {
@@ -45,7 +45,7 @@
 <link rel="apple-touch-icon" sizes="256x256" href="resources/icons/icon-256.png" />
 <!-- Third party (dwv) -->
 <script type="text/javascript" src="node_modules/i18next/i18next.min.js"></script>
-<script type="text/javascript" src="node_modules/i18next-xhr-backend/i18nextXHRBackend.min.js"></script>
+<script type="text/javascript" src="node_modules/i18next-http-backend/i18nextHttpBackend.min.js"></script>
 <script type="text/javascript" src="node_modules/i18next-browser-languagedetector/i18nextBrowserLanguageDetector.min.js"></script>
 <script type="text/javascript" src="node_modules/jszip/dist/jszip.min.js"></script>
 <script type="text/javascript" src="node_modules/konva/konva.min.js"></script>
@@ -111,13 +111,11 @@
   data-transition="slide" data-i18n="basics.help">Help</a>
 </div><!-- /pageHeader -->
 
-<!-- DWV -->
-<div id="dwv">
-
+<!-- pageMain -->
 <div id="pageMain" data-role="content">
 
 <!-- Toolbar -->
-<div class="toolbar"></div>
+<div id="dwv-toolbar"></div>
 
 <!-- Auth popup -->
 <div data-role="popup" id="popupAuth">
@@ -141,35 +139,36 @@
 </div>
 </div><!-- /popup -->
 
+<!-- DWV -->
+<div id="dwv">
+
 <!-- Layer Container -->
-<div class="layerContainer">
-<canvas class="imageLayer">Only for HTML5 compatible browsers...</canvas>
-<div class="dropBox"></div>
-<div class="infoLayer">
-<div class="infotl info"></div>
-<div class="infotc infoc"></div>
-<div class="infotr info"></div>
-<div class="infocl infoc"></div>
-<div class="infocr infoc"></div>
-<div class="infobl info"></div>
-<div class="infobc infoc"></div>
-<div class="infobr info"></div>
-</div><!-- /infoLayer -->
-<div class="drawDiv"></div>
-</div><!-- /layerContainer -->
+<div id="layerGroup0" class="layerGroup">
+  <div id="dropBox"></div>
+  <div id="infoLayer">
+    <div id="infotl" class="infotl info"></div>
+    <div id="infotc" class="infotc infoc"></div>
+    <div id="infotr" class="infotr info"></div>
+    <div id="infocl" class="infocl infoc"></div>
+    <div id="infocr" class="infocr infoc"></div>
+    <div id="infobl" class="infobl info"></div>
+    <div id="infobc" class="infobc infoc"></div>
+    <div id="infobr" class="infobr info"></div>
+  </div><!-- /infoLayer -->
+</div><!-- /layerGroup -->
+
+</div><!-- /dwv -->
 
 <!-- History -->
-<div class="history" title="History" style="display:none;"></div>
+<div id="dwv-history" title="History" style="display:none;"></div>
 
 </div><!-- /page main -->
 
 <!-- pageFooter -->
 <div id="pageFooter" data-role="footer" data-position="fixed">
-<div data-role="navbar" class="toolList">
+<div data-role="navbar" id="dwv-toolList">
 </div><!-- /navbar -->
 </div><!-- /pageFooter -->
-
-</div><!-- /dwv -->
 
 </div><!-- /page -->
 

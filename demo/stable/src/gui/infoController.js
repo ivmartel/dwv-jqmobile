@@ -8,9 +8,8 @@ dwvjq.gui.info = dwvjq.gui.info || {};
  * DICOM Header overlay info controller.
  * @constructor
  * @param {Object} app The assciated app.
- * @param {String} containerDivId The id of the container div.
  */
-dwvjq.gui.info.Controller = function (app, containerDivId) {
+dwvjq.gui.info.Controller = function (app) {
   // Info layer overlay guis
   var overlayGuis = [];
   // flag to tell if guis have been created
@@ -31,14 +30,14 @@ dwvjq.gui.info.Controller = function (app, containerDivId) {
 
     for (var n = 0; n < pos_list.length; ++n) {
       var pos = pos_list[n];
-      var infoElement = getElement('info' + pos);
+      var infoElement = document.getElementById('info' + pos);
       if (infoElement) {
         overlayGuis.push(new dwvjq.gui.info.Overlay(infoElement, pos));
       }
     }
 
     // listen to update data
-    app.addEventListener('slicechange', onSliceChange);
+    app.addEventListener('positionchange', onSliceChange);
     // first toggle: set to listening
     this.toggleListeners();
   };
@@ -73,9 +72,10 @@ dwvjq.gui.info.Controller = function (app, containerDivId) {
       );
     } else {
       // image file case
-      for (var d = 0; d < data.length; ++d) {
-        var obj = data[d];
-        if (obj.name === 'imageUid') {
+      var keys = Object.keys(data);
+      for (var d = 0; d < keys.length; ++d) {
+        var obj = data[keys[d]];
+        if (keys[d] === 'imageUid') {
           dataUid = obj.value;
           break;
         }
@@ -137,7 +137,7 @@ dwvjq.gui.info.Controller = function (app, containerDivId) {
     if (isInfoLayerListening) {
       for (n = 0; n < overlayGuis.length; ++n) {
         // default slice change for tags
-        app.removeEventListener('slicechange', overlayGuis[n].update);
+        app.removeEventListener('positionchange', overlayGuis[n].update);
         // from config
         for (e = 0; e < events.length; ++e) {
           app.removeEventListener(events[e], overlayGuis[n].update);
@@ -146,7 +146,7 @@ dwvjq.gui.info.Controller = function (app, containerDivId) {
     } else {
       for (n = 0; n < overlayGuis.length; ++n) {
         // default slice change for tags
-        app.addEventListener('slicechange', overlayGuis[n].update);
+        app.addEventListener('positionchange', overlayGuis[n].update);
         // from config
         for (e = 0; e < events.length; ++e) {
           app.addEventListener(events[e], overlayGuis[n].update);
@@ -158,11 +158,15 @@ dwvjq.gui.info.Controller = function (app, containerDivId) {
   };
 
   /**
-   * Get a HTML element associated to the application.
-   * @param name The name or id to find.
-   * @return The found element or null.
+   * Fit layer info to layer canvas.
    */
-  function getElement(name) {
-    return dwvjq.gui.getElement(containerDivId, name);
-  }
+  this.fitContainer = function () {
+    var layer = document.getElementById('layer-0-0');
+    if (layer) {
+      var canvas = layer.querySelector('canvas');
+      var container = document.getElementById('infoLayer');
+      container.style.width = canvas.width + 'px';
+    }
+  };
+
 }; // class dwvjq.gui.info.Controller

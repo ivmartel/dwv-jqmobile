@@ -3,16 +3,6 @@ var dwvjq = dwvjq || {};
 dwvjq.gui = dwvjq.gui || {};
 
 /**
- * Ask some text to the user.
- * @param {String} message Text to display to the user.
- * @param {String} defaultText Default value displayed in the text input field.
- * @return {String} Text entered by the user.
- */
-dwvjq.gui.prompt = function (message, defaultText) {
-  return prompt(message, defaultText);
-};
-
-/**
  * Post process a HTML table.
  * @param {Object} table The HTML table to process.
  * @return The processed HTML table.
@@ -54,29 +44,6 @@ dwvjq.gui.postProcessTable = function (table) {
 };
 
 /**
- * Get a HTML element associated to a container div.
- * @param {Number} containerDivId The id of the container div.
- * @param {String} name The name or id to find.
- * @return {Object} The found element or null.
- */
-dwvjq.gui.getElement = function (containerDivId, name) {
-  // get by class in the container div
-  var parent = document.getElementById(containerDivId);
-  if (!parent) {
-    return null;
-  }
-  var elements = parent.getElementsByClassName(name);
-  // getting the last element since some libraries (ie jquery-mobile) create
-  // span in front of regular tags (such as select)...
-  var element = elements[elements.length - 1];
-  // if not found get by id with 'containerDivId-className'
-  if (typeof element === 'undefined') {
-    element = document.getElementById(containerDivId + '-' + name);
-  }
-  return element;
-};
-
-/**
  * Set the selected item of a HTML select.
  * @param {String} element The HTML select element.
  * @param {String} value The value of the option to mark as selected.
@@ -96,10 +63,9 @@ dwvjq.gui.setSelected = function (element, value) {
 
 /**
  * MetaData base gui: shows DICOM tags or file meta data.
- * @param {Object} app The associated application.
  * @constructor
  */
-dwvjq.gui.MetaData = function (app) {
+dwvjq.gui.MetaData = function () {
   /**
    * Update the DICOM tags table with the input info.
    * @param {Object} dataInfo The data information.
@@ -116,7 +82,7 @@ dwvjq.gui.MetaData = function (app) {
     }
 
     // HTML node
-    var node = app.getElement('tags');
+    var node = document.getElementById('dwv-tags');
     if (node === null) {
       console.warn('Cannot find a node to append the meta data.');
       return;
@@ -190,7 +156,7 @@ dwvjq.gui.DrawList = function (app) {
     }
 
     // HTML node
-    var node = app.getElement('drawList');
+    var node = document.getElementById('dwv-drawList');
     if (node === null) {
       console.warn('Cannot find a node to append the drawing list.');
       return;
@@ -208,9 +174,36 @@ dwvjq.gui.DrawList = function (app) {
       return;
     }
 
+    // simpler details
+    var simpleDetails = [];
+    for (var i = 0; i < drawDisplayDetails.length; ++i) {
+      var detail = drawDisplayDetails[i];
+      var keys = Object.keys(detail);
+      var simpleDetail = {};
+      for (var k = 0; k < keys.length; ++k) {
+        var key = keys[k];
+        // copy all but meta
+        if (key !== 'meta') {
+          simpleDetail[key] = detail[key];
+        }
+        // shorten id
+        if (key === 'id') {
+          simpleDetail[key] = detail[key].substring(0, 5);
+        }
+      }
+      // add description
+      simpleDetail.description = detail.meta.textExpr;
+      simpleDetails.push(simpleDetail);
+    }
+
     // tags HTML table
-    var table = dwvjq.html.toTable(drawDisplayDetails);
+    var table = dwvjq.html.toTable(simpleDetails);
     table.className = 'drawsTable';
+
+    // cell indices
+    var shapeCellIndex = 2;
+    var colorCellIndex = 3;
+    var descCellIndex = 4;
 
     // optional gui specific table post process
     dwvjq.gui.postProcessTable(table);
@@ -225,7 +218,7 @@ dwvjq.gui.DrawList = function (app) {
     dwvjq.html.translateTableRow(table.rows.item(0));
 
     // translate shape names
-    dwvjq.html.translateTableColumn(table, 3, 'shape', 'name');
+    dwvjq.html.translateTableColumn(table, shapeCellIndex, 'shape', 'name');
 
     // create a color onkeyup handler
     var createColorOnKeyUp = function (details) {
@@ -235,28 +228,20 @@ dwvjq.gui.DrawList = function (app) {
       };
     };
     // create a text onkeyup handler
-    var createTextOnKeyUp = function (details) {
+    var createDescriptionOnKeyUp = function (details) {
       return function () {
-        details.label = this.value;
-        app.updateDraw(details);
-      };
-    };
-    // create a long text onkeyup handler
-    var createLongTextOnKeyUp = function (details) {
-      return function () {
-        details.description = this.value;
+        details.meta.textExpr = this.value;
         app.updateDraw(details);
       };
     };
     // create a row onclick handler
-    var createRowOnClick = function (slice, frame) {
+    var createRowOnClick = function (positionStr) {
       return function () {
-        // update slice
-        var pos = app.getViewController().getCurrentPosition();
-        pos.k = slice;
-        app.getViewController().setCurrentPosition(pos);
-        // update frame
-        app.getViewController().setCurrentFrame(frame);
+        var layerGroup = app.getActiveLayerGroup();
+        var viewController =
+          layerGroup.getActiveViewLayer().getViewController();
+        var pos = dwv.math.getFromString(positionStr);
+        viewController.setCurrentPosition(pos);
         // focus on the image
         dwvjq.gui.focusImage();
       };
@@ -282,42 +267,30 @@ dwvjq.gui.DrawList = function (app) {
 
       // loop through cells
       for (var c = 0; c < cells.length; ++c) {
-        // show short ID
-        if (c === 0) {
-          cells[c].firstChild.data = cells[c].firstChild.data.substring(0, 5);
-        }
-
         if (isEditable) {
           // color
-          if (c === 4) {
+          if (c === colorCellIndex) {
             dwvjq.html.makeCellEditable(
               cells[c],
               createColorOnKeyUp(drawDetails),
               'color'
             );
-          } else if (c === 5) {
+          } else if (c === descCellIndex) {
             // text
             dwvjq.html.makeCellEditable(
               cells[c],
-              createTextOnKeyUp(drawDetails)
-            );
-          } else if (c === 6) {
-            // long text
-            dwvjq.html.makeCellEditable(
-              cells[c],
-              createLongTextOnKeyUp(drawDetails)
+              createDescriptionOnKeyUp(drawDetails)
             );
           }
         } else {
           // id: link to image
           cells[0].onclick = createRowOnClick(
-            cells[1].firstChild.data,
-            cells[2].firstChild.data
+            cells[1].firstChild.data
           );
           cells[0].onmouseover = dwvjq.html.setCursorToPointer;
           cells[0].onmouseout = dwvjq.html.setCursorToDefault;
           // color: just display the input color with no callback
-          if (c === 4) {
+          if (c === colorCellIndex) {
             dwvjq.html.makeCellEditable(cells[c], null, 'color');
           }
         }

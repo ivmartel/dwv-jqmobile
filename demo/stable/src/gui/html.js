@@ -84,10 +84,35 @@ dwvjq.html.appendRowForArray = function (
       }
       dwvjq.html.appendCell(row, value);
     } else {
+      var rheader = '';
+      if (input.length !== 1 && level > 1) {
+        rheader += '[' + i + '] ';
+      }
+      if (typeof rowHeader !== 'undefined') {
+        rheader = rowHeader + rheader;
+      }
       // more to come
-      dwvjq.html.appendRow(table, value, level + i, maxLevel, rowHeader);
+      dwvjq.html.appendRow(table, value, level + 1, maxLevel, rheader);
     }
   }
+
+  // header row for array of objects
+  // warn: need to create the header after the rest
+  // otherwise the data will be inserted in the thead...
+  if (input.length !== 0 && level === 0) {
+    var keys = Object.keys(input[0]);
+    if (keys.length !== 0) {
+      var header = table.createTHead();
+      var th = header.insertRow(-1);
+      if (rowHeader) {
+        dwvjq.html.appendHCell(th, '');
+      }
+      for (var k = 0; k < keys.length; ++k) {
+        dwvjq.html.appendHCell(th, keys[k]);
+      }
+    }
+  }
+
 };
 
 /**
@@ -121,26 +146,23 @@ dwvjq.html.appendRowForObject = function (
       if (!row) {
         row = table.insertRow(-1);
       }
-      if (o === 0 && rowHeader) {
-        dwvjq.html.appendCell(row, rowHeader);
+      var prefix = '';
+      if (o === 0 && typeof rowHeader !== 'undefined') {
+        prefix = rowHeader;
       }
-      dwvjq.html.appendCell(row, value);
+      dwvjq.html.appendCell(row, prefix + value);
     } else {
-      // more to come
-      dwvjq.html.appendRow(table, value, level + o, maxLevel, keys[o]);
-    }
-  }
-  // header row
-  // warn: need to create the header after the rest
-  // otherwise the data will inserted in the thead...
-  if (level === 2) {
-    var header = table.createTHead();
-    var th = header.insertRow(-1);
-    if (rowHeader) {
-      dwvjq.html.appendHCell(th, '');
-    }
-    for (var k = 0; k < keys.length; ++k) {
-      dwvjq.html.appendHCell(th, keys[k]);
+      // if the value is an array, add an empty cell
+      if (dwv.utils.isArray(value) &&
+        value.length !== 0 &&
+        dwv.utils.isObject(value[0])) {
+        if (!row) {
+          row = table.insertRow(-1);
+        }
+        dwvjq.html.appendCell(row, '');
+      }
+      // add row
+      dwvjq.html.appendRow(table, value, level + 1, maxLevel, rowHeader);
     }
   }
 };
@@ -155,12 +177,11 @@ dwvjq.html.appendRowForObject = function (
  *  (mainly for objects).
  */
 dwvjq.html.appendRow = function (table, input, level, maxLevel, rowHeader) {
-  // array
-  if (input instanceof Array) {
-    dwvjq.html.appendRowForArray(table, input, level + 1, maxLevel, rowHeader);
-  } else if (typeof input === 'object') {
-    // object
-    dwvjq.html.appendRowForObject(table, input, level + 1, maxLevel, rowHeader);
+  // call specific append
+  if (dwv.utils.isArray(input)) {
+    dwvjq.html.appendRowForArray(table, input, level, maxLevel, rowHeader);
+  } else if (dwv.utils.isObject(input)) {
+    dwvjq.html.appendRowForObject(table, input, level, maxLevel, rowHeader);
   } else {
     throw new Error('Unsupported input data type.');
   }
@@ -180,7 +201,7 @@ dwvjq.html.toTable = function (input) {
   }
 
   var table = document.createElement('table');
-  dwvjq.html.appendRow(table, input, 0, 2);
+  dwvjq.html.appendRow(table, input, 0, 20);
   return table;
 };
 
@@ -486,18 +507,17 @@ dwvjq.html.setCursorToDefault = function () {
  * Create a HTML select from an input array of options.
  * The values of the options are the name of the option made lower case.
  * It is left to the user to set the 'onchange' method of the select.
- * @param {String} name The name of the HTML select.
+ * @param {String} id The id of the HTML select.
  * @param {Mixed} list The list of options of the HTML select.
  * @param {String} i18nPrefix An optional namespace prefix to find the
  *  translation values.
  * @param {Bool} i18nSafe An optional flag to check translation existence.
  * @return {Object} The created HTML select.
  */
-dwvjq.html.createHtmlSelect = function (name, list, i18nPrefix, i18nSafe) {
+dwvjq.html.createHtmlSelect = function (id, list, i18nPrefix, i18nSafe) {
   // select
   var select = document.createElement('select');
-  //select.name = name;
-  select.className = name;
+  select.id = id;
   var prefix = typeof i18nPrefix === 'undefined' ? '' : i18nPrefix + '.';
   var safe = typeof i18nSafe === 'undefined' ? false : true;
   var getText = function (value) {
@@ -574,11 +594,11 @@ dwvjq.html.appendElement = function (parent, element) {
 /**
  * Create an element.
  * @param {String} type The type of the elemnt.
- * @param {String} className The className of the element.
+ * @param {String} id The id of the element.
  */
-dwvjq.html.createHiddenElement = function (type, className) {
+dwvjq.html.createHiddenElement = function (type, id) {
   var element = document.createElement(type);
-  element.className = className;
+  element.id = id;
   // hide by default
   element.style.display = 'none';
   // return

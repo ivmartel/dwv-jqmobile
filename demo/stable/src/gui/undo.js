@@ -6,7 +6,7 @@ dwvjq.gui = dwvjq.gui || {};
  * Undo base gui.
  * @constructor
  */
-dwvjq.gui.Undo = function (app) {
+dwvjq.gui.Undo = function () {
   /**
    * Setup the undo HTML.
    */
@@ -16,13 +16,13 @@ dwvjq.gui.Undo = function (app) {
     paragraph.appendChild(document.createElement('br'));
 
     var select = document.createElement('select');
-    select.className = 'history_list';
+    select.id = 'history_list';
     select.name = 'history_list';
     select.multiple = 'multiple';
     paragraph.appendChild(select);
 
     // node
-    var node = app.getElement('history');
+    var node = document.getElementById('dwv-history');
     // clear it
     while (node.hasChildNodes()) {
       node.removeChild(node.firstChild);
@@ -37,7 +37,7 @@ dwvjq.gui.Undo = function (app) {
    * Clear the command list of the undo HTML.
    */
   this.initialise = function () {
-    var select = app.getElement('history_list');
+    var select = document.getElementById('history_list');
     if (select && select.length !== 0) {
       for (var i = select.length - 1; i >= 0; --i) {
         select.remove(i);
@@ -52,7 +52,7 @@ dwvjq.gui.Undo = function (app) {
    * @param {String} commandName The name of the command to add.
    */
   this.addCommandToUndoHtml = function (commandName) {
-    var select = app.getElement('history_list');
+    var select = document.getElementById('history_list');
     // remove undone commands
     var count = select.length - (select.selectedIndex + 1);
     if (count > 0) {
@@ -76,7 +76,7 @@ dwvjq.gui.Undo = function (app) {
    * @param {Boolean} enable Flag to enable or disable the command.
    */
   this.enableLastInUndoHtml = function (enable) {
-    var select = app.getElement('history_list');
+    var select = document.getElementById('history_list');
     // enable or not (order is important)
     var option;
     if (enable) {
