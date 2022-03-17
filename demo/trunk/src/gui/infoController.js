@@ -103,9 +103,12 @@ dwvjq.gui.info.Controller = function (app) {
    */
   function onSliceChange(event) {
     // change the overlay data to the one of the new slice
-    var dataUid = event.data.imageUid;
-    for (var i = 0; i < overlayGuis.length; ++i) {
-      overlayGuis[i].setOverlayData(overlayData[dataUid]);
+    if (typeof event.data !== 'undefined' &&
+      typeof event.data.imageUid !== 'undefined') {
+      var dataUid = event.data.imageUid;
+      for (var i = 0; i < overlayGuis.length; ++i) {
+        overlayGuis[i].setOverlayData(overlayData[dataUid]);
+      }
     }
   }
 
