@@ -290,7 +290,7 @@ dwvjq.gui.Draw = function (app) {
       'shape'
     );
     shapeSelector.onchange = function (event) {
-      app.setDrawShape(event.currentTarget.value);
+      app.setToolFeatures({shapeName: event.currentTarget.value});
     };
     // colour select
     var colourSelector = null;
@@ -307,7 +307,7 @@ dwvjq.gui.Draw = function (app) {
       );
     }
     colourSelector.onchange = function (event) {
-      app.setDrawLineColour(event.currentTarget.value);
+      app.setToolFeatures({shapeColour: event.currentTarget.value});
     };
 
     // shape list element
@@ -351,8 +351,9 @@ dwvjq.gui.Draw = function (app) {
     // set selected shape
     if (bool) {
       var shapeSelector = document.getElementById('shapeSelect');
-      app.setDrawShape(
-        shapeSelector.options[shapeSelector.selectedIndex].value);
+      app.setToolFeatures({
+        shapeName: shapeSelector.options[shapeSelector.selectedIndex].value
+      });
     }
   };
 
@@ -430,7 +431,7 @@ dwvjq.gui.ColourTool = function (app, prefix) {
       );
     }
     colourSelector.onchange = function (event) {
-      app.setDrawLineColour(event.currentTarget.value);
+      app.setToolFeatures({shapeColour: event.currentTarget.value});
     };
 
     // colour list element
