@@ -75,9 +75,12 @@ dwvjq.gui.Slider = function (app) {
     document.getElementById('thresholdLi').appendChild(div);
     // bind change
     $('#threshold-div').on('change', function (/*event*/) {
-      app.setFilterMinMax({
-        min: $('#threshold-min').val(),
-        max: $('#threshold-max').val()
+      app.setToolFeatures({
+        run: true,
+        runArgs: {
+          min: $('#threshold-min').val(),
+          max: $('#threshold-max').val()
+        }
       });
     });
     // refresh
