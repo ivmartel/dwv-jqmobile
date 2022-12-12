@@ -368,10 +368,10 @@ duplexify@^3.5.1:
     readable-stream "^2.0.0"
     stream-shift "^1.0.0"
 
-dwv@0.31.0-beta.18:
-  version "0.31.0-beta.18"
-  resolved "https://registry.yarnpkg.com/dwv/-/dwv-0.31.0-beta.18.tgz#2696a689443a72f789b890c068eac42f156627f4"
-  integrity sha512-TqOH1RfwC/ImsPhO3/L3r138bawt8wZDraaRXxiC2vkPcSbTxIwkldNWXhSqJpsSHo79yeeu+huzxU091BW0Og==
+dwv@0.31.0-beta.19:
+  version "0.31.0-beta.19"
+  resolved "https://registry.yarnpkg.com/dwv/-/dwv-0.31.0-beta.19.tgz#bf7e51fea3f12ac09cda3bfc9c3a96c52be9dc50"
+  integrity sha512-mJqQ4xghArWQbipy5i5YDCTKtzXGvESzRk3VOAagdSQTTc1t247ZUK8Ix+53L6+PXSZgXIRbt2x9P16arqbipg==
   dependencies:
     i18next "~21.6.12"
     i18next-browser-languagedetector "~6.1.2"
