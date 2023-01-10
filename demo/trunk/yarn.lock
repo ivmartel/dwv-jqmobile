@@ -368,10 +368,10 @@ duplexify@^3.5.1:
     readable-stream "^2.0.0"
     stream-shift "^1.0.0"
 
-dwv@0.31.0-beta.14:
-  version "0.31.0-beta.14"
-  resolved "https://registry.yarnpkg.com/dwv/-/dwv-0.31.0-beta.14.tgz#58e0cf8bd81ba4e8a80bc789a2afd73f62675188"
-  integrity sha512-b59gEPt0FqdIXc/mRDXKXxYJeTwqqzRCECQW/keiJUdWimFu9mfPmp2t1Igr1E+kz4f1kYrGqiIwQZJeInHVDQ==
+dwv@0.31.0-beta.20:
+  version "0.31.0-beta.20"
+  resolved "https://registry.yarnpkg.com/dwv/-/dwv-0.31.0-beta.20.tgz#a6ca4c96f3caacc5b78cc3f77f2d0ff7c549663e"
+  integrity sha512-zHphCFWyW0vRO8/TTkcqRLoHfeD8bUfd6SiKRxPzy3EsN3/4/cmO9xUlVAf/Y0umUf2x6mdHV+We6hL8B5y5wg==
   dependencies:
     i18next "~21.6.12"
     i18next-browser-languagedetector "~6.1.2"
@@ -836,9 +836,9 @@ grunt-contrib-watch@^1.1.0:
     tiny-lr "^1.1.1"
 
 grunt-eslint@^24.0.0:
-  version "24.0.0"
-  resolved "https://registry.yarnpkg.com/grunt-eslint/-/grunt-eslint-24.0.0.tgz#ad14e1cd9c869e0365e2bf4a97241c0c8844c7cc"
-  integrity sha512-WpTeBBFweyhMuPjGwRSQV9JFJ+EczIdlsc7Dd/1g78QVI1aZsk4g/H3e+3S5HEwsS1RKL2YZIrGj8hMLlBfN8w==
+  version "24.0.1"
+  resolved "https://registry.yarnpkg.com/grunt-eslint/-/grunt-eslint-24.0.1.tgz#a07f4063931c6fefcffbfdf2e60ddfd558d5ba31"
+  integrity sha512-gFzp+ikAkwyu6nqBE2zx1pLVL0JPrerG7jaO4uJV3XUGKPIipv4mfhDOS5MyiMrzUtGdXSW8FkRHjoUnfqbW+g==
   dependencies:
     chalk "^4.1.2"
     eslint "^8.0.1"
