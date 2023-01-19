@@ -139,6 +139,7 @@ dwvjq.gui.DrawList = function (app) {
    * Initialise.
    */
   this.init = function () {
+    app.addEventListener('positionchange', update);
     app.addEventListener('drawcreate', update);
     app.addEventListener('drawchange', update);
     app.addEventListener('drawdelete', update);
@@ -240,23 +241,36 @@ dwvjq.gui.DrawList = function (app) {
         var layerGroup = app.getActiveLayerGroup();
         var viewController =
           layerGroup.getActiveViewLayer().getViewController();
-        var pos = dwv.math.getFromString(positionStr);
-        viewController.setCurrentPosition(pos);
+        var split = positionStr.substring(1, positionStr.length - 1).split(',');
+        var pos = new dwv.math.Point(split);
+        viewController.setCurrentIndex(pos);
         // focus on the image
         dwvjq.gui.focusImage();
       };
     };
+
     // create visibility handler
-    var createVisibleOnClick = function (details) {
+    var createVisibleOnClick = function (details, element) {
       return function () {
         app.toogleGroupVisibility(details);
+        if (app.isGroupVisible(details)) {
+          element.className = 'text-button checked';
+        } else {
+          element.className = 'text-button unchecked';
+        }
+      };
+    };
+    // delete handler
+    var createDeleteOnClick = function (details) {
+      return function () {
+        app.deleteDraw(details);
       };
     };
 
-    // append visible column to the header row
+    // append action column to the header row
     var row0 = table.rows.item(0);
     var cell00 = row0.insertCell(0);
-    cell00.outerHTML = '<th>' + dwv.i18n('basics.visible') + '</th>';
+    cell00.outerHTML = '<th>' + dwv.i18n('basics.action') + '</th>';
 
     // loop through rows
     for (var r = 1; r < table.rows.length; ++r) {
@@ -296,13 +310,25 @@ dwvjq.gui.DrawList = function (app) {
         }
       }
 
-      // append visible column
+      // append actions
       var cell0 = row.insertCell(0);
-      var input = document.createElement('input');
-      input.setAttribute('type', 'checkbox');
-      input.checked = app.isGroupVisible(drawDetails);
-      input.onclick = createVisibleOnClick(drawDetails);
-      cell0.appendChild(input);
+      // visibility
+      var visibilitySpan = document.createElement('span');
+      if (app.isGroupVisible(drawDetails)) {
+        visibilitySpan.className = 'text-button checked';
+      } else {
+        visibilitySpan.className = 'text-button unchecked';
+      }
+      visibilitySpan.appendChild(document.createTextNode('\u{1F441}')); // eye
+      visibilitySpan.onclick =
+        createVisibleOnClick(drawDetails, visibilitySpan);
+      cell0.appendChild(visibilitySpan);
+      // delete
+      var deleteSpan = document.createElement('span');
+      deleteSpan.className = 'text-button checked';
+      deleteSpan.appendChild(document.createTextNode('\u2715')); // cross
+      deleteSpan.onclick = createDeleteOnClick(drawDetails, deleteSpan);
+      cell0.appendChild(deleteSpan);
     }
 
     // editable checkbox
