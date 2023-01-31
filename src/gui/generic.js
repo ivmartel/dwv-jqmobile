@@ -167,8 +167,12 @@ dwvjq.gui.DrawList = function (app) {
       node.removeChild(node.firstChild);
     }
 
+    // draw controller
+    var drawLayer = app.getActiveLayerGroup().getActiveDrawLayer();
+    var drawController = drawLayer.getDrawController();
+
     // drawing details
-    var drawDisplayDetails = app.getDrawDisplayDetails();
+    var drawDisplayDetails = drawController.getDrawDisplayDetails();
 
     // exit if no details
     if (drawDisplayDetails.length === 0) {
@@ -225,14 +229,14 @@ dwvjq.gui.DrawList = function (app) {
     var createColorOnKeyUp = function (details) {
       return function () {
         details.color = this.value;
-        app.updateDraw(details);
+        drawController.updateDraw(details);
       };
     };
     // create a text onkeyup handler
     var createDescriptionOnKeyUp = function (details) {
       return function () {
         details.meta.textExpr = this.value;
-        app.updateDraw(details);
+        drawController.updateDraw(details);
       };
     };
     // create a row onclick handler
@@ -252,8 +256,8 @@ dwvjq.gui.DrawList = function (app) {
     // create visibility handler
     var createVisibleOnClick = function (details, element) {
       return function () {
-        app.toogleGroupVisibility(details);
-        if (app.isGroupVisible(details)) {
+        drawLayer.toogleGroupVisibility(details.id);
+        if (drawLayer.isGroupVisible(details.id)) {
           element.className = 'text-button checked';
         } else {
           element.className = 'text-button unchecked';
@@ -263,7 +267,7 @@ dwvjq.gui.DrawList = function (app) {
     // delete handler
     var createDeleteOnClick = function (details) {
       return function () {
-        app.deleteDraw(details);
+        drawLayer.deleteDraw(details.id, app.addToUndoStack);
       };
     };
 
@@ -314,7 +318,7 @@ dwvjq.gui.DrawList = function (app) {
       var cell0 = row.insertCell(0);
       // visibility
       var visibilitySpan = document.createElement('span');
-      if (app.isGroupVisible(drawDetails)) {
+      if (drawLayer.isGroupVisible(drawDetails.id)) {
         visibilitySpan.className = 'text-button checked';
       } else {
         visibilitySpan.className = 'text-button unchecked';
@@ -360,7 +364,7 @@ dwvjq.gui.DrawList = function (app) {
     // delete draw button
     var deleteButton = document.createElement('button');
     deleteButton.onclick = function () {
-      app.deleteDraws();
+      drawLayer.deleteDraws(app.addToUndoStack);
     };
     deleteButton.setAttribute('class', 'ui-btn ui-btn-inline');
     deleteButton.appendChild(
