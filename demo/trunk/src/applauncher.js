@@ -33,21 +33,13 @@ function startApp() {
     WindowLevel: {},
     ZoomAndPan: {},
     Draw: {
-      options: shapeList,
-      type: 'factory',
-      events: ['drawcreate', 'drawchange', 'drawmove', 'drawdelete']
+      options: shapeList
     },
-    Livewire: {
-      events: ['drawcreate', 'drawchange', 'drawmove', 'drawdelete']
-    },
+    Livewire: {},
     Filter: {
-      options: filterList,
-      type: 'instance',
-      events: ['filterrun', 'filterundo']
+      options: filterList
     },
-    Floodfill: {
-      events: ['drawcreate', 'drawchange', 'drawmove', 'drawdelete']
-    }
+    Floodfill: {}
   };
 
   // initialise the application
