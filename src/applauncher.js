@@ -104,14 +104,14 @@ function startApp() {
 
   // handle load events
   var nLoadItem = null;
-  var nReceivedError = null;
-  var nReceivedAbort = null;
+  var nReceivedLoadError = null;
+  var nReceivedLoadAbort = null;
   var isFirstRender = null;
   myapp.addEventListener('loadstart', function (event) {
     // reset counts
     nLoadItem = 0;
-    nReceivedError = 0;
-    nReceivedAbort = 0;
+    nReceivedLoadError = 0;
+    nReceivedLoadAbort = 0;
     isFirstRender = true;
     // hide drop box
     dropBoxLoader.showDropbox(false);
@@ -150,19 +150,19 @@ function startApp() {
     // update meta data table
     metaDataGui.update(myapp.getMetaData(0));
   });
-  myapp.addEventListener('error', function (event) {
+  myapp.addEventListener('loaderror', function (event) {
     console.error('load error', event);
-    ++nReceivedError;
+    ++nReceivedLoadError;
   });
-  myapp.addEventListener('abort', function (/*event*/) {
-    ++nReceivedAbort;
+  myapp.addEventListener('loadabort', function (/*event*/) {
+    ++nReceivedLoadAbort;
   });
   myapp.addEventListener('loadend', function (/*event*/) {
     // show alert for errors
-    if (nReceivedError) {
+    if (nReceivedLoadError) {
       var message = 'A load error has ';
-      if (nReceivedError > 1) {
-        message = nReceivedError + ' load errors have ';
+      if (nReceivedLoadError > 1) {
+        message = nReceivedLoadError + ' load errors have ';
       }
       message += 'occured. See log for details.';
       alert(message);
@@ -172,7 +172,7 @@ function startApp() {
       }
     }
     // console warn for aborts
-    if (nReceivedAbort !== 0) {
+    if (nReceivedLoadAbort !== 0) {
       console.warn('Data load was aborted.');
       dropBoxLoader.showDropbox(true);
     }
