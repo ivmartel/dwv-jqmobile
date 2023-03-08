@@ -8,7 +8,7 @@ var dwvjq = dwvjq || {};
 // start app function
 function startApp() {
   // translate page
-  dwv.i18nPage();
+  dwvjq.i18nPage();
 
   // show dwv version
   dwvjq.gui.appendVersionHtml('0.7.0-beta');
@@ -228,7 +228,7 @@ function launchApp() {
   }
 }
 // i18n ready?
-dwv.i18nOnInitialised(function () {
+dwvjq.i18nOnInitialised(function () {
   // call next once the overlays are loaded
   var onLoaded = function (data) {
     dwvjq.gui.info.overlayMaps = data;
@@ -236,16 +236,17 @@ dwv.i18nOnInitialised(function () {
     launchApp();
   };
   // load overlay map info
-  $.getJSON(dwv.i18nGetLocalePath('overlays.json'), onLoaded).fail(function () {
+  $.getJSON(dwvjq.i18nGetLocalePath('overlays.json'),
+    onLoaded).fail(function () {
     console.log('Using fallback overlays.');
-    $.getJSON(dwv.i18nGetFallbackLocalePath('overlays.json'), onLoaded);
+    $.getJSON(dwvjq.i18nGetFallbackLocalePath('overlays.json'), onLoaded);
   });
 });
 
 // check environment support
 dwv.env.check();
 // initialise i18n
-dwv.i18nInitialise('auto', 'node_modules/dwv');
+dwvjq.i18nInitialise('auto', './resources');
 
 // DOM ready?
 $(document).ready(function () {

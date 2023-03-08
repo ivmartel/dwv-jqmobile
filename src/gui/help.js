@@ -32,7 +32,7 @@ dwvjq.gui.appendHelpHtml = function (toolList, mobile, app, resourcesPath) {
   var helpKeys = null;
   var tkeys = Object.keys(toolList);
   for (var t = 0; t < tkeys.length; ++t) {
-    helpKeys = toolList[tkeys[t]].getHelpKeys();
+    helpKeys = dwvjq.gui.getHelpKeys(tkeys[t]);
     // title
     var titleElement = document.createElement('h3');
     var titleStr = dwv.i18n(helpKeys.title);
@@ -95,4 +95,57 @@ dwvjq.gui.appendHelpHtml = function (toolList, mobile, app, resourcesPath) {
   toolPara.appendChild(document.createTextNode(dwv.i18n('help.tool_intro')));
   helpNode.appendChild(toolPara);
   helpNode.appendChild(toolHelpDiv);
+};
+
+/**
+ * Help for this tool.
+ *
+ * @param {string} toolName The tool name.
+ * @returns {object} The help content keys.
+ */
+dwvjq.gui.getHelpKeys = function (toolName) {
+  var res = {
+    title: 'tool.' + toolName + '.name',
+    brief: 'tool.' + toolName + '.brief',
+  };
+  var toolActions = {
+    'Draw': {
+      mouse: ['mouse_drag'],
+      touch: ['touch_drag']
+    },
+    'Floodfill': {
+      mouse: ['click'],
+      touch: ['tap']
+    },
+    'Opacity': {
+      mouse: ['mouse_drag'],
+      touch: ['touch_drag']
+    },
+    'Scroll': {
+      mouse: ['mouse_drag', 'double_click'],
+      touch: ['touch_drag', 'tap_and_hold']
+    },
+    'WindowLevel': {
+      mouse: ['mouse_drag', 'double_click'],
+      touch: ['touch_drag']
+    },
+    'ZoomAndPan': {
+      mouse: ['mouse_drag', 'mouse_drag'],
+      touch: ['twotouch_pinch', 'touch_drag']
+    }
+  };
+  var actions = toolActions[toolName];
+  if (typeof actions !== 'undefined') {
+    res.mouse = {};
+    for (var i = 0; i < actions.mouse.length; ++i) {
+      var mAction = actions.mouse[i];
+      res.mouse[mAction] = 'tool.' + toolName + '.' + mAction;
+    }
+    res.touch = {};
+    for (var j = 0; j < actions.touch.length; ++j) {
+      var tAction = actions.touch[j];
+      res.touch[tAction] = 'tool.' + toolName + '.' + tAction;
+    }
+  }
+  return res;
 };
