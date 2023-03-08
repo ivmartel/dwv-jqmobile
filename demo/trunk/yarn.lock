@@ -250,7 +250,7 @@ colors@~1.1.2:
 concat-map@0.0.1:
   version "0.0.1"
   resolved "https://registry.yarnpkg.com/concat-map/-/concat-map-0.0.1.tgz#d8a96bd77fd68df7793a73036a3ba0d5405d477b"
-  integrity sha1-2Klr13/Wjfd5OnMDajug1UBdR3s=
+  integrity sha512-/Srv4dswyQNBfohGpz9o6Yb3Gz3SrUDqBH5rTuhGR7ahtlbYKnVxw2bCFMRljaA7EXHaXZ8wsHdodFvbkhKmqg==
 
 connect-livereload@^0.6.1:
   version "0.6.1"
@@ -368,10 +368,10 @@ duplexify@^3.5.1:
     readable-stream "^2.0.0"
     stream-shift "^1.0.0"
 
-dwv@0.31.0-beta.23:
-  version "0.31.0-beta.23"
-  resolved "https://registry.yarnpkg.com/dwv/-/dwv-0.31.0-beta.23.tgz#5accf83560693ac3d0e36b81b4244a2611df5e9d"
-  integrity sha512-Ir039n94tyq/fhssCpfT/pHWtEvR3yXEatHkTk1ZLh3NYnPNrLdM/N+7Mj380Wl1mGDtgNyjoepU8ybunRSHvQ==
+dwv@0.31.0-rc.0:
+  version "0.31.0-rc.0"
+  resolved "https://registry.yarnpkg.com/dwv/-/dwv-0.31.0-rc.0.tgz#244191c07db87f289308b2fbdcd85a9f2420a2c2"
+  integrity sha512-f4teEx/bNHkFUYVBqPNSwDsTYkb8iotPH1RSjHbsXXbMYtypT7aX2096hjlay+FKq/7RemfpIt7Wkp5I7KQi3A==
   dependencies:
     i18next "~21.6.12"
     i18next-browser-languagedetector "~6.1.2"
@@ -1290,9 +1290,9 @@ mime@1.6.0:
   integrity sha512-x0Vn8spI+wuJ1O6S7gnbaQg8Pxh4NNHb7KSINmEWKiPE4RKOplvijn+NkmYmmRgP68mc70j2EbeTFRsrswaQeg==
 
 minimatch@^3.0.4, minimatch@~3.0.2, minimatch@~3.0.4:
-  version "3.0.4"
-  resolved "https://registry.yarnpkg.com/minimatch/-/minimatch-3.0.4.tgz#5166e286457f03306064be5497e8dbb0c3d32083"
-  integrity sha512-yJHVQEhyqPLUTgt9B83PXu6W3rx4MvvHvSUvToogpwoGDOUQ+yDrR0HRot+yOCdCO7u4hX3pWft6kWBBcqh0UA==
+  version "3.0.8"
+  resolved "https://registry.yarnpkg.com/minimatch/-/minimatch-3.0.8.tgz#5e6a59bd11e2ab0de1cfb843eb2d82e546c321c1"
+  integrity sha512-6FsRAQsxQ61mw+qP1ZzbL9Bc78x2p5OqNgNpnoAFLTrX8n5Kxph0CsnhmKKNXTWjXqU5L0pGPR7hYk+XWZr60Q==
   dependencies:
     brace-expansion "^1.1.7"
 
