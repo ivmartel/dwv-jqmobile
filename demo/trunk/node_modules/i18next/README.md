@@ -6,6 +6,7 @@
 [![Package Quality](https://packagequality.com/shield/i18next.svg)](https://packagequality.com/#?package=i18next)
 [![cdnjs version](https://img.shields.io/cdnjs/v/i18next.svg?style=flat-square)](https://cdnjs.com/libraries/i18next)
 [![npm version](https://img.shields.io/npm/v/i18next.svg?style=flat-square)](https://www.npmjs.com/package/i18next)
+![npm](https://img.shields.io/npm/dw/i18next)
 
 i18next is a very popular internationalization framework for browser or any other javascript environment (eg. Node.js, Deno).
 
@@ -13,8 +14,8 @@ i18next is a very popular internationalization framework for browser or any othe
 
 i18next provides:
 
-- Flexible connection to [backend](https://www.i18next.com/plugins-and-utils.html#backends) (loading translations via xhr, ...)
-- Optional [caching](https://www.i18next.com/plugins-and-utils.html#caches), user [language detection](https://www.i18next.com/plugins-and-utils.html#language-detector), ...
+- Flexible connection to [backend](https://www.i18next.com/overview/plugins-and-utils#backends) (loading translations via xhr, ...)
+- Optional [caching](https://www.i18next.com/how-to/caching), user [language detection](https://www.i18next.com/overview/plugins-and-utils#language-detector), ...
 - Proper [pluralizations](https://www.i18next.com/translation-function/plurals)
 - Translation [context](https://www.i18next.com/translation-function/context)
 - [Nesting](https://www.i18next.com/translation-function/nesting), [Variable replacement](https://www.i18next.com/translation-function/interpolation)
@@ -43,6 +44,9 @@ The react specific documentation is published on [react.i18next.com](https://rea
 <p align="center">
   <a href="https://locize.com/" target="_blank">
     <img src="https://raw.githubusercontent.com/i18next/i18next/master/assets/locize_sponsor_240.gif" width="240px">
+  </a>
+  <a href="https://localistars.com/" target="_blank">
+    <img src="https://raw.githubusercontent.com/i18next/i18next/master/assets/localistars_sponsor_240.gif" width="240px">
   </a>
 </p>
 

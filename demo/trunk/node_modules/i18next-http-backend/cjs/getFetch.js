@@ -4,6 +4,8 @@ if (typeof fetch === 'function') {
     fetchApi = global.fetch
   } else if (typeof window !== 'undefined' && window.fetch) {
     fetchApi = window.fetch
+  } else {
+    fetchApi = fetch
   }
 }
 

@@ -107,9 +107,6 @@ print([[
 
 print([[
 <!-- Third party (dwv) -->
-<script type="text/javascript" src="/dwv-jqmobile/node_modules/i18next/i18next.min.js"></script>
-<script type="text/javascript" src="/dwv-jqmobile/node_modules/i18next-http-backend/i18nextHttpBackend.min.js"></script>
-<script type="text/javascript" src="/dwv-jqmobile/node_modules/i18next-browser-languagedetector/i18nextBrowserLanguageDetector.min.js"></script>
 <script type="text/javascript" src="/dwv-jqmobile/node_modules/jszip/dist/jszip.min.js"></script>
 <script type="text/javascript" src="/dwv-jqmobile/node_modules/konva/konva.min.js"></script>
 <script type="text/javascript" src="/dwv-jqmobile/node_modules/magic-wand-js/js/magic-wand-min.js"></script>
@@ -121,6 +118,9 @@ print([[
 <script type="text/javascript" src="/dwv-jqmobile/ext/jquery-mobile/jquery.mobile-1.4.5.min.js"></script>
 <script type="text/javascript" src="/dwv-jqmobile/node_modules/nprogress/nprogress.js"></script>
 <script type="text/javascript" src="/dwv-jqmobile/ext/flot/jquery.flot.min.js"></script>
+<script type="text/javascript" src="/dwv-jqmobile/node_modules/i18next/i18next.min.js"></script>
+<script type="text/javascript" src="/dwv-jqmobile/node_modules/i18next-http-backend/i18nextHttpBackend.min.js"></script>
+<script type="text/javascript" src="/dwv-jqmobile/node_modules/i18next-browser-languagedetector/i18nextBrowserLanguageDetector.min.js"></script>
 ]])
 
 print([[
@@ -145,7 +145,7 @@ print([[
 // start app function
 function startApp() {
     // translate page
-    dwv.i18nPage();
+    dwvjq.i18nPage();
     // main application
     var myapp = new dwv.App();
     // initialise the application
@@ -202,18 +202,18 @@ function launchApp() {
     }
 }
 // i18n ready?
-dwv.i18nOnInitialised( function () {
+dwvjq.i18nOnInitialised( function () {
     // call next once the overlays are loaded
     var onLoaded = function (data) {
-        dwv.gui.info.overlayMaps = data;
+      dwvjq.gui.info.overlayMaps = data;
         i18nInitialised = true;
         launchApp();
     };
     // load overlay map info
-    $.getJSON( dwv.i18nGetLocalePath("overlays.json"), onLoaded )
+    $.getJSON( dwvjq.i18nGetLocalePath("overlays.json"), onLoaded )
     .fail( function () {
         console.log("Using fallback overlays.");
-        $.getJSON( dwv.i18nGetFallbackLocalePath("overlays.json"), onLoaded );
+        $.getJSON( dwvjq.i18nGetFallbackLocalePath("overlays.json"), onLoaded );
     });
 });
 ]])
@@ -222,7 +222,7 @@ print([[
 // check environment support
 dwv.env.check();
 // initialise i18n
-dwv.i18nInitialise("auto", "/dwv-jqmobile/node_modules/dwv");
+dwvjq.i18nInitialise("auto", "/dwv-jqmobile/resources");
 // DOM ready?
 $(document).ready( function() {
     domContentLoaded = true;
