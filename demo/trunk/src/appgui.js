@@ -17,6 +17,7 @@ dwv.tool.colourMaps = {
   hotmetalblue: dwv.image.lut.hot_metal_blue,
   pet20step: dwv.image.lut.pet_20step
 };
+
 // Default window level presets.
 dwv.tool.defaultpresets = {};
 // Default window level presets for CT.

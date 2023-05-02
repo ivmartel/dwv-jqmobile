@@ -361,10 +361,10 @@ duplexify@^3.5.1:
     readable-stream "^2.0.0"
     stream-shift "^1.0.0"
 
-dwv@0.31.0:
-  version "0.31.0"
-  resolved "https://registry.yarnpkg.com/dwv/-/dwv-0.31.0.tgz#c9777291774d49225ba0c1b8020d104f09312ebf"
-  integrity sha512-c/9cmBdPHtH2l2YEacMLdkqpzXTx0rfcof70ujvR2XhDC/IVgGuXUkM1+ZJKvfFyQowditTciif938ib3SB9vQ==
+dwv@0.31.1:
+  version "0.31.1"
+  resolved "https://registry.yarnpkg.com/dwv/-/dwv-0.31.1.tgz#adf4cf55d2be1212beb908fd125e46b03c21c484"
+  integrity sha512-X+xuudemYB5WcPHjh0AtRanVgulwHEcPEZBcBDereaUBjfZD0D2cI/PYWDZZ5khK7be66MqVQDHVat9+0wc10A==
   dependencies:
     jszip "~3.7.0"
     konva "~8.3.0"
@@ -962,9 +962,9 @@ i18next-http-backend@~2.2.0:
     cross-fetch "3.1.5"
 
 i18next@~22.4.11:
-  version "22.4.14"
-  resolved "https://registry.yarnpkg.com/i18next/-/i18next-22.4.14.tgz#18dd94e9adc2618497c7de101a206e1ca3a18727"
-  integrity sha512-VtLPtbdwGn0+DAeE00YkiKKXadkwg+rBUV+0v8v0ikEjwdiJ0gmYChVE4GIa9HXymY6wKapkL93vGT7xpq6aTw==
+  version "22.4.15"
+  resolved "https://registry.yarnpkg.com/i18next/-/i18next-22.4.15.tgz#951882b751872994f8502b5a6ef6f796e6a7d7f8"
+  integrity sha512-yYudtbFrrmWKLEhl6jvKUYyYunj4bTBCe2qIUYAxbXoPusY7YmdwPvOE6fx6UIfWvmlbCWDItr7wIs8KEBZ5Zg==
   dependencies:
     "@babel/runtime" "^7.20.6"
 
