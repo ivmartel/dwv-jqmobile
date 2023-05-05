@@ -79,8 +79,11 @@ function startApp() {
   loadboxGui.setup(loaderList);
 
   // info layer
-  var infoController = new dwvjq.gui.info.Controller(myapp, 'dwv');
+  var infoController = new dwvjq.gui.info.Controller(myapp);
   infoController.init();
+
+  var infoElement = document.getElementById('infoLayer');
+  var infoOverlay = new dwvjq.gui.info.Overlay(infoElement);
 
   // setup the tool gui
   var toolboxGui = new dwvjq.gui.ToolboxContainer(myapp, infoController);
@@ -119,7 +122,7 @@ function startApp() {
     dwvjq.gui.displayProgress(0);
     // update info controller
     if (event.loadtype === 'image') {
-      infoController.onLoadStart();
+      infoController.reset();
     }
     // allow to cancel via crtl-x
     window.addEventListener('keydown', abortOnCrtlX);
@@ -135,10 +138,14 @@ function startApp() {
       infoController.onLoadItem(event);
     }
   });
+  myapp.addEventListener('renderstart', function (/*event*/) {
+    if (isFirstRender) {
+      infoController.addEventListener('valuechange', infoOverlay.onDataChange);
+    }
+  });
   myapp.addEventListener('renderend', function (/*event*/) {
     if (isFirstRender) {
       isFirstRender = false;
-      infoController.fitContainer();
       // initialise and display the toolbox on first render
       toolboxGui.initialise();
       toolboxGui.display(true);
@@ -203,7 +210,6 @@ function startApp() {
   // (for example resizing while viewing the meta data table)
   window.addEventListener('resize', function () {
     myapp.onResize();
-    infoController.fitContainer();
   });
 
   // possible load from location
