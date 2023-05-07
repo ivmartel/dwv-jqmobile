@@ -67,7 +67,6 @@ dwvjq.utils.loadFromUri = function (uri, app) {
 dwv.logger = dwv.utils.logger.console;
 dwv.logger.level = dwv.utils.logger.levels.DEBUG;
 
-
 // [end] dwv overrides -------------------------
 
 // special close dialog on change
