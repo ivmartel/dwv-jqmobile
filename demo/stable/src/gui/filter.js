@@ -31,7 +31,7 @@ dwvjq.gui.Filter = function (app) {
       }
       filterGuis[event.currentTarget.value].display(true);
       // tell the app
-      app.setImageFilter(event.currentTarget.value);
+      app.setToolFeatures({filterName: event.currentTarget.value});
     };
 
     // filter list element
@@ -67,7 +67,7 @@ dwvjq.gui.Filter = function (app) {
       var selectedFilter =
         filterSelector.options[filterSelector.selectedIndex].value;
       filterGuis[selectedFilter].display(true);
-      app.setImageFilter(selectedFilter);
+      app.setToolFeatures({filterName: selectedFilter});
     } else {
       var optionKeys = Object.keys(filterSelector.options);
       for (var i = 0; i < optionKeys.length; ++i) {
@@ -160,7 +160,7 @@ dwvjq.gui.filter.base.createFilterApplyButton = function (app) {
   var button = document.createElement('button');
   button.id = 'runFilterButton';
   button.onclick = function (/*event*/) {
-    app.runImageFilter();
+    app.setToolFeatures({run: true});
   };
   button.setAttribute('style', 'width:100%; margin-top:0.5em;');
   button.setAttribute('class', 'ui-btn ui-btn-b');

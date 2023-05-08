@@ -524,7 +524,7 @@ dwvjq.html.createHtmlSelect = function (id, list, i18nPrefix, i18nSafe) {
     var key = prefix + value + '.name';
     var text = '';
     if (safe) {
-      if (dwv.i18nExists(key)) {
+      if (dwvjq.i18nExists(key)) {
         text = dwv.i18n(key);
       } else {
         text = value;

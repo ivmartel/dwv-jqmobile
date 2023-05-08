@@ -17,6 +17,7 @@ dwv.tool.colourMaps = {
   hotmetalblue: dwv.image.lut.hot_metal_blue,
   pet20step: dwv.image.lut.pet_20step
 };
+
 // Default window level presets.
 dwv.tool.defaultpresets = {};
 // Default window level presets for CT.
@@ -65,7 +66,6 @@ dwvjq.utils.loadFromUri = function (uri, app) {
 // (if debug, need to activate debug level in Chrome console)
 dwv.logger = dwv.utils.logger.console;
 dwv.logger.level = dwv.utils.logger.levels.DEBUG;
-
 
 // [end] dwv overrides -------------------------
 
