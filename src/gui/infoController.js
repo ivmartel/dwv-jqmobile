@@ -25,7 +25,7 @@ dwvjq.gui.info.Controller = function (app) {
   // flag to know if the info layer is listening on the image.
   var isInfoLayerListening = false;
   // listener handler
-  var listenerHandler = new dwv.utils.ListenerHandler();
+  var listenerHandler = new dwvjq.utils.ListenerHandler();
 
   /**
    * Create the different info elements.
@@ -128,7 +128,7 @@ dwvjq.gui.info.Controller = function (app) {
             }
             values = values.map(mapFunc);
           }
-          text = dwv.utils.replaceFlags2(format, values);
+          text = replaceFlags(format, values);
         }
       }
       if (typeof text !== 'undefined') {
@@ -216,7 +216,7 @@ dwvjq.gui.info.Controller = function (app) {
  * @example
  *    var values = ["a", "b"];
  *    var str = "The length is: {v0}. The size is: {v1}";
- *    var res = replaceFlags2(str, values);
+ *    var res = replaceFlags(str, values);
  *    // "The length is: a. The size is: b"
  * @returns {string} The result string.
  */
