@@ -195,7 +195,7 @@
         "plain": {
             "name": "正常面"
         },
-        "invplain": {
+        "invPlain": {
             "name": "反转"
         },
         "rainbow": {
@@ -204,16 +204,16 @@
         "hot": {
             "name": "火红"
         },
-        "hotiron": {
+        "hot_iron": {
             "name": "金属红"
         },
         "pet": {
             "name": "混合色"
         },
-        "hotmetalblue": {
+        "hot_metal_blue": {
             "name": "热金属蓝"
         },
-        "pet20step": {
+        "pet_20step": {
             "name": "步幅20混合色"
         }
     },

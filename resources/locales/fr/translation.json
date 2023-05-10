@@ -195,7 +195,7 @@
         "plain": {
             "name": "Plain"
         },
-        "invplain": {
+        "invPlain": {
             "name": "Invplain"
         },
         "rainbow": {
@@ -204,16 +204,16 @@
         "hot": {
             "name": "Hot"
         },
-        "hotiron": {
+        "hot_iron": {
             "name": "Hot Iron"
         },
         "pet": {
             "name": "Pet"
         },
-        "hotmetalblue": {
+        "hot_metal_blue": {
             "name": "Hot Metal Blue"
         },
-        "pet20step": {
+        "pet_20step": {
             "name": "Pet 20 niveaux"
         }
     },
