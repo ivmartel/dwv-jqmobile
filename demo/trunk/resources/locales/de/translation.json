@@ -195,7 +195,7 @@
         "plain": {
             "name": "Schwarzweiß"
         },
-        "invplain": {
+        "invPlain": {
             "name": "Schwarzweiß invertiert"
         },
         "rainbow": {
@@ -204,16 +204,16 @@
         "hot": {
             "name": "Warm"
         },
-        "hotiron": {
+        "hot_iron": {
             "name": "Heißes Eisen"
         },
         "pet": {
             "name": "PET"
         },
-        "hotmetalblue": {
+        "hot_metal_blue": {
             "name": "Heißes Eisen weiß"
         },
-        "pet20step": {
+        "pet_20step": {
             "name": "PET 20 Stufen"
         }
     },
