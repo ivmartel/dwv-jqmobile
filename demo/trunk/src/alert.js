@@ -85,7 +85,7 @@ dwvjq.tool.Alert = function (app) {
  * Help for this tool.
  * @return {Object} The help content.
  */
-dwv.tool.Alert.prototype.getHelp = function () {
+dwvjq.tool.Alert.prototype.getHelp = function () {
   return {
     title: 'Alert',
     brief: 'Keeps calling alert!',
