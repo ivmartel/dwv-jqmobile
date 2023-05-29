@@ -239,14 +239,14 @@ dwvjq.html.getHtmlSearchForm = function (htmlTableToSearch, elementId) {
 /**
  * Filter a table with a given parameter: sets the display css of rows to
  * true or false if it contains the term.
- * @param {String} term The term to filter the table with.
+ * @param {String} inputElement The search input element.
  * @param {Object} table The table to filter.
  */
-dwvjq.html.filterTable = function (term, table) {
+dwvjq.html.filterTable = function (inputElement, table) {
   // de-highlight
   dwvjq.html.dehighlight(table);
   // split search terms
-  var terms = term.value.toLowerCase().split(' ');
+  var terms = inputElement.value.toLowerCase().split(' ');
 
   // search
   var text = 0;
