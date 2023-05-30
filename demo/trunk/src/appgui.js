@@ -19,14 +19,17 @@ dwv.tool.defaultpresets.CT = {
 
 // decode query
 dwvjq.utils.loadFromUri = function (uri, app) {
-  var query = dwv.utils.getUriQuery(uri);
+  var url = new URL(uri);
+  var searchParams = url.searchParams;
   // check query
-  if (query && typeof query.input !== 'undefined') {
+  var input = searchParams.get('input');
+  if (input) {
+    var type = searchParams.get('type');
     // special gdrive
-    if (query.type === 'gdrive') {
+    if (type) {
       var gAuth = new dwvjq.google.Auth();
       var gDrive = new dwvjq.google.Drive();
-      gDrive.setIds(query.input.split(','));
+      gDrive.setIds(input.split(','));
       // pipeline
       gAuth.onload = gDrive.load;
       gAuth.onfail = function () {
@@ -43,7 +46,7 @@ dwvjq.utils.loadFromUri = function (uri, app) {
       gAuth.loadSilent();
     } else {
       // default
-      dwv.utils.loadFromQuery(query, app);
+      dwv.utils.loadFromUri(uri, app);
     }
   }
 };
