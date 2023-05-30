@@ -143,7 +143,7 @@ dwvjq.gui.WindowLevel = function (app) {
     // colour map select
     var cmSelector = dwvjq.html.createHtmlSelect(
       'colourMapSelect',
-      dwv.image.lut,
+      dwv.tool.colourMaps,
       'colourmap'
     );
     cmSelector.onchange = function (event) {
