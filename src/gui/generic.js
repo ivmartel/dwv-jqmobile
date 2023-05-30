@@ -16,7 +16,7 @@ dwvjq.gui.postProcessTable = function (table) {
   //table.setAttribute('data-mode', 'columntoggle');
   table.setAttribute(
     'data-column-btn-text',
-    dwv.i18n('basics.columns') + '...'
+    dwvjq.i18n.t('basics.columns') + '...'
   );
   // add priority columns for columntoggle
   var addDataPriority = function (cell) {
@@ -408,7 +408,7 @@ dwvjq.gui.DrawList = function (app) {
     // append action column to the header row
     var row0 = table.rows.item(0);
     var cell00 = row0.insertCell(0);
-    cell00.outerHTML = '<th>' + dwv.i18n('basics.action') + '</th>';
+    cell00.outerHTML = '<th>' + dwvjq.i18n.t('basics.action') + '</th>';
 
     // loop through rows
     for (var r = 1; r < table.rows.length; ++r) {
@@ -481,7 +481,8 @@ dwvjq.gui.DrawList = function (app) {
     var tickLabel = document.createElement('label');
     tickLabel.setAttribute('for', tickBox.id);
     tickLabel.setAttribute('class', 'inline');
-    tickLabel.appendChild(document.createTextNode(dwv.i18n('basics.editMode')));
+    tickLabel.appendChild(document.createTextNode(
+      dwvjq.i18n.t('basics.editMode')));
     // checkbox div
     var tickDiv = document.createElement('div');
     tickDiv.appendChild(tickLabel);
@@ -508,7 +509,7 @@ dwvjq.gui.DrawList = function (app) {
     };
     deleteButton.setAttribute('class', 'ui-btn ui-btn-inline');
     deleteButton.appendChild(
-      document.createTextNode(dwv.i18n('basics.deleteDraws'))
+      document.createTextNode(dwvjq.i18n.t('basics.deleteDraws'))
     );
     if (!isEditable) {
       deleteButton.style.display = 'none';

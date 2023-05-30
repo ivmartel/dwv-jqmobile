@@ -35,13 +35,13 @@ dwvjq.gui.appendHelpHtml = function (toolList, mobile, app, resourcesPath) {
     helpKeys = dwvjq.gui.getHelpKeys(tkeys[t]);
     // title
     var titleElement = document.createElement('h3');
-    var titleStr = dwv.i18n(helpKeys.title);
+    var titleStr = dwvjq.i18n.t(helpKeys.title);
     titleElement.appendChild(document.createTextNode(titleStr));
     // doc div
     var docDiv = document.createElement('div');
     // brief
     var briefElement = document.createElement('p');
-    var briefStr = dwv.i18n(helpKeys.brief);
+    var briefStr = dwvjq.i18n.t(helpKeys.brief);
     briefElement.appendChild(document.createTextNode(briefStr));
     docDiv.appendChild(briefElement);
     // details
@@ -60,7 +60,7 @@ dwvjq.gui.appendHelpHtml = function (toolList, mobile, app, resourcesPath) {
 
         var para = document.createElement('p');
         para.appendChild(img);
-        var actionHelp = dwv.i18n(helpKeys[actionType][action]);
+        var actionHelp = dwvjq.i18n.t(helpKeys[actionType][action]);
         para.appendChild(document.createTextNode(actionHelp));
         para.appendChild(br);
         docDiv.appendChild(para);
@@ -84,15 +84,18 @@ dwvjq.gui.appendHelpHtml = function (toolList, mobile, app, resourcesPath) {
   var helpNode = document.getElementById('dwv-help');
 
   var headPara = document.createElement('p');
-  headPara.appendChild(document.createTextNode(dwv.i18n('help.intro.p0')));
+  headPara.appendChild(document.createTextNode(
+    dwvjq.i18n.t('help.intro.p0')));
   helpNode.appendChild(headPara);
 
   var secondPara = document.createElement('p');
-  secondPara.appendChild(document.createTextNode(dwv.i18n('help.intro.p1')));
+  secondPara.appendChild(document.createTextNode(
+    dwvjq.i18n.t('help.intro.p1')));
   helpNode.appendChild(secondPara);
 
   var toolPara = document.createElement('p');
-  toolPara.appendChild(document.createTextNode(dwv.i18n('help.tool_intro')));
+  toolPara.appendChild(document.createTextNode(
+    dwvjq.i18n.t('help.tool_intro')));
   helpNode.appendChild(toolPara);
   helpNode.appendChild(toolHelpDiv);
 };
