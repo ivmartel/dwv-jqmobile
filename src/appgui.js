@@ -6,6 +6,18 @@ dwvjq.utils = dwvjq.utils || {};
  * Application GUI.
  */
 
+// Default colour maps.
+dwv.tool.colourMaps = {
+  plain: dwv.image.lut.plain,
+  invPlain: dwv.image.lut.invPlain,
+  rainbow: dwv.image.lut.rainbow,
+  hot: dwv.image.lut.hot,
+  hot_iron: dwv.image.lut.hot_iron,
+  pet: dwv.image.lut.pet,
+  hot_metal_blue: dwv.image.lut.hot_metal_blue,
+  pet_20step: dwv.image.lut.pet_20step
+};
+
 // Default window level presets.
 dwv.tool.defaultpresets = {};
 // Default window level presets for CT.
