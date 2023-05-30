@@ -4,6 +4,18 @@ var dwvjq = dwvjq || {};
 dwvjq.html = dwvjq.html || {};
 
 /**
+ * Check if the input is a generic object, including arrays.
+ *
+ * @param {*} unknown The input to check.
+ * @returns {boolean} True if the input is an object.
+ * ref: https://github.com/jashkenas/underscore/blob/1.9.1/underscore.js#L1319-L1323
+ */
+dwvjq.html.isObject = function (unknown) {
+  const type = typeof unknown;
+  return type === 'function' || type === 'object' && !!unknown;
+};
+
+/**
  * Append a cell to a given row.
  * @param {Object} row The row to append the cell to.
  * @param {Object} content The content of the cell.
@@ -25,7 +37,7 @@ dwvjq.html.appendCell = function (row, content) {
       content[10] = '...';
     }
     str = Array.prototype.join.call(content, ', ');
-  } else if (dwv.utils.isObject(content)) {
+  } else if (dwvjq.html.isObject(content)) {
     str = '';
     var keys = Object.keys(content);
     for (var i = 0; i < keys.length; ++i) {
@@ -153,9 +165,9 @@ dwvjq.html.appendRowForObject = function (
       dwvjq.html.appendCell(row, prefix + value);
     } else {
       // if the value is an array, add an empty cell
-      if (dwv.utils.isArray(value) &&
+      if (Array.isArray(value) &&
         value.length !== 0 &&
-        dwv.utils.isObject(value[0])) {
+        dwvjq.html.isObject(value[0])) {
         if (!row) {
           row = table.insertRow(-1);
         }
@@ -178,9 +190,9 @@ dwvjq.html.appendRowForObject = function (
  */
 dwvjq.html.appendRow = function (table, input, level, maxLevel, rowHeader) {
   // call specific append
-  if (dwv.utils.isArray(input)) {
+  if (Array.isArray(input)) {
     dwvjq.html.appendRowForArray(table, input, level, maxLevel, rowHeader);
-  } else if (dwv.utils.isObject(input)) {
+  } else if (dwvjq.html.isObject(input)) {
     dwvjq.html.appendRowForObject(table, input, level, maxLevel, rowHeader);
   } else {
     throw new Error('Unsupported input data type.');
