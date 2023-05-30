@@ -232,7 +232,8 @@ dwvjq.html.getHtmlSearchForm = function (elementId) {
   // label
   var label = document.createElement('label');
   label.setAttribute('for', input.id);
-  label.appendChild(document.createTextNode(dwv.i18n('basics.search') + ': '));
+  label.appendChild(document.createTextNode(
+    dwvjq.i18n.t('basics.search') + ': '));
 
   // div
   var div = document.createElement('div');
@@ -423,7 +424,7 @@ dwvjq.html.translateTableRow = function (row, i18nPrefix) {
   var cells = row.cells;
   for (var c = 0; c < cells.length; ++c) {
     var text = cells[c].firstChild.data;
-    cells[c].firstChild.data = dwv.i18n(prefix + text);
+    cells[c].firstChild.data = dwvjq.i18n.t(prefix + text);
   }
 };
 
@@ -453,7 +454,8 @@ dwvjq.html.translateTableColumn = function (
       var cells = table.rows.item(r).cells;
       if (cells.length >= columnNumber) {
         var text = cells[columnNumber].firstChild.data;
-        cells[columnNumber].firstChild.data = dwv.i18n(prefix + text + suffix);
+        cells[columnNumber].firstChild.data =
+          dwvjq.i18n.t(prefix + text + suffix);
       }
     }
   }
@@ -541,13 +543,13 @@ dwvjq.html.createHtmlSelect = function (id, list, i18nPrefix, i18nSafe) {
     var key = prefix + value + '.name';
     var text = '';
     if (safe) {
-      if (dwvjq.i18nExists(key)) {
-        text = dwv.i18n(key);
+      if (dwvjq.i18n.exists(key)) {
+        text = dwvjq.i18n.t(key);
       } else {
         text = value;
       }
     } else {
-      text = dwv.i18n(key);
+      text = dwvjq.i18n.t(key);
     }
     return text;
   };

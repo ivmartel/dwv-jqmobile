@@ -202,7 +202,7 @@ function launchApp() {
     }
 }
 // i18n ready?
-dwvjq.i18nOnInitialised( function () {
+dwvjq.i18n.onInitialised( function () {
     // call next once the overlays are loaded
     var onLoaded = function (data) {
       dwvjq.gui.info.overlayMaps = data;
@@ -210,10 +210,10 @@ dwvjq.i18nOnInitialised( function () {
         launchApp();
     };
     // load overlay map info
-    $.getJSON( dwvjq.i18nGetLocalePath("overlays.json"), onLoaded )
+    $.getJSON( dwvjq.i18n.getLocalePath("overlays.json"), onLoaded )
     .fail( function () {
         console.log("Using fallback overlays.");
-        $.getJSON( dwvjq.i18nGetFallbackLocalePath("overlays.json"), onLoaded );
+        $.getJSON( dwvjq.i18n.getFallbackLocalePath("overlays.json"), onLoaded );
     });
 });
 ]])
