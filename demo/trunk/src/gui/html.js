@@ -190,7 +190,8 @@ dwvjq.html.appendRow = function (table, input, level, maxLevel, rowHeader) {
 /**
  * Converts the input to an HTML table.
  * @input {Mixed} input Allowed types are: array, array of object, object.
- * @return {Object} The created HTML table or null if the input is empty.
+ * @return {HTMLTableRowElement} The created HTML table or null
+ *  if the input is empty.
  * @warning Null is interpreted differently in browsers,
  *  Firefox will not display it.
  */
@@ -211,27 +212,31 @@ dwvjq.html.toTable = function (input) {
  * @param {string} elementId The HTML element id.
  * @return {Object} The HTML search form.
  */
-dwvjq.html.getHtmlSearchForm = function (htmlTableToSearch, elementId) {
+dwvjq.html.getHtmlSearchForm = function (elementId) {
   // input
   var input = document.createElement('input');
-  input.id = elementId;
-  // TODO Use new html5 search type
-  //input.setAttribute("type", "search");
-  input.onkeyup = function () {
-    dwvjq.html.filterTable(input, htmlTableToSearch);
-  };
+  input.id = elementId + '-input';
+  input.type = 'text';
   // label
   var label = document.createElement('label');
   label.setAttribute('for', input.id);
   label.appendChild(document.createTextNode(dwv.i18n('basics.search') + ': '));
+
+  // div
+  var div = document.createElement('div');
+  div.id = elementId + '-div';
+  div.className = 'ui-field-contain';
+  div.appendChild(label);
+  div.appendChild(input);
+
   // form
   var form = document.createElement('form');
+  form.id = elementId;
   form.setAttribute('class', 'filter');
   form.onsubmit = function (event) {
     event.preventDefault();
   };
-  form.appendChild(label);
-  form.appendChild(input);
+  form.appendChild(div);
   // return
   return form;
 };

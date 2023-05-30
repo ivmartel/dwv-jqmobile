@@ -13,7 +13,7 @@ dwvjq.gui.postProcessTable = function (table) {
   table.className += ' table-stripe ui-responsive';
   // add columntoggle
   table.setAttribute('data-role', 'table');
-  table.setAttribute('data-mode', 'columntoggle');
+  //table.setAttribute('data-mode', 'columntoggle');
   table.setAttribute(
     'data-column-btn-text',
     dwv.i18n('basics.columns') + '...'
@@ -61,28 +61,93 @@ dwvjq.gui.setSelected = function (element, value) {
   }
 };
 
+dwvjq.gui.getMetaArray = function (metadata, instanceNumber) {
+  var keys = Object.keys(metadata);
+  var reducer = dwvjq.gui.getTagReducer(metadata, instanceNumber, '');
+  return keys.reduce(reducer, []);
+};
+
+dwvjq.gui.getTagReducer = function (tagData, instanceNumber, prefix) {
+  return function (accumulator, currentValue) {
+    let name = currentValue;
+    const element = tagData[currentValue];
+    let value = element.value;
+    // possible 'merged' object
+    if (typeof value[instanceNumber] !== 'undefined') {
+      value = value[instanceNumber].value;
+    }
+    // force instance number (otherwise takes value in non indexed array)
+    if (name === 'InstanceNumber') {
+      value = instanceNumber;
+    }
+    // recurse for sequence
+    if (element.vr === 'SQ') {
+      // sequence tag
+      accumulator.push({
+        name: (prefix ? prefix + ' ' : '') + name,
+        value: ''
+      });
+      // sequence value
+      for (let i = 0; i < value.length; ++i) {
+        const sqItems = value[i];
+        const keys = Object.keys(sqItems);
+        const res = keys.reduce(
+          dwvjq.gui.getTagReducer(
+            sqItems, instanceNumber, prefix + '[' + i + ']'), []
+        );
+        accumulator = accumulator.concat(res);
+      }
+    } else {
+      accumulator.push({
+        name: (prefix ? prefix + ' ' : '') + name,
+        value: value
+      });
+    }
+    return accumulator;
+  };
+};
+
 /**
  * MetaData base gui: shows DICOM tags or file meta data.
  * @constructor
  */
 dwvjq.gui.MetaData = function () {
+  // closure to self
+  var self = this;
+  // div ids
+  var containerDivId = 'dwv-tags';
+  var searchFormId = containerDivId + '-search';
+  // search input handler
+  var searchHandler;
+  // meta data
+  var fullMetaData;
+  // instance number slider min
+  var min;
+  // instance number slider min
+  var max;
+
   /**
    * Update the DICOM tags table with the input info.
    * @param {Object} dataInfo The data information.
    */
   this.update = function (dataInfo) {
-    // remove locally create meta data
-    if (typeof dataInfo.InstanceNumber !== 'undefined') {
-      delete dataInfo.InstanceNumber;
-    }
+    // store
+    fullMetaData = dataInfo;
 
-    var dataInfoArray = dataInfo;
-    if (dwv.utils.isObject(dataInfo) && !dwv.utils.isArray(dataInfo)) {
-      dataInfoArray = dwv.utils.objectToArray(dataInfo);
+    // set slider with instance numbers ('00200013')
+    var instanceNumbers = dataInfo['InstanceNumber'].value;
+    if (typeof instanceNumbers === 'string') {
+      instanceNumbers = [instanceNumbers];
     }
+    // convert string to numbers
+    var numbers = instanceNumbers.map(Number);
+    numbers.sort((a, b) => a - b);
+    // store
+    min = numbers[0];
+    max = numbers[numbers.length - 1];
 
     // HTML node
-    var node = document.getElementById('dwv-tags');
+    var node = document.getElementById(containerDivId);
     if (node === null) {
       console.warn('Cannot find a node to append the meta data.');
       return;
@@ -92,14 +157,72 @@ dwvjq.gui.MetaData = function () {
       node.removeChild(node.firstChild);
     }
 
+    // instance number input
+    var instNumInputId = containerDivId + '-instance-number';
+    var instNumInput = document.createElement('input');
+    instNumInput.type = 'range';
+    instNumInput.id = instNumInputId;
+    instNumInput.min = min;
+    instNumInput.max = max;
+    instNumInput.value = min;
+
+    var label = document.createElement('label');
+    label.setAttribute('for', instNumInput.id);
+    label.appendChild(document.createTextNode('Instance number: '));
+
+    var div = document.createElement('div');
+    div.className = 'ui-field-contain';
+    div.appendChild(label);
+    div.appendChild(instNumInput);
+
+    // search form + slider
+    var formSearch = dwvjq.html.getHtmlSearchForm(searchFormId);
+    formSearch.appendChild(div);
+
+    // append search form
+    node.appendChild(formSearch);
+
+    // update table with instance number meta data
+    var dataInfoArray = dwvjq.gui.getMetaArray(fullMetaData, min);
+    this.updateTable(dataInfoArray, min);
+
+    // handle slider change
+    var changeHandler = function (event) {
+      var instanceNumber = event.target.value;
+      var newDataInfoArray =
+        dwvjq.gui.getMetaArray(fullMetaData, instanceNumber);
+      self.updateTable(newDataInfoArray, instanceNumber);
+    };
+    dwvjq.gui.setSliderChangeHandler(instNumInputId, changeHandler);
+  };
+
+  /**
+   * update the
+   *
+   * @param {object} metaData The meta data.
+   */
+  this.updateTable = function (metaData) {
     // exit if no tags
-    if (dataInfoArray.length === 0) {
+    if (metaData.length === 0) {
       console.warn('No meta data tags to show.');
       return;
     }
 
+    // HTML node
+    var node = document.getElementById(containerDivId);
+    // remove all but form
+    if (node !== null) {
+      // remove possible previous
+      for (const child of node.children) {
+        if (child.id !== searchFormId) {
+          node.removeChild(child);
+        }
+      }
+    }
+
     // tags HTML table
-    var table = dwvjq.html.toTable(dataInfoArray);
+    var table = dwvjq.html.toTable(metaData);
+    table.id = containerDivId + '-table';
     table.className = 'tagsTable';
 
     // optional gui specific table post process
@@ -114,13 +237,24 @@ dwvjq.gui.MetaData = function () {
     // translate first row
     dwvjq.html.translateTableRow(table.rows.item(0));
 
-    // append search form
-    node.appendChild(dwvjq.html.getHtmlSearchForm(table, 'metadata-search'));
     // append tags table
     node.appendChild(table);
 
     // refresh
     dwvjq.gui.refreshElement(node);
+
+    // update search input
+    var inputSearch = node.querySelector('input[type=text]');
+    if (typeof searchHandler !== 'undefined') {
+      inputSearch.removeEventListener('keyup', searchHandler);
+    }
+    searchHandler = function () {
+      dwvjq.html.filterTable(inputSearch, table);
+    };
+    inputSearch.addEventListener('keyup', searchHandler);
+
+    // launch search (in case a search is already active)
+    searchHandler();
   };
 }; // class dwvjq.gui.DicomTags
 
@@ -354,7 +488,13 @@ dwvjq.gui.DrawList = function (app) {
     tickDiv.appendChild(tickBox);
 
     // search form
-    node.appendChild(dwvjq.html.getHtmlSearchForm(table, 'draw-search'));
+    var searchForm = dwvjq.html.getHtmlSearchForm(table, 'draw-search');
+    var inputSearch = searchForm.querySelector('input[type=text]');
+    inputSearch.addEventListener('keyup', function () {
+      dwvjq.html.filterTable(inputSearch, table);
+    });
+    node.appendChild(searchForm);
+
     // tick form
     node.appendChild(tickDiv);
 
