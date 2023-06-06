@@ -186,12 +186,10 @@ print([[
 
 print([[
 // Image decoders (for web workers)
-dwv.image.decoderScripts = {
-    "jpeg2000": "/dwv-jqmobile/node_modules/dwv/decoders/pdfjs/decode-jpeg2000.js",
-    "jpeg-lossless": "/dwv-jqmobile/node_modules/dwv/decoders/rii-mango/decode-jpegloss.js",
-    "jpeg-baseline": "/dwv-jqmobile/node_modules/dwv/decoders/pdfjs/decode-jpegbaseline.js",
-    "jpeg-baseline": "/dwv-jqmobile/node_modules/dwv/decoders/dwv/decode-rle.js"
-};
+dwv.decoderScripts.jpeg2000 = "/dwv-jqmobile/node_modules/dwv/decoders/pdfjs/decode-jpeg2000.js";
+dwv.decoderScripts["jpeg-lossless"] = "/dwv-jqmobile/node_modules/dwv/decoders/rii-mango/decode-jpegloss.js";
+dwv.decoderScripts["jpeg-baseline"] = "/dwv-jqmobile/node_modules/dwv/decoders/pdfjs/decode-jpegbaseline.js";
+dwv.decoderScripts.rle = "/dwv-jqmobile/node_modules/dwv/decoders/dwv/decode-rle.js";
 // status flags
 var domContentLoaded = false;
 var i18nInitialised = false;
