@@ -7,6 +7,10 @@ var dwvjq = dwvjq || {};
 
 // start app function
 function startApp() {
+  // logger
+  // (if debug, need to activate debug level in Chrome console)
+  dwv.logger.level = dwv.logger.levels.WARN;
+
   // translate page
   dwvjq.i18n.translatePage();
 
@@ -217,12 +221,14 @@ function startApp() {
 }
 
 // Image decoders (for web workers)
-dwv.image.decoderScripts = {
-  jpeg2000: 'node_modules/dwv/decoders/pdfjs/decode-jpeg2000.js',
-  'jpeg-lossless': 'node_modules/dwv/decoders/rii-mango/decode-jpegloss.js',
-  'jpeg-baseline': 'node_modules/dwv/decoders/pdfjs/decode-jpegbaseline.js',
-  rle: 'node_modules/dwv/decoders/dwv/decode-rle.js'
-};
+dwv.decoderScripts.jpeg2000 =
+  'node_modules/dwv/decoders/pdfjs/decode-jpeg2000.js';
+dwv.decoderScripts['jpeg-lossless'] =
+  'node_modules/dwv/decoders/rii-mango/decode-jpegloss.js';
+dwv.decoderScripts['jpeg-baseline'] =
+  'node_modules/dwv/decoders/pdfjs/decode-jpegbaseline.js';
+dwv.decoderScripts.rle =
+  'node_modules/dwv/decoders/dwv/decode-rle.js';
 
 // status flags
 var domContentLoaded = false;
@@ -249,8 +255,6 @@ dwvjq.i18n.onInitialised(function () {
   });
 });
 
-// check environment support
-dwv.env.check();
 // initialise i18n
 dwvjq.i18n.initialise('auto', './resources');
 
