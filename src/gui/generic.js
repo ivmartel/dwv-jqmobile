@@ -85,7 +85,7 @@ dwvjq.gui.getTagReducer = function (tagData, instanceNumber, prefix) {
     }
     // force instance number (otherwise takes value in non indexed array)
     if (name === 'InstanceNumber') {
-      value = [instanceNumber];
+      value = instanceNumber;
     }
     // recurse for sequence
     if (element.vr === 'SQ') {
@@ -107,7 +107,7 @@ dwvjq.gui.getTagReducer = function (tagData, instanceNumber, prefix) {
     } else {
       // shorten long 'o'ther data
       if (element.vr[0] === 'O' && value.length > 5) {
-        value = value.slice(0, 5).toString() + ', ...';
+        value = value.slice(0, 5).toString() + '... (len:' + value.length + ')';
       }
       accumulator.push({
         name: (prefix ? prefix + ' ' : '') + name,
