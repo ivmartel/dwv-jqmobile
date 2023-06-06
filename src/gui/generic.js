@@ -69,16 +69,23 @@ dwvjq.gui.getMetaArray = function (metadata, instanceNumber) {
 
 dwvjq.gui.getTagReducer = function (tagData, instanceNumber, prefix) {
   return function (accumulator, currentValue) {
-    let name = currentValue;
+    const tag = dwv.getTagFromKey(currentValue);
+    let name = tag.getNameFromDictionary();
+    if (typeof name === 'undefined') {
+      // add 'x' to help sorting
+      name = 'x' + tag.getKey();
+    }
     const element = tagData[currentValue];
     let value = element.value;
     // possible 'merged' object
-    if (typeof value[instanceNumber] !== 'undefined') {
-      value = value[instanceNumber].value;
+    // (use slice method as test for array and typed array)
+    if (typeof value.slice === 'undefined' &&
+      typeof value[instanceNumber] !== 'undefined') {
+      value = value[instanceNumber];
     }
     // force instance number (otherwise takes value in non indexed array)
     if (name === 'InstanceNumber') {
-      value = instanceNumber;
+      value = [instanceNumber];
     }
     // recurse for sequence
     if (element.vr === 'SQ') {
@@ -98,9 +105,13 @@ dwvjq.gui.getTagReducer = function (tagData, instanceNumber, prefix) {
         accumulator = accumulator.concat(res);
       }
     } else {
+      // shorten long 'o'ther data
+      if (element.vr[0] === 'O' && value.length > 5) {
+        value = value.slice(0, 5).toString() + ', ...';
+      }
       accumulator.push({
         name: (prefix ? prefix + ' ' : '') + name,
-        value: value
+        value: value.toString()
       });
     }
     return accumulator;
@@ -123,7 +134,7 @@ dwvjq.gui.MetaData = function () {
   var fullMetaData;
   // instance number slider min
   var min;
-  // instance number slider min
+  // instance number slider max
   var max;
 
   /**
@@ -135,10 +146,7 @@ dwvjq.gui.MetaData = function () {
     fullMetaData = dataInfo;
 
     // set slider with instance numbers ('00200013')
-    var instanceNumbers = dataInfo['InstanceNumber'].value;
-    if (typeof instanceNumbers === 'string') {
-      instanceNumbers = [instanceNumbers];
-    }
+    var instanceNumbers = dataInfo['00200013'].value;
     // convert string to numbers
     var numbers = instanceNumbers.map(Number);
     numbers.sort((a, b) => a - b);
@@ -380,7 +388,7 @@ dwvjq.gui.DrawList = function (app) {
         var viewController =
           layerGroup.getActiveViewLayer().getViewController();
         var split = positionStr.substring(1, positionStr.length - 1).split(',');
-        var pos = new dwv.math.Point(split);
+        var pos = new dwv.Point(split);
         viewController.setCurrentIndex(pos);
         // focus on the image
         dwvjq.gui.focusImage();
