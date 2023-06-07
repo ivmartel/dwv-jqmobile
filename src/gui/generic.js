@@ -63,7 +63,7 @@ dwvjq.gui.setSelected = function (element, value) {
 
 dwvjq.gui.isDicomMeta = function (meta) {
   return typeof meta['00020010'] !== 'undefined';
-}
+};
 
 dwvjq.gui.getMetaArray = function (metadata, instanceNumber) {
   var keys = Object.keys(metadata);
@@ -83,7 +83,7 @@ dwvjq.gui.getTagReducer = function (tagData) {
       value: tagData[currentValue].value
     });
     return accumulator;
-  }
+  };
 };
 
 dwvjq.gui.getDicomTagReducer = function (tagData, instanceNumber, prefix) {
