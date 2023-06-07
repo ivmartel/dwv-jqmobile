@@ -61,13 +61,32 @@ dwvjq.gui.setSelected = function (element, value) {
   }
 };
 
+dwvjq.gui.isDicomMeta = function (meta) {
+  return typeof meta['00020010'] !== 'undefined';
+}
+
 dwvjq.gui.getMetaArray = function (metadata, instanceNumber) {
   var keys = Object.keys(metadata);
-  var reducer = dwvjq.gui.getTagReducer(metadata, instanceNumber, '');
+  var reducer;
+  if (dwvjq.gui.isDicomMeta(metadata)) {
+    reducer = dwvjq.gui.getDicomTagReducer(metadata, instanceNumber, '');
+  } else {
+    reducer = dwvjq.gui.getTagReducer(metadata);
+  }
   return keys.reduce(reducer, []);
 };
 
-dwvjq.gui.getTagReducer = function (tagData, instanceNumber, prefix) {
+dwvjq.gui.getTagReducer = function (tagData) {
+  return function (accumulator, currentValue) {
+    accumulator.push({
+      name: currentValue,
+      value: tagData[currentValue].value
+    });
+    return accumulator;
+  }
+};
+
+dwvjq.gui.getDicomTagReducer = function (tagData, instanceNumber, prefix) {
   return function (accumulator, currentValue) {
     const tag = dwv.getTagFromKey(currentValue);
     let name = tag.getNameFromDictionary();
@@ -145,14 +164,17 @@ dwvjq.gui.MetaData = function () {
     // store
     fullMetaData = dataInfo;
 
-    // set slider with instance numbers ('00200013')
-    var instanceNumbers = dataInfo['00200013'].value;
-    // convert string to numbers
-    var numbers = instanceNumbers.map(Number);
-    numbers.sort((a, b) => a - b);
-    // store
-    min = numbers[0];
-    max = numbers[numbers.length - 1];
+    var instanceElement = dataInfo['00200013'];
+    if (typeof instanceElement !== 'undefined') {
+      // set slider with instance numbers ('00200013')
+      var instanceNumbers = dataInfo['00200013'].value;
+      // convert string to numbers
+      var numbers = instanceNumbers.map(Number);
+      numbers.sort((a, b) => a - b);
+      // store
+      min = numbers[0];
+      max = numbers[numbers.length - 1];
+    }
 
     // HTML node
     var node = document.getElementById(containerDivId);
@@ -165,23 +187,35 @@ dwvjq.gui.MetaData = function () {
       node.removeChild(node.firstChild);
     }
 
-    // instance number input
-    var instNumInputId = containerDivId + '-instance-number';
-    var instNumInput = document.createElement('input');
-    instNumInput.type = 'range';
-    instNumInput.id = instNumInputId;
-    instNumInput.min = min;
-    instNumInput.max = max;
-    instNumInput.value = min;
-
-    var label = document.createElement('label');
-    label.setAttribute('for', instNumInput.id);
-    label.appendChild(document.createTextNode('Instance number: '));
-
     var div = document.createElement('div');
     div.className = 'ui-field-contain';
-    div.appendChild(label);
-    div.appendChild(instNumInput);
+
+    // instance number input
+    if (typeof instanceElement !== 'undefined') {
+      var instNumInputId = containerDivId + '-instance-number';
+      var instNumInput = document.createElement('input');
+      instNumInput.type = 'range';
+      instNumInput.id = instNumInputId;
+      instNumInput.min = min;
+      instNumInput.max = max;
+      instNumInput.value = min;
+
+      var label = document.createElement('label');
+      label.setAttribute('for', instNumInput.id);
+      label.appendChild(document.createTextNode('Instance number: '));
+
+      div.appendChild(label);
+      div.appendChild(instNumInput);
+
+      // handle slider change
+      var changeHandler = function (event) {
+        var instanceNumber = event.target.value;
+        var newDataInfoArray =
+          dwvjq.gui.getMetaArray(fullMetaData, instanceNumber);
+        self.updateTable(newDataInfoArray);
+      };
+      dwvjq.gui.setSliderChangeHandler(instNumInputId, changeHandler);
+    }
 
     // search form + slider
     var formSearch = dwvjq.html.getHtmlSearchForm(searchFormId);
@@ -192,16 +226,7 @@ dwvjq.gui.MetaData = function () {
 
     // update table with instance number meta data
     var dataInfoArray = dwvjq.gui.getMetaArray(fullMetaData, min);
-    this.updateTable(dataInfoArray, min);
-
-    // handle slider change
-    var changeHandler = function (event) {
-      var instanceNumber = event.target.value;
-      var newDataInfoArray =
-        dwvjq.gui.getMetaArray(fullMetaData, instanceNumber);
-      self.updateTable(newDataInfoArray, instanceNumber);
-    };
-    dwvjq.gui.setSliderChangeHandler(instNumInputId, changeHandler);
+    this.updateTable(dataInfoArray);
   };
 
   /**
