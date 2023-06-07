@@ -118,7 +118,7 @@ dwvjq.gui.getDicomTagReducer = function (tagData, instanceNumber, prefix) {
         const sqItems = value[i];
         const keys = Object.keys(sqItems);
         const res = keys.reduce(
-          dwvjq.gui.getTagReducer(
+          dwvjq.gui.getDicomTagReducer(
             sqItems, instanceNumber, prefix + '[' + i + ']'), []
         );
         accumulator = accumulator.concat(res);
@@ -167,7 +167,7 @@ dwvjq.gui.MetaData = function () {
     var instanceElement = dataInfo['00200013'];
     if (typeof instanceElement !== 'undefined') {
       // set slider with instance numbers ('00200013')
-      var instanceNumbers = dataInfo['00200013'].value;
+      var instanceNumbers = instanceElement.value;
       // convert string to numbers
       var numbers = instanceNumbers.map(Number);
       numbers.sort((a, b) => a - b);
