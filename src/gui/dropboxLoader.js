@@ -92,6 +92,18 @@ dwvjq.gui.DropboxLoader = function (app) {
   }
 
   /**
+   * Handle a an input[type:file] change event.
+   * @param event The event to handle.
+   */
+  function onInputFile(event) {
+    const target = event.target;
+    if (target && target.files) {
+      const files = Array.from(target.files);
+      app.loadFiles(files);
+    }
+  }
+
+  /**
    * Show or hide the data load drop box.
    * @param {boolean} show Flag to show or hide.
    */
@@ -108,7 +120,20 @@ dwvjq.gui.DropboxLoader = function (app) {
       // add content if empty
       if (box.innerHTML === '') {
         var p = document.createElement('p');
-        p.appendChild(document.createTextNode('Drag and drop data here'));
+        p.appendChild(document.createTextNode('Drag and drop data here or '));
+        // input file
+        const input = document.createElement('input');
+        input.onchange = onInputFile;
+        input.type = 'file';
+        input.multiple = true;
+        input.id = 'input-file';
+        input.style.display = 'none';
+        const label = document.createElement('label');
+        label.htmlFor = input.id;
+        label.appendChild(document.createTextNode('click here to select'));
+        p.appendChild(input);
+        p.appendChild(label);
+
         box.appendChild(p);
       }
       // show box
