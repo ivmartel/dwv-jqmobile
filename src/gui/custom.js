@@ -111,7 +111,7 @@ dwvjq.gui.Slider = function (app) {
 }; // class dwvjq.gui.Slider
 
 dwvjq.gui.setSliderChangeHandler = function (sliderInput, handler) {
-  $(document).on('pagecreate', 'tags_page', function () {
+  $(document).on('pagecreate', '#tags_page', function () {
     $('#' + sliderInput.id).on('change', handler);
   });
 };
