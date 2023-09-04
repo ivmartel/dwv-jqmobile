@@ -214,7 +214,7 @@ dwvjq.gui.MetaData = function () {
           dwvjq.gui.getMetaArray(fullMetaData, instanceNumber);
         self.updateTable(newDataInfoArray);
       };
-      dwvjq.gui.setSliderChangeHandler(instNumInputId, changeHandler);
+      dwvjq.gui.setSliderChangeHandler(instNumInput, changeHandler);
     }
 
     // search form + slider
