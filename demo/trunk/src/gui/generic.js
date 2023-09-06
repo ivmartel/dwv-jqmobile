@@ -423,7 +423,7 @@ dwvjq.gui.DrawList = function (app) {
     // create visibility handler
     var createVisibleOnClick = function (details, element) {
       return function () {
-        drawLayer.toogleGroupVisibility(details.id);
+        drawLayer.toggleGroupVisibility(details.id);
         if (drawLayer.isGroupVisible(details.id)) {
           element.className = 'text-button checked';
         } else {

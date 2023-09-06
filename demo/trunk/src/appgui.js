@@ -7,15 +7,15 @@ dwvjq.utils = dwvjq.utils || {};
  */
 
 // Default colour maps.
-dwv.lut = {
-  plain: dwv.lut.plain,
-  invPlain: dwv.lut.invPlain,
-  rainbow: dwv.lut.rainbow,
-  hot: dwv.lut.hot,
-  hot_iron: dwv.lut.hot_iron,
-  pet: dwv.lut.pet,
-  hot_metal_blue: dwv.lut.hot_metal_blue,
-  pet_20step: dwv.lut.pet_20step
+dwv.luts = {
+  plain: dwv.luts.plain,
+  invPlain: dwv.luts.invPlain,
+  rainbow: dwv.luts.rainbow,
+  hot: dwv.luts.hot,
+  hot_iron: dwv.luts.hot_iron,
+  pet: dwv.luts.pet,
+  hot_metal_blue: dwv.luts.hot_metal_blue,
+  pet_20step: dwv.luts.pet_20step
 };
 
 // Default window level presets.
@@ -116,7 +116,7 @@ dwvjq.gui.ToolboxContainer = function (app, infoController) {
       buttonClass + ' download-state ui-icon-action'
     );
     toggleSaveState.onclick = function () {
-      var blob = new Blob([app.getState()], {type: 'application/json'});
+      var blob = new Blob([app.getJsonState()], {type: 'application/json'});
       toggleSaveState.href = window.URL.createObjectURL(blob);
     };
     toggleSaveState.download = 'state.json';
