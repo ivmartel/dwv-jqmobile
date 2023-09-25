@@ -15,7 +15,7 @@
     "url": "git://github.com/ivmartel/dwv-jqmobile.git"
   },
   "dependencies": {
-    "dwv": "0.32.2",
+    "dwv": "0.32.3",
     "i18next": "~23.5.1",
     "i18next-browser-languagedetector": "~7.1.0",
     "i18next-http-backend": "~2.2.0",
