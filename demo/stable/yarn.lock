@@ -361,10 +361,10 @@ duplexify@^3.5.1:
     readable-stream "^2.0.0"
     stream-shift "^1.0.0"
 
-dwv@0.31.2:
-  version "0.31.2"
-  resolved "https://registry.yarnpkg.com/dwv/-/dwv-0.31.2.tgz#4c64d6784a5eaed0ad0f8c8f45e0991dab5b5888"
-  integrity sha512-vrB+lJpILElvMc5qCrEcd9dE+SOw9sMBYajgvBZMKZXw6Zcw572IIVn+jC2p4eR0yuMKR3YbQa64swX8wSPObw==
+dwv@0.31.4:
+  version "0.31.4"
+  resolved "https://registry.yarnpkg.com/dwv/-/dwv-0.31.4.tgz#c3987c247e0fd511d69021e688e2373a142f1e85"
+  integrity sha512-IUOA4EWIPkVNgghvUTrKcSTs26Uz/6taey/8mRo/+u7UDaKDxIs6WTCpYpOPMc4Jt4qC1lMNQZxTygcqXEuJUA==
   dependencies:
     jszip "~3.7.0"
     konva "~8.3.0"
