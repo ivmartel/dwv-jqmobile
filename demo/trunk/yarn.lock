@@ -409,10 +409,10 @@ duplexify@^3.5.1:
     readable-stream "^2.0.0"
     stream-shift "^1.0.0"
 
-dwv@0.32.3:
-  version "0.32.3"
-  resolved "https://registry.yarnpkg.com/dwv/-/dwv-0.32.3.tgz#bc62fec67b92f7902fc64d6e8a43f70a0c1bab9c"
-  integrity sha512-WmOu3Ox5Pw/62TGlA/U3MVfdb7k5HfwwxysdIPMMJ+smJQTBX+tJDT8KO/dUi9Ns6XuqCEJtSd5CwqkZHekq5Q==
+dwv@0.32.4:
+  version "0.32.4"
+  resolved "https://registry.yarnpkg.com/dwv/-/dwv-0.32.4.tgz#b2d331f3d4fba1c3743bdaff5ebdb1af66a60046"
+  integrity sha512-RdJPoIq/9u20ZyW8gLifYd7cvsnnqKZIVlDrNu0CNYxIDRCvnHojlhl5V6sS1KAQbZQGugsshpT09Lr9EfqQbA==
   dependencies:
     jszip "~3.10.1"
     konva "~8.4.2"
@@ -984,9 +984,9 @@ https-browserify@0.0.1:
   integrity sha1-P5E2XKvmC3ftDruiS0VOPgnZWoI=
 
 i18next-browser-languagedetector@~7.2.0:
-  version "7.2.0"
-  resolved "https://registry.yarnpkg.com/i18next-browser-languagedetector/-/i18next-browser-languagedetector-7.2.0.tgz#de0321cba6881be37d82e20e4d6f05aa75f6e37f"
-  integrity sha512-U00DbDtFIYD3wkWsr2aVGfXGAj2TgnELzOX9qv8bT0aJtvPV9CRO77h+vgmHFBMe7LAxdwvT/7VkCWGya6L3tA==
+  version "7.2.1"
+  resolved "https://registry.yarnpkg.com/i18next-browser-languagedetector/-/i18next-browser-languagedetector-7.2.1.tgz#1968196d437b4c8db847410c7c33554f6c448f6f"
+  integrity sha512-h/pM34bcH6tbz8WgGXcmWauNpQupCGr25XPp9cZwZInR9XHSjIFDYp1SIok7zSPsTOMxdvuLyu86V+g2Kycnfw==
   dependencies:
     "@babel/runtime" "^7.23.2"
 
@@ -997,10 +997,10 @@ i18next-http-backend@~2.5.0:
   dependencies:
     cross-fetch "4.0.0"
 
-i18next@~23.10.1:
-  version "23.10.1"
-  resolved "https://registry.yarnpkg.com/i18next/-/i18next-23.10.1.tgz#217ce93b75edbe559ac42be00a20566b53937df6"
-  integrity sha512-NDiIzFbcs3O9PXpfhkjyf7WdqFn5Vq6mhzhtkXzj51aOcNuPNcTwuYNuXCpHsanZGHlHKL35G7huoFeVic1hng==
+i18next@~23.11.2:
+  version "23.11.2"
+  resolved "https://registry.yarnpkg.com/i18next/-/i18next-23.11.2.tgz#4c0e8192a9ba230fe7dc68b76459816ab601826e"
+  integrity sha512-qMBm7+qT8jdpmmDw/kQD16VpmkL9BdL+XNAK5MNbNFaf1iQQq35ZbPrSlqmnNPOSUY4m342+c0t0evinF5l7sA==
   dependencies:
     "@babel/runtime" "^7.23.2"
 
