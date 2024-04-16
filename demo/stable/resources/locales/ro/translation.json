@@ -195,7 +195,7 @@
         "plain": {
             "name": "Implicit"
         },
-        "invplain": {
+        "invPlain": {
             "name": "Negativ"
         },
         "rainbow": {
@@ -204,16 +204,16 @@
         "hot": {
             "name": "Fierbinte"
         },
-        "hotiron": {
+        "hot_iron": {
             "name": "Fier fierbinte"
         },
         "pet": {
             "name": "PET"
         },
-        "hotmetalblue": {
+        "hot_metal_blue": {
             "name": "Metal Albastru Fierbinte"
         },
-        "pet20step": {
+        "pet_20step": {
             "name": "PET 20 pași"
         }
     },

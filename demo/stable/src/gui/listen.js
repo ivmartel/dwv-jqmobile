@@ -1,6 +1,6 @@
 // namespaces
-var dwv = dwv || {};
-dwv.utils = dwv.utils || {};
+var dwvjq = dwvjq || {};
+dwvjq.utils = dwvjq.utils || {};
 
 /**
  * ListenerHandler class: handles add/removing and firing listeners.
@@ -8,7 +8,7 @@ dwv.utils = dwv.utils || {};
  * @class
  * @see https://developer.mozilla.org/en-US/docs/Web/API/EventTarget#example
  */
-dwv.utils.ListenerHandler = function () {
+dwvjq.utils.ListenerHandler = function () {
   /**
    * listeners.
    *

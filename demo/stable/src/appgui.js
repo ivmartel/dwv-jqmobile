@@ -7,21 +7,21 @@ dwvjq.utils = dwvjq.utils || {};
  */
 
 // Default colour maps.
-dwv.tool.colourMaps = {
-  plain: dwv.image.lut.plain,
-  invplain: dwv.image.lut.invPlain,
-  rainbow: dwv.image.lut.rainbow,
-  hot: dwv.image.lut.hot,
-  hotiron: dwv.image.lut.hot_iron,
-  pet: dwv.image.lut.pet,
-  hotmetalblue: dwv.image.lut.hot_metal_blue,
-  pet20step: dwv.image.lut.pet_20step
+dwv.luts = {
+  plain: dwv.luts.plain,
+  invPlain: dwv.luts.invPlain,
+  rainbow: dwv.luts.rainbow,
+  hot: dwv.luts.hot,
+  hot_iron: dwv.luts.hot_iron,
+  pet: dwv.luts.pet,
+  hot_metal_blue: dwv.luts.hot_metal_blue,
+  pet_20step: dwv.luts.pet_20step
 };
 
 // Default window level presets.
-dwv.tool.defaultpresets = {};
+dwv.defaultpresets = {};
 // Default window level presets for CT.
-dwv.tool.defaultpresets.CT = {
+dwv.defaultpresets.CT = {
   mediastinum: {center: 40, width: 400},
   lung: {center: -500, width: 1500},
   bone: {center: 500, width: 2000},
@@ -31,14 +31,17 @@ dwv.tool.defaultpresets.CT = {
 
 // decode query
 dwvjq.utils.loadFromUri = function (uri, app) {
-  var query = dwv.utils.getUriQuery(uri);
+  var url = new URL(uri);
+  var searchParams = url.searchParams;
   // check query
-  if (query && typeof query.input !== 'undefined') {
+  var input = searchParams.get('input');
+  if (input) {
+    var type = searchParams.get('type');
     // special gdrive
-    if (query.type === 'gdrive') {
+    if (type) {
       var gAuth = new dwvjq.google.Auth();
       var gDrive = new dwvjq.google.Drive();
-      gDrive.setIds(query.input.split(','));
+      gDrive.setIds(input.split(','));
       // pipeline
       gAuth.onload = gDrive.load;
       gAuth.onfail = function () {
@@ -55,19 +58,10 @@ dwvjq.utils.loadFromUri = function (uri, app) {
       gAuth.loadSilent();
     } else {
       // default
-      dwv.utils.loadFromQuery(query, app);
+      app.loadFromUri(uri);
     }
   }
 };
-
-// dwv overrides -------------------------
-
-// logger
-// (if debug, need to activate debug level in Chrome console)
-dwv.logger = dwv.utils.logger.console;
-dwv.logger.level = dwv.utils.logger.levels.DEBUG;
-
-// [end] dwv overrides -------------------------
 
 // special close dialog on change
 dwvjq.gui.FileLoad.prototype.onchange = function (/*event*/) {
@@ -122,7 +116,7 @@ dwvjq.gui.ToolboxContainer = function (app, infoController) {
       buttonClass + ' download-state ui-icon-action'
     );
     toggleSaveState.onclick = function () {
-      var blob = new Blob([app.getState()], {type: 'application/json'});
+      var blob = new Blob([app.getJsonState()], {type: 'application/json'});
       toggleSaveState.href = window.URL.createObjectURL(blob);
     };
     toggleSaveState.download = 'state.json';

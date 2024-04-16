@@ -4,6 +4,18 @@ var dwvjq = dwvjq || {};
 dwvjq.html = dwvjq.html || {};
 
 /**
+ * Check if the input is a generic object, including arrays.
+ *
+ * @param {*} unknown The input to check.
+ * @returns {boolean} True if the input is an object.
+ * ref: https://github.com/jashkenas/underscore/blob/1.9.1/underscore.js#L1319-L1323
+ */
+dwvjq.html.isObject = function (unknown) {
+  const type = typeof unknown;
+  return type === 'function' || type === 'object' && !!unknown;
+};
+
+/**
  * Append a cell to a given row.
  * @param {Object} row The row to append the cell to.
  * @param {Object} content The content of the cell.
@@ -25,7 +37,7 @@ dwvjq.html.appendCell = function (row, content) {
       content[10] = '...';
     }
     str = Array.prototype.join.call(content, ', ');
-  } else if (dwv.utils.isObject(content)) {
+  } else if (dwvjq.html.isObject(content)) {
     str = '';
     var keys = Object.keys(content);
     for (var i = 0; i < keys.length; ++i) {
@@ -153,9 +165,9 @@ dwvjq.html.appendRowForObject = function (
       dwvjq.html.appendCell(row, prefix + value);
     } else {
       // if the value is an array, add an empty cell
-      if (dwv.utils.isArray(value) &&
+      if (Array.isArray(value) &&
         value.length !== 0 &&
-        dwv.utils.isObject(value[0])) {
+        dwvjq.html.isObject(value[0])) {
         if (!row) {
           row = table.insertRow(-1);
         }
@@ -178,9 +190,9 @@ dwvjq.html.appendRowForObject = function (
  */
 dwvjq.html.appendRow = function (table, input, level, maxLevel, rowHeader) {
   // call specific append
-  if (dwv.utils.isArray(input)) {
+  if (Array.isArray(input)) {
     dwvjq.html.appendRowForArray(table, input, level, maxLevel, rowHeader);
-  } else if (dwv.utils.isObject(input)) {
+  } else if (dwvjq.html.isObject(input)) {
     dwvjq.html.appendRowForObject(table, input, level, maxLevel, rowHeader);
   } else {
     throw new Error('Unsupported input data type.');
@@ -190,7 +202,8 @@ dwvjq.html.appendRow = function (table, input, level, maxLevel, rowHeader) {
 /**
  * Converts the input to an HTML table.
  * @input {Mixed} input Allowed types are: array, array of object, object.
- * @return {Object} The created HTML table or null if the input is empty.
+ * @return {HTMLTableRowElement} The created HTML table or null
+ *  if the input is empty.
  * @warning Null is interpreted differently in browsers,
  *  Firefox will not display it.
  */
@@ -211,27 +224,32 @@ dwvjq.html.toTable = function (input) {
  * @param {string} elementId The HTML element id.
  * @return {Object} The HTML search form.
  */
-dwvjq.html.getHtmlSearchForm = function (htmlTableToSearch, elementId) {
+dwvjq.html.getHtmlSearchForm = function (elementId) {
   // input
   var input = document.createElement('input');
-  input.id = elementId;
-  // TODO Use new html5 search type
-  //input.setAttribute("type", "search");
-  input.onkeyup = function () {
-    dwvjq.html.filterTable(input, htmlTableToSearch);
-  };
+  input.id = elementId + '-input';
+  input.type = 'text';
   // label
   var label = document.createElement('label');
   label.setAttribute('for', input.id);
-  label.appendChild(document.createTextNode(dwv.i18n('basics.search') + ': '));
+  label.appendChild(document.createTextNode(
+    dwvjq.i18n.t('basics.search') + ': '));
+
+  // div
+  var div = document.createElement('div');
+  div.id = elementId + '-div';
+  div.className = 'ui-field-contain';
+  div.appendChild(label);
+  div.appendChild(input);
+
   // form
   var form = document.createElement('form');
+  form.id = elementId;
   form.setAttribute('class', 'filter');
   form.onsubmit = function (event) {
     event.preventDefault();
   };
-  form.appendChild(label);
-  form.appendChild(input);
+  form.appendChild(div);
   // return
   return form;
 };
@@ -239,14 +257,14 @@ dwvjq.html.getHtmlSearchForm = function (htmlTableToSearch, elementId) {
 /**
  * Filter a table with a given parameter: sets the display css of rows to
  * true or false if it contains the term.
- * @param {String} term The term to filter the table with.
+ * @param {String} inputElement The search input element.
  * @param {Object} table The table to filter.
  */
-dwvjq.html.filterTable = function (term, table) {
+dwvjq.html.filterTable = function (inputElement, table) {
   // de-highlight
   dwvjq.html.dehighlight(table);
   // split search terms
-  var terms = term.value.toLowerCase().split(' ');
+  var terms = inputElement.value.toLowerCase().split(' ');
 
   // search
   var text = 0;
@@ -406,7 +424,7 @@ dwvjq.html.translateTableRow = function (row, i18nPrefix) {
   var cells = row.cells;
   for (var c = 0; c < cells.length; ++c) {
     var text = cells[c].firstChild.data;
-    cells[c].firstChild.data = dwv.i18n(prefix + text);
+    cells[c].firstChild.data = dwvjq.i18n.t(prefix + text);
   }
 };
 
@@ -436,7 +454,8 @@ dwvjq.html.translateTableColumn = function (
       var cells = table.rows.item(r).cells;
       if (cells.length >= columnNumber) {
         var text = cells[columnNumber].firstChild.data;
-        cells[columnNumber].firstChild.data = dwv.i18n(prefix + text + suffix);
+        cells[columnNumber].firstChild.data =
+          dwvjq.i18n.t(prefix + text + suffix);
       }
     }
   }
@@ -524,13 +543,13 @@ dwvjq.html.createHtmlSelect = function (id, list, i18nPrefix, i18nSafe) {
     var key = prefix + value + '.name';
     var text = '';
     if (safe) {
-      if (dwvjq.i18nExists(key)) {
-        text = dwv.i18n(key);
+      if (dwvjq.i18n.exists(key)) {
+        text = dwvjq.i18n.t(key);
       } else {
         text = value;
       }
     } else {
-      text = dwv.i18n(key);
+      text = dwvjq.i18n.t(key);
     }
     return text;
   };

@@ -1,5 +1,6 @@
 // namespaces
 var dwvjq = dwvjq || {};
+dwvjq.i18n = dwvjq.i18n || {};
 /**
  * The i18next namespace.
  *
@@ -26,7 +27,7 @@ var i18nextBrowserLanguageDetector = i18nextBrowserLanguageDetector || {};
 // see its API: http://i18next.com/docs/api/
 
 // global locales path
-dwvjq.i18nLocalesPath = null;
+dwvjq.i18n.localesPath = null;
 
 /**
  * Initialise i18n.
@@ -35,11 +36,11 @@ dwvjq.i18nLocalesPath = null;
  *   gets the language from the browser.
  * @param {string} localesPath Path to the locales directory.
  */
-dwvjq.i18nInitialise = function (language, localesPath) {
+dwvjq.i18n.initialise = function (language, localesPath) {
   var lng = (typeof language === 'undefined') ? 'auto' : language;
   var lpath = (typeof localesPath === 'undefined') ? '../..' : localesPath;
   // store as global
-  dwvjq.i18nLocalesPath = lpath;
+  dwvjq.i18n.localesPath = lpath;
   // i18n options: default 'en' language and
   //  only load language, not specialised (for ex en-GB)
   var options = {
@@ -66,7 +67,7 @@ dwvjq.i18nInitialise = function (language, localesPath) {
  *   gets the language from the browser.
  * @param {object} resources Languages provided as object.
  */
-dwvjq.i18nInitialiseWithResources = function (language, resources) {
+dwvjq.i18n.initialiseWithResources = function (language, resources) {
   var lng = (typeof language === 'undefined') ? 'auto' : language;
   // i18n options: default 'en' language and
   //  only load language, not specialised (for ex en-GB)
@@ -93,14 +94,14 @@ dwvjq.i18nInitialiseWithResources = function (language, resources) {
  *   is initialised.
  * It can take one argument that will be replaced with the i18n options.
  */
-dwvjq.i18nOnInitialised = function (callback) {
+dwvjq.i18n.onInitialised = function (callback) {
   i18next.on('initialized', callback);
 };
 
 /**
  * Stop handling i18n load event.
  */
-dwvjq.i18nOffInitialised = function () {
+dwvjq.i18n.offInitialised = function () {
   i18next.off('initialized');
 };
 
@@ -110,14 +111,14 @@ dwvjq.i18nOffInitialised = function () {
  * @param {object} callback The callback function to call when i18n is loaded.
  *  It can take three arguments: lng, ns and msg.
  */
-dwvjq.i18nOnFailedLoad = function (callback) {
+dwvjq.i18n.onFailedLoad = function (callback) {
   i18next.on('failedLoading', callback);
 };
 
 /**
  * Stop handling i18n failed load event.
  */
-dwvjq.i18nOffFailedLoad = function () {
+dwvjq.i18n.offFailedLoad = function () {
   i18next.off('failedLoading');
 };
 
@@ -128,7 +129,7 @@ dwvjq.i18nOffFailedLoad = function () {
  * @param {object} _options The translation options such as plural, context...
  * @returns {string} The translated text.
  */
-dwv.i18n = function (key, options) {
+dwvjq.i18n.t = function (key, options) {
   return i18next.t(key, options);
 };
 
@@ -139,7 +140,7 @@ dwv.i18n = function (key, options) {
  * @param {object} options The translation options such as plural, context...
  * @returns {boolean} True if the key has a translation.
  */
-dwvjq.i18nExists = function (key, options) {
+dwvjq.i18n.exists = function (key, options) {
   return i18next.exists(key, options);
 };
 
@@ -148,13 +149,13 @@ dwvjq.i18nExists = function (key, options) {
  * the data-i18n attribute, its value will be used as key to find its
  * corresponding text and will replace the content of the html tag.
  */
-dwvjq.i18nPage = function () {
+dwvjq.i18n.translatePage = function () {
   // get all elements
   var elements = document.getElementsByTagName('*');
   // if the element defines data-i18n, replace its content with the tranlation
   for (var i = 0; i < elements.length; ++i) {
     if (typeof elements[i].dataset.i18n !== 'undefined') {
-      elements[i].innerHTML = dwv.i18n(elements[i].dataset.i18n);
+      elements[i].innerHTML = dwvjq.i18n.t(elements[i].dataset.i18n);
     }
   }
 };
@@ -166,9 +167,9 @@ dwvjq.i18nPage = function () {
  * @param {string} filename The file to locate.
  * @returns {string} The path to the locale resource.
  */
-dwvjq.i18nGetLocalePath = function (filename) {
+dwvjq.i18n.getLocalePath = function (filename) {
   var lng = i18next.language.substring(0, 2);
-  return dwvjq.i18nLocalesPath +
+  return dwvjq.i18n.localesPath +
         '/locales/' + lng + '/' + filename;
 };
 
@@ -179,8 +180,8 @@ dwvjq.i18nGetLocalePath = function (filename) {
  * @param {string} filename The file to locate.
  * @returns {string} The path to the locale resource.
  */
-dwvjq.i18nGetFallbackLocalePath = function (filename) {
+dwvjq.i18n.getFallbackLocalePath = function (filename) {
   var lng = i18next.languages[i18next.languages.length - 1].substring(0, 2);
-  return dwvjq.i18nLocalesPath +
+  return dwvjq.i18n.localesPath +
         '/locales/' + lng + '/' + filename;
 };

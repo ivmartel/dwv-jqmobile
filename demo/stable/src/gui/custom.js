@@ -109,3 +109,9 @@ dwvjq.gui.Slider = function (app) {
     dwvjq.gui.refreshElement(document.getElementById('dwv-toolList'));
   };
 }; // class dwvjq.gui.Slider
+
+dwvjq.gui.setSliderChangeHandler = function (sliderInput, handler) {
+  $(document).on('pagecreate', '#tags_page', function () {
+    $('#' + sliderInput.id).on('change', handler);
+  });
+};

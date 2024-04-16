@@ -13,10 +13,10 @@ dwvjq.gui.postProcessTable = function (table) {
   table.className += ' table-stripe ui-responsive';
   // add columntoggle
   table.setAttribute('data-role', 'table');
-  table.setAttribute('data-mode', 'columntoggle');
+  //table.setAttribute('data-mode', 'columntoggle');
   table.setAttribute(
     'data-column-btn-text',
-    dwv.i18n('basics.columns') + '...'
+    dwvjq.i18n.t('basics.columns') + '...'
   );
   // add priority columns for columntoggle
   var addDataPriority = function (cell) {
@@ -61,28 +61,123 @@ dwvjq.gui.setSelected = function (element, value) {
   }
 };
 
+dwvjq.gui.isDicomMeta = function (meta) {
+  return typeof meta['00020010'] !== 'undefined';
+};
+
+dwvjq.gui.getMetaArray = function (metadata, instanceNumber) {
+  var keys = Object.keys(metadata);
+  var reducer;
+  if (dwvjq.gui.isDicomMeta(metadata)) {
+    reducer = dwvjq.gui.getDicomTagReducer(metadata, instanceNumber, '');
+  } else {
+    reducer = dwvjq.gui.getTagReducer(metadata);
+  }
+  return keys.reduce(reducer, []);
+};
+
+dwvjq.gui.getTagReducer = function (tagData) {
+  return function (accumulator, currentValue) {
+    accumulator.push({
+      name: currentValue,
+      value: tagData[currentValue].value
+    });
+    return accumulator;
+  };
+};
+
+dwvjq.gui.getDicomTagReducer = function (tagData, instanceNumber, prefix) {
+  return function (accumulator, currentValue) {
+    const tag = dwv.getTagFromKey(currentValue);
+    let name = tag.getNameFromDictionary();
+    if (typeof name === 'undefined') {
+      // add 'x' to help sorting
+      name = 'x' + tag.getKey();
+    }
+    const element = tagData[currentValue];
+    let value = element.value;
+    // possible 'merged' object
+    // (use slice method as test for array and typed array)
+    if (typeof value.slice === 'undefined' &&
+      typeof value[instanceNumber] !== 'undefined') {
+      value = value[instanceNumber];
+    }
+    // force instance number (otherwise takes value in non indexed array)
+    if (name === 'InstanceNumber') {
+      value = instanceNumber;
+    }
+    // recurse for sequence
+    if (element.vr === 'SQ') {
+      // sequence tag
+      accumulator.push({
+        name: (prefix ? prefix + ' ' : '') + name,
+        value: ''
+      });
+      // sequence value
+      for (let i = 0; i < value.length; ++i) {
+        const sqItems = value[i];
+        const keys = Object.keys(sqItems);
+        const res = keys.reduce(
+          dwvjq.gui.getDicomTagReducer(
+            sqItems, instanceNumber, prefix + '[' + i + ']'), []
+        );
+        accumulator = accumulator.concat(res);
+      }
+    } else {
+      // shorten long 'o'ther data
+      if (element.vr[0] === 'O' && value.length > 5) {
+        value = value.slice(0, 5).toString() + '... (len:' + value.length + ')';
+      }
+      accumulator.push({
+        name: (prefix ? prefix + ' ' : '') + name,
+        value: value.toString()
+      });
+    }
+    return accumulator;
+  };
+};
+
 /**
  * MetaData base gui: shows DICOM tags or file meta data.
  * @constructor
  */
 dwvjq.gui.MetaData = function () {
+  // closure to self
+  var self = this;
+  // div ids
+  var containerDivId = 'dwv-tags';
+  var searchFormId = containerDivId + '-search';
+  // search input handler
+  var searchHandler;
+  // meta data
+  var fullMetaData;
+  // instance number slider min
+  var min;
+  // instance number slider max
+  var max;
+
   /**
    * Update the DICOM tags table with the input info.
    * @param {Object} dataInfo The data information.
    */
   this.update = function (dataInfo) {
-    // remove locally create meta data
-    if (typeof dataInfo.InstanceNumber !== 'undefined') {
-      delete dataInfo.InstanceNumber;
-    }
+    // store
+    fullMetaData = dataInfo;
 
-    var dataInfoArray = dataInfo;
-    if (dwv.utils.isObject(dataInfo) && !dwv.utils.isArray(dataInfo)) {
-      dataInfoArray = dwv.utils.objectToArray(dataInfo);
+    var instanceElement = dataInfo['00200013'];
+    if (typeof instanceElement !== 'undefined') {
+      // set slider with instance numbers ('00200013')
+      var instanceNumbers = instanceElement.value;
+      // convert string to numbers
+      var numbers = instanceNumbers.map(Number);
+      numbers.sort((a, b) => a - b);
+      // store
+      min = numbers[0];
+      max = numbers[numbers.length - 1];
     }
 
     // HTML node
-    var node = document.getElementById('dwv-tags');
+    var node = document.getElementById(containerDivId);
     if (node === null) {
       console.warn('Cannot find a node to append the meta data.');
       return;
@@ -92,14 +187,75 @@ dwvjq.gui.MetaData = function () {
       node.removeChild(node.firstChild);
     }
 
+    var div = document.createElement('div');
+    div.className = 'ui-field-contain';
+
+    // instance number input
+    if (typeof instanceElement !== 'undefined') {
+      var instNumInputId = containerDivId + '-instance-number';
+      var instNumInput = document.createElement('input');
+      instNumInput.type = 'range';
+      instNumInput.id = instNumInputId;
+      instNumInput.min = min;
+      instNumInput.max = max;
+      instNumInput.value = min;
+
+      var label = document.createElement('label');
+      label.setAttribute('for', instNumInput.id);
+      label.appendChild(document.createTextNode('Instance number: '));
+
+      div.appendChild(label);
+      div.appendChild(instNumInput);
+
+      // handle slider change
+      var changeHandler = function (event) {
+        var instanceNumber = event.target.value;
+        var newDataInfoArray =
+          dwvjq.gui.getMetaArray(fullMetaData, instanceNumber);
+        self.updateTable(newDataInfoArray);
+      };
+      dwvjq.gui.setSliderChangeHandler(instNumInput, changeHandler);
+    }
+
+    // search form + slider
+    var formSearch = dwvjq.html.getHtmlSearchForm(searchFormId);
+    formSearch.appendChild(div);
+
+    // append search form
+    node.appendChild(formSearch);
+
+    // update table with instance number meta data
+    var dataInfoArray = dwvjq.gui.getMetaArray(fullMetaData, min);
+    this.updateTable(dataInfoArray);
+  };
+
+  /**
+   * update the
+   *
+   * @param {object} metaData The meta data.
+   */
+  this.updateTable = function (metaData) {
     // exit if no tags
-    if (dataInfoArray.length === 0) {
+    if (metaData.length === 0) {
       console.warn('No meta data tags to show.');
       return;
     }
 
+    // HTML node
+    var node = document.getElementById(containerDivId);
+    // remove all but form
+    if (node !== null) {
+      // remove possible previous
+      for (const child of node.children) {
+        if (child.id !== searchFormId) {
+          node.removeChild(child);
+        }
+      }
+    }
+
     // tags HTML table
-    var table = dwvjq.html.toTable(dataInfoArray);
+    var table = dwvjq.html.toTable(metaData);
+    table.id = containerDivId + '-table';
     table.className = 'tagsTable';
 
     // optional gui specific table post process
@@ -114,13 +270,24 @@ dwvjq.gui.MetaData = function () {
     // translate first row
     dwvjq.html.translateTableRow(table.rows.item(0));
 
-    // append search form
-    node.appendChild(dwvjq.html.getHtmlSearchForm(table, 'metadata-search'));
     // append tags table
     node.appendChild(table);
 
     // refresh
     dwvjq.gui.refreshElement(node);
+
+    // update search input
+    var inputSearch = node.querySelector('input[type=text]');
+    if (typeof searchHandler !== 'undefined') {
+      inputSearch.removeEventListener('keyup', searchHandler);
+    }
+    searchHandler = function () {
+      dwvjq.html.filterTable(inputSearch, table);
+    };
+    inputSearch.addEventListener('keyup', searchHandler);
+
+    // launch search (in case a search is already active)
+    searchHandler();
   };
 }; // class dwvjq.gui.DicomTags
 
@@ -246,7 +413,7 @@ dwvjq.gui.DrawList = function (app) {
         var viewController =
           layerGroup.getActiveViewLayer().getViewController();
         var split = positionStr.substring(1, positionStr.length - 1).split(',');
-        var pos = new dwv.math.Point(split);
+        var pos = new dwv.Point(split);
         viewController.setCurrentIndex(pos);
         // focus on the image
         dwvjq.gui.focusImage();
@@ -256,7 +423,7 @@ dwvjq.gui.DrawList = function (app) {
     // create visibility handler
     var createVisibleOnClick = function (details, element) {
       return function () {
-        drawLayer.toogleGroupVisibility(details.id);
+        drawLayer.toggleGroupVisibility(details.id);
         if (drawLayer.isGroupVisible(details.id)) {
           element.className = 'text-button checked';
         } else {
@@ -274,7 +441,7 @@ dwvjq.gui.DrawList = function (app) {
     // append action column to the header row
     var row0 = table.rows.item(0);
     var cell00 = row0.insertCell(0);
-    cell00.outerHTML = '<th>' + dwv.i18n('basics.action') + '</th>';
+    cell00.outerHTML = '<th>' + dwvjq.i18n.t('basics.action') + '</th>';
 
     // loop through rows
     for (var r = 1; r < table.rows.length; ++r) {
@@ -347,14 +514,21 @@ dwvjq.gui.DrawList = function (app) {
     var tickLabel = document.createElement('label');
     tickLabel.setAttribute('for', tickBox.id);
     tickLabel.setAttribute('class', 'inline');
-    tickLabel.appendChild(document.createTextNode(dwv.i18n('basics.editMode')));
+    tickLabel.appendChild(document.createTextNode(
+      dwvjq.i18n.t('basics.editMode')));
     // checkbox div
     var tickDiv = document.createElement('div');
     tickDiv.appendChild(tickLabel);
     tickDiv.appendChild(tickBox);
 
     // search form
-    node.appendChild(dwvjq.html.getHtmlSearchForm(table, 'draw-search'));
+    var searchForm = dwvjq.html.getHtmlSearchForm(table, 'draw-search');
+    var inputSearch = searchForm.querySelector('input[type=text]');
+    inputSearch.addEventListener('keyup', function () {
+      dwvjq.html.filterTable(inputSearch, table);
+    });
+    node.appendChild(searchForm);
+
     // tick form
     node.appendChild(tickDiv);
 
@@ -368,7 +542,7 @@ dwvjq.gui.DrawList = function (app) {
     };
     deleteButton.setAttribute('class', 'ui-btn ui-btn-inline');
     deleteButton.appendChild(
-      document.createTextNode(dwv.i18n('basics.deleteDraws'))
+      document.createTextNode(dwvjq.i18n.t('basics.deleteDraws'))
     );
     if (!isEditable) {
       deleteButton.style.display = 'none';

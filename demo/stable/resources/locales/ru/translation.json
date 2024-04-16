@@ -192,7 +192,7 @@
         "plain": {
             "name": "По умолчанию"
         },
-        "invplain": {
+        "invPlain": {
             "name": "Негатив"
         },
         "rainbow": {
@@ -201,16 +201,16 @@
         "hot": {
             "name": "Горячий фильтр"
         },
-        "hotiron": {
+        "hot_iron": {
             "name": "Горячий металл"
         },
         "pet": {
             "name": "ПЭТ"
         },
-        "hotmetalblue": {
+        "hot_metal_blue": {
             "name": "Горячий голубой металл"
         },
-        "pet20step": {
+        "pet_20step": {
             "name": "ПЭТ 20 шагов"
         }
     },

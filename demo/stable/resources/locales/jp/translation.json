@@ -195,7 +195,7 @@
         "plain": {
             "name": "直線"
         },
-        "invplain": {
+        "invPlain": {
             "name": "直線（反転）"
         },
         "rainbow": {
@@ -204,16 +204,16 @@
         "hot": {
             "name": "ホット"
         },
-        "hotiron": {
+        "hot_iron": {
             "name": "ホットアイアン"
         },
         "pet": {
             "name": "PET"
         },
-        "hotmetalblue": {
+        "hot_metal_blue": {
             "name": "ホットメタル青"
         },
-        "pet20step": {
+        "pet_20step": {
             "name": "PET 20ステップ"
         }
     },

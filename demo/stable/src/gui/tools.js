@@ -143,7 +143,7 @@ dwvjq.gui.WindowLevel = function (app) {
     // colour map select
     var cmSelector = dwvjq.html.createHtmlSelect(
       'colourMapSelect',
-      dwv.tool.colourMaps,
+      dwv.luts,
       'colourmap'
     );
     cmSelector.onchange = function (event) {
@@ -494,7 +494,7 @@ dwvjq.gui.ZoomAndPan = function (app) {
     };
     button.setAttribute('style', 'width:100%; margin-top:0.5em;');
     button.setAttribute('class', 'ui-btn ui-btn-b');
-    var text = document.createTextNode(dwv.i18n('basics.reset'));
+    var text = document.createTextNode(dwvjq.i18n.t('basics.reset'));
     button.appendChild(text);
 
     // list element

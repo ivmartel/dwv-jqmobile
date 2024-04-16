@@ -25,7 +25,7 @@ dwvjq.gui.info.Controller = function (app) {
   // flag to know if the info layer is listening on the image.
   var isInfoLayerListening = false;
   // listener handler
-  var listenerHandler = new dwv.utils.ListenerHandler();
+  var listenerHandler = new dwvjq.utils.ListenerHandler();
 
   /**
    * Create the different info elements.
@@ -52,17 +52,15 @@ dwvjq.gui.info.Controller = function (app) {
     // create and store overlay data
     var data = event.data;
     var dataUid;
-    // check if dicom data (x00020010: transfer syntax)
-    if (typeof data.x00020010 !== 'undefined') {
-      if (typeof data.x00080018 !== 'undefined') {
+    // check if dicom data (00020010: transfer syntax)
+    if (typeof data['00020010'] !== 'undefined') {
+      if (typeof data['00080018'] !== 'undefined') {
         // SOP instance UID
-        dataUid = dwv.dicom.cleanString(data.x00080018.value[0]);
+        dataUid = data['00080018'].value[0];
       } else {
         dataUid = overlayData.length;
       }
-      overlayData[dataUid] = createOverlayData(
-        new dwv.dicom.DicomElementsWrapper(data)
-      );
+      overlayData[dataUid] = createOverlayData(data);
     } else {
       // image file case
       var keys = Object.keys(data);
@@ -128,7 +126,7 @@ dwvjq.gui.info.Controller = function (app) {
             }
             values = values.map(mapFunc);
           }
-          text = dwv.utils.replaceFlags2(format, values);
+          text = replaceFlags(format, values);
         }
       }
       if (typeof text !== 'undefined') {
@@ -216,7 +214,7 @@ dwvjq.gui.info.Controller = function (app) {
  * @example
  *    var values = ["a", "b"];
  *    var str = "The length is: {v0}. The size is: {v1}";
- *    var res = replaceFlags2(str, values);
+ *    var res = replaceFlags(str, values);
  *    // "The length is: a. The size is: b"
  * @returns {string} The result string.
  */
@@ -253,7 +251,7 @@ function createDefaultReplaceFormat(length) {
  */
 function createOverlayData(dicomElements) {
   var overlays = [];
-  var modality = dicomElements.getFromKey('x00080060');
+  var modality = dicomElements['00080060'];
   if (!modality) {
     return overlays;
   }
@@ -276,7 +274,10 @@ function createOverlayData(dicomElements) {
       // get values
       var values = [];
       for (var i = 0; i < tags.length; ++i) {
-        values.push(dicomElements.getElementValueAsStringFromKey(tags[i]));
+        var element = dicomElements[tags[i]];
+        if (typeof element !== 'undefined') {
+          values.push(element.value[0]);
+        }
       }
       // format
       if (typeof overlay.format === 'undefined' || overlay.format === null) {
@@ -290,25 +291,25 @@ function createOverlayData(dicomElements) {
   }
 
   // (0020,0020) Patient Orientation
-  var valuePO = dicomElements.getFromKey('x00200020');
+  var valuePO = dicomElements['00200020'];
   if (
     typeof valuePO !== 'undefined' &&
     valuePO !== null &&
     valuePO.length === 2
   ) {
-    var po0 = dwv.dicom.cleanString(valuePO[0]);
-    var po1 = dwv.dicom.cleanString(valuePO[1]);
+    var po0 = valuePO[0];
+    var po1 = valuePO[1];
     overlays.push({
       pos: 'cr', value: po0, format: '{v0}'
     });
     overlays.push({
-      pos: 'cl', value: dwv.dicom.getReverseOrientation(po0), format: '{v0}'
+      pos: 'cl', value: dwv.getReverseOrientation(po0), format: '{v0}'
     });
     overlays.push({
       pos: 'bc', value: po1, format: '{v0}'
     });
     overlays.push({
-      pos: 'tc', value: dwv.dicom.getReverseOrientation(po1), format: '{v0}'
+      pos: 'tc', value: dwv.getReverseOrientation(po1), format: '{v0}'
     });
   }
 

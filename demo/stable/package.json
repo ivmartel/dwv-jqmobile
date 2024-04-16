@@ -1,6 +1,6 @@
 {
   "name": "dwv-jqmobile",
-  "version": "0.7.1",
+  "version": "0.8.0",
   "description": "Medical viewer using DWV (DICOM Web Viewer) and jQuery Mobile.",
   "keywords": [
     "DICOM",
@@ -15,17 +15,17 @@
     "url": "git://github.com/ivmartel/dwv-jqmobile.git"
   },
   "dependencies": {
-    "dwv": "0.31.4",
-    "i18next": "~22.4.11",
-    "i18next-browser-languagedetector": "~7.0.1",
-    "i18next-http-backend": "~2.2.0",
+    "dwv": "0.32.4",
+    "i18next": "~23.11.2",
+    "i18next-browser-languagedetector": "~7.2.0",
+    "i18next-http-backend": "~2.5.0",
     "jquery": "2.1.4",
     "nprogress": "^0.2.0"
   },
   "devDependencies": {
     "grunt": "^1.4.0",
     "grunt-cli": "^1.4.2",
-    "grunt-contrib-connect": "^3.0.0",
+    "grunt-contrib-connect": "^4.0.0",
     "grunt-contrib-copy": "^1.0.0",
     "grunt-contrib-watch": "^1.1.0",
     "grunt-eslint": "^24.0.0"
