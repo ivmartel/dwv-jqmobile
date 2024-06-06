@@ -280,6 +280,10 @@ dwvjq.google.getAuthorizedCallback = function (callback) {
         {
           name: 'Authorization',
           value: 'Bearer ' + gapi.auth.getToken().access_token
+        },
+        {
+          name: 'Accept',
+          value: 'application/dicom'
         }
       ]
     });
