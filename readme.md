@@ -12,7 +12,7 @@ dwv-jqmobile is not certified for diagnostic use. Released under GNU GPL-3.0 lic
 
  - `install`: install dependencies
  - `start`: serve at localhost:8080 with live reload
- - `test`: run unit tests
+ - `lint`: run file linting
  - `dev`: serve a developement version at localhost:8080 with live reload
 
 ## Steps to run the viewer from scratch
