@@ -409,12 +409,12 @@ duplexify@^3.5.1:
     readable-stream "^2.0.0"
     stream-shift "^1.0.0"
 
-dwv@0.32.6:
-  version "0.32.6"
-  resolved "https://registry.yarnpkg.com/dwv/-/dwv-0.32.6.tgz#0d9bba6ce143adb6173771ed6d0b6750b9a0f4ab"
-  integrity sha512-PRjuBMJruhK1ZeEWhnLZa1uP1By1Kyf8GWJPv0f5/VqyTF60CHwDvsa2OilP5YFBKnPh5dd9hgQ3FR0nWnAvGA==
+dwv@0.33.0:
+  version "0.33.0"
+  resolved "https://registry.yarnpkg.com/dwv/-/dwv-0.33.0.tgz#727ba406593c52b10d8efbc4a54012f08de62f2d"
+  integrity sha512-RhfiUedI+4RNEjaLrfDoVjTm9gYVAAaZgKGZlwg7x6lU5nHGuipRjbHRhz+xfgiCPZ/s6t1+cQLkNw5rrr7Wjg==
   dependencies:
-    jszip "~3.10.1"
+    jszip "^3.10.1"
     konva "~8.4.2"
     magic-wand-tool "~1.1.7"
 
@@ -1201,7 +1201,7 @@ json-stable-stringify-without-jsonify@^1.0.1:
   resolved "https://registry.yarnpkg.com/json-stable-stringify-without-jsonify/-/json-stable-stringify-without-jsonify-1.0.1.tgz#9db7b59496ad3f3cfef30a75142d2d930ad72651"
   integrity sha1-nbe1lJatPzz+8wp1FC0tkwrXJlE=
 
-jszip@~3.10.1:
+jszip@^3.10.1:
   version "3.10.1"
   resolved "https://registry.yarnpkg.com/jszip/-/jszip-3.10.1.tgz#34aee70eb18ea1faec2f589208a157d1feb091c2"
   integrity sha512-xXDvecyTpGLrqFrvkrUSoxxfJI5AH7U8zxxtVclpsUtMCq4JQ290LY8AW5c7Ggnr/Y/oK+bQMbqK2qmtk3pN4g==
