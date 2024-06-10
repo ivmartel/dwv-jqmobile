@@ -160,7 +160,12 @@ dwvjq.gui.filter.base.createFilterApplyButton = function (app) {
   var button = document.createElement('button');
   button.id = 'runFilterButton';
   button.onclick = function (/*event*/) {
-    app.setToolFeatures({run: true});
+    app.setToolFeatures({
+      runArgs: {
+        dataId: app.getDataIds()[0]
+      },
+      run: true
+    });
   };
   button.setAttribute('style', 'width:100%; margin-top:0.5em;');
   button.setAttribute('class', 'ui-btn ui-btn-b');

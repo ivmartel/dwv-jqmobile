@@ -78,6 +78,7 @@ dwvjq.gui.Slider = function (app) {
       app.setToolFeatures({
         run: true,
         runArgs: {
+          dataId: app.getDataIds()[0],
           min: $('#threshold-min').val(),
           max: $('#threshold-max').val()
         }
