@@ -2,14 +2,6 @@ module.exports = function (grunt) {
   // Project configuration
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
-    eslint: {
-      files: [
-        'Gruntfile.js',
-        'service-worker.js',
-        'src/**/*.js',
-        '!src/utils/modernizr.js'
-      ]
-    },
     copy: {
       dev: {
         src: 'index.html',
@@ -67,11 +59,8 @@ module.exports = function (grunt) {
   grunt.loadNpmTasks('grunt-contrib-copy');
   grunt.loadNpmTasks('grunt-contrib-connect');
   grunt.loadNpmTasks('grunt-contrib-watch');
-  grunt.loadNpmTasks('grunt-eslint');
 
   // Task to run tests
-  grunt.registerTask('lint', ['eslint']);
-  grunt.registerTask('test', ['eslint']);
   grunt.registerTask('start', ['connect:prod', 'watch']);
   grunt.registerTask('dev', ['copy:dev', 'connect:dev', 'watch']);
 };
