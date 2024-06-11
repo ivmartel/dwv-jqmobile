@@ -23,6 +23,15 @@ export default [
       // force using curly braces
       // https://eslint.org/docs/rules/curly
       curly: 'error',
+      // no var
+      // https://eslint.org/docs/rules/no-var
+      //'no-var': 'error',
+      // prefer const
+      // https://eslint.org/docs/rules/prefer-const
+      //'prefer-const': 'error',
+      // allow for some unused args
+      // https://eslint.org/docs/rules/no-unused-vars
+      'no-unused-vars': ['error', {argsIgnorePattern: '^_'}],
 
       // formatting rules
 
@@ -40,11 +49,11 @@ export default [
       '@stylistic/js/space-before-function-paren': ['error', {named: 'never'}],
       // newline at object curly
       // https://eslint.style/rules/js/object-curly-newline
-      '@stylistic/js/object-curly-newline': ['error', {'consistent': true}],
+      '@stylistic/js/object-curly-newline': ['error', {consistent: true}],
       // newline at object properties
       // https://eslint.style/rules/js/object-property-newline
       '@stylistic/js/object-property-newline': [
-        'error', {'allowAllPropertiesOnSameLine': true}
+        'error', {allowAllPropertiesOnSameLine: true}
       ],
       // newline at array brackets
       // https://eslint.style/rules/js/array-bracket-newline
@@ -58,7 +67,7 @@ export default [
       // give error for long lines (default: 80)
       // https://eslint.style/rules/js/max-len
       '@stylistic/js/max-len': [
-        'error', {'ignoreRegExpLiterals': true, 'ignoreUrls': true}
+        'error', {ignoreRegExpLiterals: true, ignoreUrls: true}
       ],
       // spaces in parenthesis (default: never)
       // https://eslint.style/rules/js/space-in-parens
@@ -108,7 +117,10 @@ export default [
       '@stylistic/js/no-multiple-empty-lines': 'error',
       // linebreak after operator
       // https://eslint.style/rules/js/operator-linebreak
-      '@stylistic/js/operator-linebreak': 'error'
+      '@stylistic/js/operator-linebreak': 'error',
+      // quotes around object property names
+      // https://eslint.style/rules/js/quote-props
+      '@stylistic/js/quote-props': ['error', 'as-needed']
     },
   }
 ];
