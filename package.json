@@ -1,6 +1,6 @@
 {
   "name": "dwv-jqmobile",
-  "version": "0.8.0",
+  "version": "0.8.1",
   "description": "Medical viewer using DWV (DICOM Web Viewer) and jQuery Mobile.",
   "keywords": [
     "DICOM",
