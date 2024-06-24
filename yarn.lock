@@ -92,9 +92,9 @@
     fastq "^1.6.0"
 
 "@stylistic/eslint-plugin-js@^2.1.0":
-  version "2.2.0"
-  resolved "https://registry.yarnpkg.com/@stylistic/eslint-plugin-js/-/eslint-plugin-js-2.2.0.tgz#87c46cf5498d1a1cd4d1c520123fcf00978dd856"
-  integrity sha512-pdkNeVORubs+k7jmhHivYXggoFvw1ykAyGBQomodOYO8MhO8/IM798XVyjadC6EeTeBiXlEWYRy/4QV34hDz+A==
+  version "2.2.2"
+  resolved "https://registry.yarnpkg.com/@stylistic/eslint-plugin-js/-/eslint-plugin-js-2.2.2.tgz#7e4e7e7572e1409712d569205976bfbc7a4f3735"
+  integrity sha512-Vj2Q1YHVvJw+ThtOvmk5Yx7wZanVrIBRUTT89horLDb4xdP9GA1um9XOYQC6j67VeUC2gjZQnz5/RVJMzaOhtw==
   dependencies:
     "@types/eslint" "^8.56.10"
     acorn "^8.11.3"
