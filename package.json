@@ -16,7 +16,7 @@
   },
   "dependencies": {
     "dwv": "0.33.1",
-    "i18next": "~23.15.1",
+    "i18next": "~23.16.0",
     "i18next-browser-languagedetector": "~8.0.0",
     "i18next-http-backend": "~2.6.1",
     "jquery": "2.1.4",
