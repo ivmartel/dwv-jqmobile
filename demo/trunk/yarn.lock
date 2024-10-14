@@ -769,9 +769,9 @@ globals@^14.0.0:
   integrity sha512-oahGvuMGQlPw/ivIYBjVSrWAfWLBeku5tpPE2fOPLi+WHffIWbuh2tCjhyQhTBPMf5E9jDEH4FOmTYgYwbKwtQ==
 
 globals@^15.4.0:
-  version "15.10.0"
-  resolved "https://registry.yarnpkg.com/globals/-/globals-15.10.0.tgz#a7eab3886802da248ad8b6a9ccca6573ff899c9b"
-  integrity sha512-tqFIbz83w4Y5TCbtgjZjApohbuh7K9BxGYFm7ifwDR240tvdb7P9x+/9VvUKlmkPoiknoJtanI8UOrqxS3a7lQ==
+  version "15.11.0"
+  resolved "https://registry.yarnpkg.com/globals/-/globals-15.11.0.tgz#b96ed4c6998540c6fb824b24b5499216d2438d6e"
+  integrity sha512-yeyNSjdbyVaWurlwCpcA6XNBrHTMIeDdj0/hnvX/OLJ9ekOXYbLsLinH/MucQyGvNnXhidTdNhTtJaffL2sMfw==
 
 globule@^1.0.0:
   version "1.3.2"
@@ -805,9 +805,9 @@ grunt-cli@~1.4.3:
     v8flags "~3.2.0"
 
 grunt-contrib-connect@^5.0.0:
-  version "5.0.0"
-  resolved "https://registry.yarnpkg.com/grunt-contrib-connect/-/grunt-contrib-connect-5.0.0.tgz#01efb86e849a6df81d3644cdfd53e02fc6ebeec6"
-  integrity sha512-5bnw/5h8p4P+9EYgFAPKExlNzY1U2/FQSsNlbZmXwbS5l2SyzLwyDqpXKma9RFi2y4s+3IC0ShjE1hJkzuhp4w==
+  version "5.0.1"
+  resolved "https://registry.yarnpkg.com/grunt-contrib-connect/-/grunt-contrib-connect-5.0.1.tgz#c8cc828a3c806520d9126377870b62eeb8bd2f92"
+  integrity sha512-Hfq/0QJl3ddD2N/a/1cDJHkKEOGk6m7W6uxNe0AmYwtf6v0F/4+8q9rvPJ1tl+mrI90lU/89I9T/h48qqeMfQA==
   dependencies:
     async "^3.2.5"
     connect "^3.7.0"
