@@ -27,8 +27,7 @@ function startApp() {
     'Rectangle',
     'Roi',
     'Ellipse',
-    'Circle',
-    'FreeHand'
+    'Circle'
   ];
 
   var toolList = {

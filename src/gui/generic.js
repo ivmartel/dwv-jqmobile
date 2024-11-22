@@ -291,6 +291,10 @@ dwvjq.gui.MetaData = function () {
   };
 }; // class dwvjq.gui.DicomTags
 
+function capitalizeFirstLetter(str) {
+  return str.charAt(0).toUpperCase() + str.slice(1);
+}
+
 /**
  * Drawing list base gui.
  * @param {Object} app The associated application.
@@ -306,10 +310,10 @@ dwvjq.gui.DrawList = function (app) {
    * Initialise.
    */
   this.init = function () {
-    app.addEventListener('positionchange', update);
-    app.addEventListener('drawcreate', update);
-    app.addEventListener('drawchange', update);
-    app.addEventListener('drawdelete', update);
+    app.addEventListener('dataadd', update);
+    app.addEventListener('annotationadd', update);
+    app.addEventListener('annotationupdate', update);
+    app.addEventListener('annotationremove', update);
   };
 
   /**
@@ -323,6 +327,24 @@ dwvjq.gui.DrawList = function (app) {
       isEditable = event.editable;
     }
 
+    // find annotationGroup
+    var dataIds = app.getDataIds();
+    var annotationGroup;
+    var dataId;
+    for (var j = 0; j < dataIds.length; ++j) {
+      var ag = app.getData(dataIds[j]).annotationGroup;
+      if (typeof ag !== 'undefined') {
+        annotationGroup = ag;
+        dataId = dataIds[j];
+      }
+    }
+    if (typeof annotationGroup === 'undefined') {
+      return;
+    }
+
+    // draw layer
+    const drawLayer = app.getDrawLayersByDataId(dataId)[0];
+
     // HTML node
     var node = document.getElementById('dwv-drawList');
     if (node === null) {
@@ -334,37 +356,22 @@ dwvjq.gui.DrawList = function (app) {
       node.removeChild(node.firstChild);
     }
 
-    // draw controller
-    var drawLayer = app.getActiveLayerGroup().getActiveDrawLayer();
-    var drawController = drawLayer.getDrawController();
-
-    // drawing details
-    var drawDisplayDetails = drawController.getDrawDisplayDetails();
-
-    // exit if no details
-    if (drawDisplayDetails.length === 0) {
+    var annotations = annotationGroup.getList();
+    if (annotations.length === 0) {
       return;
     }
 
     // simpler details
     var simpleDetails = [];
-    for (var i = 0; i < drawDisplayDetails.length; ++i) {
-      var detail = drawDisplayDetails[i];
-      var keys = Object.keys(detail);
-      var simpleDetail = {};
-      for (var k = 0; k < keys.length; ++k) {
-        var key = keys[k];
-        // copy all but meta
-        if (key !== 'meta') {
-          simpleDetail[key] = detail[key];
-        }
-        // shorten id
-        if (key === 'id') {
-          simpleDetail[key] = detail[key].substring(0, 5);
-        }
-      }
-      // add description
-      simpleDetail.description = detail.meta.textExpr;
+    for (var i = 0; i < annotations.length; ++i) {
+      var annotation = annotations[i];
+      var simpleDetail = {
+        id: annotation.id,
+        position: '',
+        type: capitalizeFirstLetter(annotation.getFactory().getName()),
+        color: annotation.colour,
+        description: annotation.textExpr
+      };
       simpleDetails.push(simpleDetail);
     }
 
@@ -393,17 +400,29 @@ dwvjq.gui.DrawList = function (app) {
     dwvjq.html.translateTableColumn(table, shapeCellIndex, 'shape', 'name');
 
     // create a color onkeyup handler
-    var createColorOnKeyUp = function (details) {
+    var createColorOnKeyUp = function (annot) {
       return function () {
-        details.color = this.value;
-        drawController.updateDraw(details);
+        annot.colour = this.value;
+        const drawController = new dwv.DrawController(annotationGroup);
+        drawController.updateAnnotationWithCommand(
+          annot.id,
+          {colour: annotation.colour},
+          {colour: this.value},
+          app.addToUndoStack
+        );
       };
     };
     // create a text onkeyup handler
-    var createDescriptionOnKeyUp = function (details) {
+    var createDescriptionOnKeyUp = function (annot) {
       return function () {
-        details.meta.textExpr = this.value;
-        drawController.updateDraw(details);
+        annot.textExpr = this.value;
+        const drawController = new dwv.DrawController(annotationGroup);
+        drawController.updateAnnotationWithCommand(
+          annot.id,
+          {textExpr: annotation.textExpr},
+          {textExpr: this.value},
+          app.addToUndoStack
+        );
       };
     };
     // create a row onclick handler
@@ -421,10 +440,10 @@ dwvjq.gui.DrawList = function (app) {
     };
 
     // create visibility handler
-    var createVisibleOnClick = function (details, element) {
+    var createVisibleOnClick = function (ann, element) {
       return function () {
-        drawLayer.toggleGroupVisibility(details.id);
-        if (drawLayer.isGroupVisible(details.id)) {
+        drawLayer.setAnnotationVisibility(ann.id);
+        if (drawLayer.isAnnotationVisible(ann.id)) {
           element.className = 'text-button checked';
         } else {
           element.className = 'text-button unchecked';
@@ -432,9 +451,13 @@ dwvjq.gui.DrawList = function (app) {
       };
     };
     // delete handler
-    var createDeleteOnClick = function (details) {
+    var createDeleteOnClick = function (annot) {
       return function () {
-        drawLayer.deleteDraw(details.id, app.addToUndoStack);
+        const drawController = new dwv.DrawController(annotationGroup);
+        drawController.removeAnnotationWithCommand(
+          annot.id,
+          app.addToUndoStack
+        );
       };
     };
 
@@ -446,7 +469,7 @@ dwvjq.gui.DrawList = function (app) {
     // loop through rows
     for (var r = 1; r < table.rows.length; ++r) {
       var drawId = r - 1;
-      var drawDetails = drawDisplayDetails[drawId];
+      var annot = annotations[drawId];
       var row = table.rows.item(r);
       var cells = row.cells;
 
@@ -457,14 +480,14 @@ dwvjq.gui.DrawList = function (app) {
           if (c === colorCellIndex) {
             dwvjq.html.makeCellEditable(
               cells[c],
-              createColorOnKeyUp(drawDetails),
+              createColorOnKeyUp(annot),
               'color'
             );
           } else if (c === descCellIndex) {
             // text
             dwvjq.html.makeCellEditable(
               cells[c],
-              createDescriptionOnKeyUp(drawDetails)
+              createDescriptionOnKeyUp(annot)
             );
           }
         } else {
@@ -485,20 +508,20 @@ dwvjq.gui.DrawList = function (app) {
       var cell0 = row.insertCell(0);
       // visibility
       var visibilitySpan = document.createElement('span');
-      if (drawLayer.isGroupVisible(drawDetails.id)) {
+      if (drawLayer.isAnnotationVisible(annot.id)) {
         visibilitySpan.className = 'text-button checked';
       } else {
         visibilitySpan.className = 'text-button unchecked';
       }
       visibilitySpan.appendChild(document.createTextNode('\u{1F441}')); // eye
       visibilitySpan.onclick =
-        createVisibleOnClick(drawDetails, visibilitySpan);
+        createVisibleOnClick(annot, visibilitySpan);
       cell0.appendChild(visibilitySpan);
       // delete
       var deleteSpan = document.createElement('span');
       deleteSpan.className = 'text-button checked';
-      deleteSpan.appendChild(document.createTextNode('\u2715')); // cross
-      deleteSpan.onclick = createDeleteOnClick(drawDetails, deleteSpan);
+      deleteSpan.appendChild(document.createTextNode('\u{274C}')); // cross
+      deleteSpan.onclick = createDeleteOnClick(annot, deleteSpan);
       cell0.appendChild(deleteSpan);
     }
 
