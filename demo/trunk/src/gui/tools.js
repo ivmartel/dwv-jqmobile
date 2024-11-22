@@ -242,7 +242,7 @@ dwvjq.gui.WindowLevel = function (app) {
     var cmSelector = document.getElementById('colourMapSelect');
     cmSelector.selectedIndex = 0;
     // special monochrome1 case
-    if (app.getImage(0).getPhotometricInterpretation() === 'MONOCHROME1') {
+    if (app.getData(0).image.getPhotometricInterpretation() === 'MONOCHROME1') {
       cmSelector.selectedIndex = 1;
     }
     // refresh
