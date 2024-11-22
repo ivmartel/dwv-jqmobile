@@ -92,7 +92,8 @@ dwvjq.gui.Slider = function (app) {
    * Initialise the slider HTML.
    */
   this.initialise = function () {
-    var dataRange = app.getData(0).image.getDataRange();
+    var dataId0 = app.getDataIds()[0];
+    var dataRange = app.getData(dataId0).image.getDataRange();
     var min = dataRange.min;
     var max = dataRange.max;
 
