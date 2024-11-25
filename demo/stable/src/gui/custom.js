@@ -78,6 +78,7 @@ dwvjq.gui.Slider = function (app) {
       app.setToolFeatures({
         run: true,
         runArgs: {
+          dataId: app.getDataIds()[0],
           min: $('#threshold-min').val(),
           max: $('#threshold-max').val()
         }
@@ -91,7 +92,8 @@ dwvjq.gui.Slider = function (app) {
    * Initialise the slider HTML.
    */
   this.initialise = function () {
-    var dataRange = app.getImage(0).getDataRange();
+    var dataId0 = app.getDataIds()[0];
+    var dataRange = app.getData(dataId0).image.getDataRange();
     var min = dataRange.min;
     var max = dataRange.max;
 

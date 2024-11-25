@@ -112,27 +112,27 @@ dwvjq.gui.getHelpKeys = function (toolName) {
     brief: 'tool.' + toolName + '.brief',
   };
   var toolActions = {
-    'Draw': {
+    Draw: {
       mouse: ['mouse_drag'],
       touch: ['touch_drag']
     },
-    'Floodfill': {
+    Floodfill: {
       mouse: ['click'],
       touch: ['tap']
     },
-    'Opacity': {
+    Opacity: {
       mouse: ['mouse_drag'],
       touch: ['touch_drag']
     },
-    'Scroll': {
+    Scroll: {
       mouse: ['mouse_drag', 'double_click'],
       touch: ['touch_drag', 'tap_and_hold']
     },
-    'WindowLevel': {
+    WindowLevel: {
       mouse: ['mouse_drag', 'double_click'],
       touch: ['touch_drag']
     },
-    'ZoomAndPan': {
+    ZoomAndPan: {
       mouse: ['mouse_drag', 'mouse_drag'],
       touch: ['twotouch_pinch', 'touch_drag']
     }
