@@ -15,7 +15,7 @@ function startApp() {
   dwvjq.i18n.translatePage();
 
   // show dwv version
-  dwvjq.gui.appendVersionHtml('0.9.0');
+  dwvjq.gui.appendVersionHtml('0.10.0-beta.0');
 
   // application options
   var filterList = ['Threshold', 'Sharpen', 'Sobel'];
