@@ -1,7 +1,7 @@
 // https://developers.google.com/web/fundamentals/primers/service-workers/
 // chrome: chrome://inspect/#service-workers
 
-var CACHE_NAME = 'dwv-jqmobile-cache_v0.9.0';
+var CACHE_NAME = 'dwv-jqmobile-cache_v0.10.0-beta.0';
 var urlsToCache = [
   './',
   './index.html',
