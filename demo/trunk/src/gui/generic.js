@@ -310,7 +310,7 @@ dwvjq.gui.DrawList = function (app) {
    * Initialise.
    */
   this.init = function () {
-    app.addEventListener('dataadd', update);
+    app.addEventListener('drawlayeradd', update);
     app.addEventListener('annotationadd', update);
     app.addEventListener('annotationupdate', update);
     app.addEventListener('annotationremove', update);
@@ -557,6 +557,36 @@ dwvjq.gui.DrawList = function (app) {
 
     // draw list table
     node.appendChild(table);
+
+    // save draw button
+    var saveButton = document.createElement('button');
+    saveButton.onclick = function () {
+      var factory = new dwv.AnnotationGroupFactory();
+      var dicomElements = factory.toDicom(annotationGroup);
+      // write
+      var writer = new dwv.DicomWriter();
+      let dicomBuffer = null;
+      try {
+        dicomBuffer = writer.getBuffer(dicomElements);
+      } catch (error) {
+        console.error(error);
+        alert(error.message);
+      }
+      var blob = new Blob([dicomBuffer], {type: 'application/dicom'});
+
+      // temporary link to download
+      var element = document.createElement('a');
+      element.href = window.URL.createObjectURL(blob);
+      element.download = 'dicom-sr-' + dataId + '.dcm';
+      // trigger download
+      element.click();
+      URL.revokeObjectURL(element.href);
+    };
+    saveButton.setAttribute('class', 'ui-btn ui-btn-inline');
+    saveButton.appendChild(
+      document.createTextNode(dwvjq.i18n.t('basics.downloadAnnotations'))
+    );
+    node.appendChild(saveButton);
 
     // delete draw button
     var deleteButton = document.createElement('button');

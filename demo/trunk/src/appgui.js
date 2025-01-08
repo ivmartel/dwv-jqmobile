@@ -110,17 +110,6 @@ dwvjq.gui.ToolboxContainer = function (app, infoController) {
       infoController.toggleListeners();
     };
 
-    var toggleSaveState = document.createElement('a');
-    toggleSaveState.setAttribute(
-      'class',
-      buttonClass + ' download-state ui-icon-action'
-    );
-    toggleSaveState.onclick = function () {
-      var blob = new Blob([app.getJsonState()], {type: 'application/json'});
-      toggleSaveState.href = window.URL.createObjectURL(blob);
-    };
-    toggleSaveState.download = 'state.json';
-
     var tags = document.createElement('a');
     tags.href = '#tags_page';
     tags.setAttribute('class', buttonClass + ' ui-icon-grid');
@@ -134,7 +123,6 @@ dwvjq.gui.ToolboxContainer = function (app, infoController) {
     node.appendChild(undo);
     node.appendChild(redo);
     node.appendChild(toggleInfo);
-    node.appendChild(toggleSaveState);
     node.appendChild(tags);
     node.appendChild(drawList);
     dwvjq.gui.refreshElement(node);
