@@ -584,7 +584,7 @@ dwvjq.gui.DrawList = function (app) {
     };
     saveButton.setAttribute('class', 'ui-btn ui-btn-inline');
     saveButton.appendChild(
-      document.createTextNode(dwvjq.i18n.t('basics.saveDraws'))
+      document.createTextNode(dwvjq.i18n.t('basics.downloadAnnotations'))
     );
     node.appendChild(saveButton);
 
