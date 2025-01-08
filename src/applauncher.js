@@ -164,11 +164,11 @@ function startApp() {
       metaDataGui.update(myapp.getMetaData('0'));
     }
   });
-  myapp.addEventListener('loaderror', function (event) {
+  myapp.addEventListener('error', function (event) {
     console.error('load error', event);
     ++nReceivedLoadError;
   });
-  myapp.addEventListener('loadabort', function (/*event*/) {
+  myapp.addEventListener('abort', function (/*event*/) {
     ++nReceivedLoadAbort;
   });
   myapp.addEventListener('loadend', function (/*event*/) {
