@@ -310,7 +310,7 @@ dwvjq.gui.DrawList = function (app) {
    * Initialise.
    */
   this.init = function () {
-    app.addEventListener('dataadd', update);
+    app.addEventListener('drawlayeradd', update);
     app.addEventListener('annotationadd', update);
     app.addEventListener('annotationupdate', update);
     app.addEventListener('annotationremove', update);
