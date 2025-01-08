@@ -15,8 +15,9 @@ function getNumberToPrecision(precision) {
  * DICOM Header overlay info controller.
  * @constructor
  * @param {Object} app The assciated app.
+ * @param {string} dataId The assciated data id.
  */
-dwvjq.gui.info.Controller = function (app) {
+dwvjq.gui.info.Controller = function (app, dataId) {
 
   // overlay data
   var overlayData = [];
@@ -49,6 +50,10 @@ dwvjq.gui.info.Controller = function (app) {
    * @param {Object} event The loaditem event.
    */
   this.onLoadItem = function (event) {
+    // only handle input data id
+    if (event.dataid !== dataId) {
+      return;
+    }
     // create and store overlay data
     var data = event.data;
     var dataUid;
@@ -82,6 +87,11 @@ dwvjq.gui.info.Controller = function (app) {
    * @param {Object} event The slicechange event.
    */
   function onSliceChange(event) {
+    // only handle input data id
+    if (event.dataid !== dataId) {
+      return;
+    }
+    // update data
     if (typeof event.data !== 'undefined' &&
       typeof event.data.imageUid !== 'undefined') {
       currentDataUid = event.data.imageUid;
@@ -96,6 +106,10 @@ dwvjq.gui.info.Controller = function (app) {
    *   registered in toggleListeners
    */
   function updateData(event) {
+    // only handle input data id
+    if (event.dataid !== dataId) {
+      return;
+    }
 
     var sliceOverlayData = overlayData[currentDataUid];
     if (typeof sliceOverlayData === 'undefined') {
