@@ -82,7 +82,8 @@ function startApp() {
   loadboxGui.setup(loaderList);
 
   // info layer
-  var infoController = new dwvjq.gui.info.Controller(myapp);
+  var infoDataId = '0';
+  var infoController = new dwvjq.gui.info.Controller(myapp, infoDataId);
   infoController.init();
 
   var infoElement = document.getElementById('infoLayer');
@@ -112,19 +113,17 @@ function startApp() {
   var nLoadItem = null;
   var nReceivedLoadError = null;
   var nReceivedLoadAbort = null;
-  var isFirstRender = null;
   myapp.addEventListener('loadstart', function (event) {
     // reset counts
     nLoadItem = 0;
     nReceivedLoadError = 0;
     nReceivedLoadAbort = 0;
-    isFirstRender = true;
     // hide drop box
     dropBoxLoader.showDropbox(false);
     // reset progress bar
     dwvjq.gui.displayProgress(0);
     // update info controller
-    if (event.loadtype === 'image') {
+    if (event.loadtype === 'image' && event.dataid === infoDataId) {
       infoController.reset();
     }
     // allow to cancel via crtl-x
@@ -141,30 +140,35 @@ function startApp() {
       infoController.onLoadItem(event);
     }
   });
-  myapp.addEventListener('renderstart', function (/*event*/) {
-    if (isFirstRender) {
-      infoController.addEventListener('valuechange', infoOverlay.onDataChange);
+
+  // init controller at first render start
+  var initInfoController = function () {
+    infoController.addEventListener('valuechange', infoOverlay.onDataChange);
+    myapp.removeEventListener('renderstart', initInfoController);
+  };
+  myapp.addEventListener('renderstart', initInfoController);
+  // init toolbox gui at first render end
+  var initToolboxGui = function () {
+    toolboxGui.initialise();
+    toolboxGui.display(true);
+    myapp.removeEventListener('renderend', initToolboxGui);
+  };
+  myapp.addEventListener('renderend', initToolboxGui);
+
+  myapp.addEventListener('load', function (event) {
+    // only initialise at first data
+    if (event.dataid === infoDataId) {
+      // initialise undo gui
+      undoGui.setup();
+      // update meta data table
+      metaDataGui.update(myapp.getMetaData('0'));
     }
   });
-  myapp.addEventListener('renderend', function (/*event*/) {
-    if (isFirstRender) {
-      isFirstRender = false;
-      // initialise and display the toolbox on first render
-      toolboxGui.initialise();
-      toolboxGui.display(true);
-    }
-  });
-  myapp.addEventListener('load', function (/*event*/) {
-    // initialise undo gui
-    undoGui.setup();
-    // update meta data table
-    metaDataGui.update(myapp.getMetaData(0));
-  });
-  myapp.addEventListener('loaderror', function (event) {
+  myapp.addEventListener('error', function (event) {
     console.error('load error', event);
     ++nReceivedLoadError;
   });
-  myapp.addEventListener('loadabort', function (/*event*/) {
+  myapp.addEventListener('abort', function (/*event*/) {
     ++nReceivedLoadAbort;
   });
   myapp.addEventListener('loadend', function (/*event*/) {
