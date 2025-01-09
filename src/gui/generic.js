@@ -426,14 +426,15 @@ dwvjq.gui.DrawList = function (app) {
       };
     };
     // create a row onclick handler
-    var createRowOnClick = function (positionStr) {
+    var createRowOnClick = function (annotationId) {
       return function () {
-        var layerGroup = app.getActiveLayerGroup();
-        var viewController =
-          layerGroup.getActiveViewLayer().getViewController();
-        var split = positionStr.substring(1, positionStr.length - 1).split(',');
-        var pos = new dwv.Point(split);
-        viewController.setCurrentIndex(pos);
+        const annotation = annotationGroup.find(annotationId);
+        const annotCentroid = annotation.getCentroid();
+        if (typeof annotCentroid !== 'undefined') {
+          drawLayer.setCurrentPosition(annotCentroid);
+        } else {
+          console.log('No centroid for annotation');
+        }
         // focus on the image
         dwvjq.gui.focusImage();
       };
@@ -493,7 +494,7 @@ dwvjq.gui.DrawList = function (app) {
         } else {
           // id: link to image
           cells[0].onclick = createRowOnClick(
-            cells[1].firstChild.data
+            cells[0].firstChild.data
           );
           cells[0].onmouseover = dwvjq.html.setCursorToPointer;
           cells[0].onmouseout = dwvjq.html.setCursorToDefault;
