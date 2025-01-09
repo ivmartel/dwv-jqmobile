@@ -366,8 +366,6 @@ dwvjq.gui.DrawList = function (app) {
     for (var i = 0; i < annotations.length; ++i) {
       var annotation = annotations[i];
       var simpleDetail = {
-        id: annotation.id,
-        position: '',
         type: capitalizeFirstLetter(annotation.getFactory().getName()),
         color: annotation.colour,
         description: annotation.textExpr
@@ -380,9 +378,9 @@ dwvjq.gui.DrawList = function (app) {
     table.className = 'drawsTable';
 
     // cell indices
-    var shapeCellIndex = 2;
-    var colorCellIndex = 3;
-    var descCellIndex = 4;
+    var shapeCellIndex = 0;
+    var colorCellIndex = shapeCellIndex + 1;
+    var descCellIndex = colorCellIndex + 1;
 
     // optional gui specific table post process
     dwvjq.gui.postProcessTable(table);
@@ -492,12 +490,6 @@ dwvjq.gui.DrawList = function (app) {
             );
           }
         } else {
-          // id: link to image
-          cells[0].onclick = createRowOnClick(
-            cells[0].firstChild.data
-          );
-          cells[0].onmouseover = dwvjq.html.setCursorToPointer;
-          cells[0].onmouseout = dwvjq.html.setCursorToDefault;
           // color: just display the input color with no callback
           if (c === colorCellIndex) {
             dwvjq.html.makeCellEditable(cells[c], null, 'color');
@@ -507,6 +499,13 @@ dwvjq.gui.DrawList = function (app) {
 
       // append actions
       var cell0 = row.insertCell(0);
+      // goto
+      var gotoSpan = document.createElement('span');
+      gotoSpan.className = 'text-button checked';
+      gotoSpan.title = 'Goto annotation';
+      gotoSpan.appendChild(document.createTextNode('\u{1F3AF}')); // target
+      gotoSpan.onclick = createRowOnClick(annot.id);
+      cell0.appendChild(gotoSpan);
       // visibility
       var visibilitySpan = document.createElement('span');
       if (drawLayer.isAnnotationVisible(annot.id)) {
@@ -514,6 +513,7 @@ dwvjq.gui.DrawList = function (app) {
       } else {
         visibilitySpan.className = 'text-button unchecked';
       }
+      visibilitySpan.title = 'Show/hide';
       visibilitySpan.appendChild(document.createTextNode('\u{1F441}')); // eye
       visibilitySpan.onclick =
         createVisibleOnClick(annot, visibilitySpan);
@@ -521,6 +521,7 @@ dwvjq.gui.DrawList = function (app) {
       // delete
       var deleteSpan = document.createElement('span');
       deleteSpan.className = 'text-button checked';
+      deleteSpan.title = 'Delete annotation';
       deleteSpan.appendChild(document.createTextNode('\u{274C}')); // cross
       deleteSpan.onclick = createDeleteOnClick(annot, deleteSpan);
       cell0.appendChild(deleteSpan);
