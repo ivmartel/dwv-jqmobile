@@ -399,7 +399,7 @@ dwvjq.gui.DrawList = function (app) {
     table.className = 'drawsTable';
 
     // cell indices
-    var shapeCellIndex = 0;
+    var shapeCellIndex = 2;
     var colorCellIndex = shapeCellIndex + 1;
     var descCellIndex = colorCellIndex + 1;
 
@@ -521,13 +521,6 @@ dwvjq.gui.DrawList = function (app) {
 
       // append actions
       var cell0 = row.insertCell(0);
-      // goto
-      var gotoSpan = document.createElement('span');
-      gotoSpan.className = 'text-button checked';
-      gotoSpan.title = 'Goto annotation';
-      gotoSpan.appendChild(document.createTextNode('\u{1F3AF}')); // target
-      gotoSpan.onclick = createRowOnClick(annot.id);
-      cell0.appendChild(gotoSpan);
       // visibility
       var visibilitySpan = document.createElement('span');
       if (drawLayer.isAnnotationVisible(annot.id)) {
