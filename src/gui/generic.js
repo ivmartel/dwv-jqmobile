@@ -295,6 +295,25 @@ function capitalizeFirstLetter(str) {
   return str.charAt(0).toUpperCase() + str.slice(1);
 }
 
+function precisionRound(number, precision) {
+  var factor = Math.pow(10, precision);
+  var delta = 0.01 / factor; // fixes precisionRound(1.005, 2)
+  return Math.round(number * factor + delta) / factor;
+}
+
+function pointToString(point) {
+  var res = '(';
+  var values = point.getValues();
+  for (var i = 0; i < values.length; ++i) {
+    if (i !== 0) {
+      res += ',';
+    }
+    res += precisionRound(values[i], 2);
+  }
+  res += ')';
+  return res;
+}
+
 /**
  * Drawing list base gui.
  * @param {Object} app The associated application.
@@ -367,7 +386,7 @@ dwvjq.gui.DrawList = function (app) {
       var annotation = annotations[i];
       var simpleDetail = {
         id: annotation.id,
-        position: '',
+        position: pointToString(annotation.getCentroid()),
         type: capitalizeFirstLetter(annotation.getFactory().getName()),
         color: annotation.colour,
         description: annotation.textExpr
@@ -426,14 +445,12 @@ dwvjq.gui.DrawList = function (app) {
       };
     };
     // create a row onclick handler
-    var createRowOnClick = function (positionStr) {
+    var createRowOnClick = function (annot) {
       return function () {
         var layerGroup = app.getActiveLayerGroup();
         var viewController =
           layerGroup.getActiveViewLayer().getViewController();
-        var split = positionStr.substring(1, positionStr.length - 1).split(',');
-        var pos = new dwv.Point(split);
-        viewController.setCurrentIndex(pos);
+        viewController.setCurrentPosition(annot.getCentroid());
         // focus on the image
         dwvjq.gui.focusImage();
       };
@@ -492,9 +509,7 @@ dwvjq.gui.DrawList = function (app) {
           }
         } else {
           // id: link to image
-          cells[0].onclick = createRowOnClick(
-            cells[1].firstChild.data
-          );
+          cells[0].onclick = createRowOnClick(annot);
           cells[0].onmouseover = dwvjq.html.setCursorToPointer;
           cells[0].onmouseout = dwvjq.html.setCursorToDefault;
           // color: just display the input color with no callback
