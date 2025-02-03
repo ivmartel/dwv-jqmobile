@@ -384,9 +384,14 @@ dwvjq.gui.DrawList = function (app) {
     var simpleDetails = [];
     for (var i = 0; i < annotations.length; ++i) {
       var annotation = annotations[i];
+      var centroid = annotation.getCentroid();
+      var posStr;
+      if (typeof centroid !== 'undefined') {
+        posStr = pointToString(centroid);
+      }
       var simpleDetail = {
         id: annotation.id,
-        position: pointToString(annotation.getCentroid()),
+        position: posStr,
         type: capitalizeFirstLetter(annotation.getFactory().getName()),
         color: annotation.colour,
         description: annotation.textExpr
@@ -473,6 +478,21 @@ dwvjq.gui.DrawList = function (app) {
           annot.id,
           app.addToUndoStack
         );
+      };
+    };
+
+    var createDeleteAllOnClick = function () {
+      return function () {
+        const drawController = new dwv.DrawController(annotationGroup);
+        let list = annotationGroup.getList();
+        while (list.length !== 0) {
+          var annot = list[0];
+          drawController.removeAnnotationWithCommand(
+            annot.id,
+            app.addToUndoStack
+          );
+          list = annotationGroup.getList();
+        }
       };
     };
 
@@ -605,9 +625,7 @@ dwvjq.gui.DrawList = function (app) {
 
     // delete draw button
     var deleteButton = document.createElement('button');
-    deleteButton.onclick = function () {
-      drawLayer.deleteDraws(app.addToUndoStack);
-    };
+    deleteButton.onclick = createDeleteAllOnClick();
     deleteButton.setAttribute('class', 'ui-btn ui-btn-inline');
     deleteButton.appendChild(
       document.createTextNode(dwvjq.i18n.t('basics.deleteDraws'))
