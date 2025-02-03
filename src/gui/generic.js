@@ -481,6 +481,21 @@ dwvjq.gui.DrawList = function (app) {
       };
     };
 
+    var createDeleteAllOnClick = function () {
+      return function () {
+        const drawController = new dwv.DrawController(annotationGroup);
+        let list = annotationGroup.getList();
+        while (list.length !== 0) {
+          var annot = list[0];
+          drawController.removeAnnotationWithCommand(
+            annot.id,
+            app.addToUndoStack
+          );
+          list = annotationGroup.getList();
+        }
+      };
+    };
+
     // append action column to the header row
     var row0 = table.rows.item(0);
     var cell00 = row0.insertCell(0);
@@ -610,9 +625,7 @@ dwvjq.gui.DrawList = function (app) {
 
     // delete draw button
     var deleteButton = document.createElement('button');
-    deleteButton.onclick = function () {
-      drawLayer.deleteDraws(app.addToUndoStack);
-    };
+    deleteButton.onclick = createDeleteAllOnClick();
     deleteButton.setAttribute('class', 'ui-btn ui-btn-inline');
     deleteButton.appendChild(
       document.createTextNode(dwvjq.i18n.t('basics.deleteDraws'))
