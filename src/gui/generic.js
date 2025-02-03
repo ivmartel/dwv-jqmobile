@@ -384,9 +384,14 @@ dwvjq.gui.DrawList = function (app) {
     var simpleDetails = [];
     for (var i = 0; i < annotations.length; ++i) {
       var annotation = annotations[i];
+      var centroid = annotation.getCentroid();
+      var posStr;
+      if (typeof centroid !== 'undefined') {
+        posStr = pointToString(centroid);
+      }
       var simpleDetail = {
         id: annotation.id,
-        position: pointToString(annotation.getCentroid()),
+        position: posStr,
         type: capitalizeFirstLetter(annotation.getFactory().getName()),
         color: annotation.colour,
         description: annotation.textExpr
