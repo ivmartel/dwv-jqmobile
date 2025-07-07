@@ -60,7 +60,7 @@
     minimatch "^3.1.2"
     strip-json-comments "^3.1.1"
 
-"@eslint/js@9.30.1", "@eslint/js@^9.4.0":
+"@eslint/js@9.30.1", "@eslint/js@^9.30.1":
   version "9.30.1"
   resolved "https://registry.yarnpkg.com/@eslint/js/-/js-9.30.1.tgz#ebe9dd52a38345784c486300175a28c6013c088d"
   integrity sha512-zXhuECFlyep42KZUhWjfvsmXGX39W8K8LFb8AWXM9gSV9dQB+MrJGLKvW6Zw0Ggnbpw0VHTtrhFXYe3Gym18jg==
@@ -106,7 +106,7 @@
   resolved "https://registry.yarnpkg.com/@humanwhocodes/retry/-/retry-0.4.2.tgz#1860473de7dfa1546767448f333db80cb0ff2161"
   integrity sha512-xeO57FpIu4p1Ri3Jq/EXq4ClRm86dVF2z/+kvFnyqVYRavTZmaFaUBbWCOuuTh0o/g7DSsk6kc2vrS4Vl5oPOQ==
 
-"@stylistic/eslint-plugin-js@^4.1.0":
+"@stylistic/eslint-plugin-js@^4.4.1":
   version "4.4.1"
   resolved "https://registry.yarnpkg.com/@stylistic/eslint-plugin-js/-/eslint-plugin-js-4.4.1.tgz#b926ef82bf32438790d5ce2e5745ad301ed0ee8d"
   integrity sha512-eLisyHvx7Sel8vcFZOEwDEBGmYsYM1SqDn81BWgmbqEXfXRf8oe6Rwp+ryM/8odNjlxtaaxp0Ihmt86CnLAxKg==
@@ -470,7 +470,7 @@ eslint-visitor-keys@^4.2.0, eslint-visitor-keys@^4.2.1:
   resolved "https://registry.yarnpkg.com/eslint-visitor-keys/-/eslint-visitor-keys-4.2.1.tgz#4cfea60fe7dd0ad8e816e1ed026c1d5251b512c1"
   integrity sha512-Uhdk5sfqcee/9H/rCOJikYz67o0a2Tw2hGRPOG2Y1R2dg7brRe1uG0yaNQDHu+TO/uQPF/5eCapvYSmHUjt7JQ==
 
-eslint@^9.4.0:
+eslint@^9.30.1:
   version "9.30.1"
   resolved "https://registry.yarnpkg.com/eslint/-/eslint-9.30.1.tgz#d4107b39964412acd9b5c0744f1c6df514fa1211"
   integrity sha512-zmxXPNMOXmwm9E0yQLi5uqXHs7uq2UIiqEKo3Gq+3fwo1XrJ+hijAZImyF7hclW3E6oHz43Yk3RP8at6OTKflQ==
@@ -779,7 +779,7 @@ globals@^14.0.0:
   resolved "https://registry.yarnpkg.com/globals/-/globals-14.0.0.tgz#898d7413c29babcf6bafe56fcadded858ada724e"
   integrity sha512-oahGvuMGQlPw/ivIYBjVSrWAfWLBeku5tpPE2fOPLi+WHffIWbuh2tCjhyQhTBPMf5E9jDEH4FOmTYgYwbKwtQ==
 
-globals@^16.0.0:
+globals@^16.3.0:
   version "16.3.0"
   resolved "https://registry.yarnpkg.com/globals/-/globals-16.3.0.tgz#66118e765ddaf9e2d880f7e17658543f93f1f667"
   integrity sha512-bqWEnJ1Nt3neqx2q5SFfGS8r/ahumIakg3HcwtNlrVlwXIeNumWn/c7Pn/wKzGhf6SaW6H6uWXLqC30STCMchQ==
@@ -793,7 +793,7 @@ globule@^1.0.0:
     lodash "~4.17.10"
     minimatch "~3.0.2"
 
-grunt-cli@^1.4.2:
+grunt-cli@^1.5.0:
   version "1.5.0"
   resolved "https://registry.yarnpkg.com/grunt-cli/-/grunt-cli-1.5.0.tgz#24fa92225946b2002c535c7583a003e15203876f"
   integrity sha512-rILKAFoU0dzlf22SUfDtq2R1fosChXXlJM5j7wI6uoW8gwmXDXzbUvirlKZSYCdXl3LXFbR+8xyS+WFo+b6vlA==
@@ -815,7 +815,7 @@ grunt-cli@~1.4.3:
     nopt "~4.0.1"
     v8flags "~3.2.0"
 
-grunt-contrib-connect@^5.0.0:
+grunt-contrib-connect@^5.0.1:
   version "5.0.1"
   resolved "https://registry.yarnpkg.com/grunt-contrib-connect/-/grunt-contrib-connect-5.0.1.tgz#c8cc828a3c806520d9126377870b62eeb8bd2f92"
   integrity sha512-Hfq/0QJl3ddD2N/a/1cDJHkKEOGk6m7W6uxNe0AmYwtf6v0F/4+8q9rvPJ1tl+mrI90lU/89I9T/h48qqeMfQA==
@@ -884,7 +884,7 @@ grunt-legacy-util@~2.0.1:
     underscore.string "~3.3.5"
     which "~2.0.2"
 
-grunt@^1.4.0:
+grunt@^1.6.1:
   version "1.6.1"
   resolved "https://registry.yarnpkg.com/grunt/-/grunt-1.6.1.tgz#0b4dd1524f26676dcf45d8f636b8d9061a8ede16"
   integrity sha512-/ABUy3gYWu5iBmrUSRBP97JLpQUm0GgVveDCp6t3yRNIoltIYw7rEj3g5y1o2PGPR2vfTRGa7WC/LZHLTXnEzA==
@@ -980,7 +980,7 @@ i18next-browser-languagedetector@~8.2.0:
   dependencies:
     "@babel/runtime" "^7.23.2"
 
-i18next-http-backend@~3.0.1:
+i18next-http-backend@~3.0.2:
   version "3.0.2"
   resolved "https://registry.yarnpkg.com/i18next-http-backend/-/i18next-http-backend-3.0.2.tgz#7c8daa31aa69679e155ec1f96a37846225bdf907"
   integrity sha512-PdlvPnvIp4E1sYi46Ik4tBYh/v/NbYfFFgTjkwFl0is8A18s7/bx9aXqsrOax9WUbeNS6mD2oix7Z0yGGf6m5g==
