@@ -1,6 +1,6 @@
 {
   "name": "dwv-jqmobile",
-  "version": "0.9.2",
+  "version": "0.9.3",
   "description": "Medical viewer using DWV (DICOM Web Viewer) and jQuery Mobile.",
   "keywords": [
     "DICOM",
@@ -16,20 +16,20 @@
   },
   "dependencies": {
     "dwv": "0.34.2",
-    "i18next": "~23.16.0",
-    "i18next-browser-languagedetector": "~8.0.0",
-    "i18next-http-backend": "~2.6.1",
+    "i18next": "~25.3.1",
+    "i18next-browser-languagedetector": "~8.2.0",
+    "i18next-http-backend": "~3.0.2",
     "jquery": "2.1.4",
     "nprogress": "^0.2.0"
   },
   "devDependencies": {
-    "@eslint/js": "^9.4.0",
-    "@stylistic/eslint-plugin-js": "^2.1.0",
-    "eslint": "^9.4.0",
-    "globals": "^15.4.0",
-    "grunt": "^1.4.0",
-    "grunt-cli": "^1.4.2",
-    "grunt-contrib-connect": "^5.0.0",
+    "@eslint/js": "^9.30.1",
+    "@stylistic/eslint-plugin-js": "^4.4.1",
+    "eslint": "^9.30.1",
+    "globals": "^16.3.0",
+    "grunt": "^1.6.1",
+    "grunt-cli": "^1.5.0",
+    "grunt-contrib-connect": "^5.0.1",
     "grunt-contrib-copy": "^1.0.0",
     "grunt-contrib-watch": "^1.1.0"
   },

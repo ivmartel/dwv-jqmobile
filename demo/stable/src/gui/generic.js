@@ -405,8 +405,8 @@ dwvjq.gui.DrawList = function (app) {
 
     // cell indices
     var shapeCellIndex = 2;
-    var colorCellIndex = 3;
-    var descCellIndex = 4;
+    var colorCellIndex = shapeCellIndex + 1;
+    var descCellIndex = colorCellIndex + 1;
 
     // optional gui specific table post process
     dwvjq.gui.postProcessTable(table);
@@ -426,7 +426,6 @@ dwvjq.gui.DrawList = function (app) {
     // create a color onkeyup handler
     var createColorOnKeyUp = function (annot) {
       return function () {
-        annot.colour = this.value;
         const drawController = new dwv.DrawController(annotationGroup);
         drawController.updateAnnotationWithCommand(
           annot.id,
@@ -439,7 +438,6 @@ dwvjq.gui.DrawList = function (app) {
     // create a text onkeyup handler
     var createDescriptionOnKeyUp = function (annot) {
       return function () {
-        annot.textExpr = this.value;
         const drawController = new dwv.DrawController(annotationGroup);
         drawController.updateAnnotationWithCommand(
           annot.id,
@@ -548,6 +546,7 @@ dwvjq.gui.DrawList = function (app) {
       } else {
         visibilitySpan.className = 'text-button unchecked';
       }
+      visibilitySpan.title = 'Show/hide';
       visibilitySpan.appendChild(document.createTextNode('\u{1F441}')); // eye
       visibilitySpan.onclick =
         createVisibleOnClick(annot, visibilitySpan);
@@ -555,6 +554,7 @@ dwvjq.gui.DrawList = function (app) {
       // delete
       var deleteSpan = document.createElement('span');
       deleteSpan.className = 'text-button checked';
+      deleteSpan.title = 'Delete annotation';
       deleteSpan.appendChild(document.createTextNode('\u{274C}')); // cross
       deleteSpan.onclick = createDeleteOnClick(annot, deleteSpan);
       cell0.appendChild(deleteSpan);
