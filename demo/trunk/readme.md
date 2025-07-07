@@ -2,7 +2,7 @@
 
 Medical viewer using [DWV](https://github.com/ivmartel/dwv) (DICOM Web Viewer) and [jQuery mobile](https://jquerymobile.com/).
 
-** Archived on 07/07/2025 **: see other dwv demos for more actual integration examples.
+**Archived on 07/07/2025**: see other dwv demos for more actual integration examples.
 
 All coding/implementation contributions and comments are welcome. Releases should be ready for deployment otherwise download the code and install dependencies with a `yarn` or `npm` `install`.
 
